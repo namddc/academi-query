@@ -1,0 +1,1826 @@
+﻿id,question ,answer,
+1,Bạn là ai vậy?,Mình là iBot – chatbot hỗ trợ thông tin của Trường Đại học Công nghệ Thông tin và Truyền thông – Đại học Thái Nguyên.,
+2,Bạn có thể làm gì?,Mình có thể giúp bạn tra cứu các thông tin chính thức và thường gặp của nhà trường một cách nhanh chóng và dễ hiểu.,
+3,Bạn giúp được những gì cho mình?,"Mình hỗ trợ bạn tìm hiểu thông tin về quy định, hướng dẫn và các nội dung chung liên quan đến nhà trường.",
+4,Bạn có phải là con người không?,"Không, mình là chatbot ứng dụng trí tuệ nhân tạo, không phải là con người.",
+5,Bạn là bot hay người thật?,"Mình là chatbot trí tuệ nhân tạo, được tạo ra để hỗ trợ cung cấp thông tin cho bạn.",
+6,mày là ai,mình là iBot – chatbot hỗ trợ thông tin của Trường Đại học Công nghệ Thông tin và Truyền thông – Đại học Thái Nguyên.,
+7,Mình có thể hỏi bạn những gì?,"Bạn có thể hỏi mình các thông tin chung, câu hỏi thường gặp và nhờ mình hỗ trợ tra cứu các quy định, văn bản của nhà trường.",
+8,Bạn có thay thế phòng ban của trường không?,"Không. Mình không thay thế các phòng ban, mà chỉ hỗ trợ cung cấp thông tin ban đầu để bạn tra cứu thuận tiện hơn.",
+9,Thông tin bạn trả lời lấy từ đâu?,"Mình sử dụng thông tin từ các văn bản, quy định và nguồn dữ liệu đã được nhà trường công bố chính thức.",
+10,Thông tin này có chính xác không?,"Mình trả lời dựa trên nguồn chính thức của nhà trường. Tuy nhiên, với các vấn đề quan trọng, bạn nên liên hệ trực tiếp đơn vị phụ trách để xác nhận lại nhé.",
+11,Hello,Chào bạn 👋 Mình là iBot. Mình có thể hỗ trợ gì cho bạn?,
+12,Hi bot,Chào bạn! Mình là iBot – chatbot hỗ trợ thông tin của Trường Đại học Công nghệ Thông tin và Truyền thông.,
+13,Chào anh bạn,Chào bạn! Rất vui được hỗ trợ bạn 😊,
+14,Mình là sinh viên mới,Chào bạn! Mình có thể giúp bạn tra cứu các thông tin chung dành cho sinh viên mới và gợi ý nơi liên hệ khi bạn cần hỗ trợ thêm.,
+15,Mình mới nhập học,"Chào bạn! Nếu bạn là sinh viên mới, mình có thể hỗ trợ bạn tìm hiểu các thông tin cơ bản về nhà trường.",
+16,iBot dùng để làm gì,"iBot giúp sinh viên, phụ huynh và người quan tâm tra cứu thông tin chính thức của nhà trường.",
+17,iBot có phải người thật không,"Không, iBot là hệ thống chatbot trí tuệ nhân tạo.",
+18,iBot hỗ trợ những đối tượng nào,"iBot hỗ trợ sinh viên, phụ huynh và người quan tâm đến nhà trường.",
+19,iBot có thể trả lời những câu hỏi nào,iBot trả lời các câu hỏi thông tin chung và thường gặp của nhà trường.,
+20,iBot có thay thế phòng ban không,iBot không thay thế phòng ban mà chỉ hỗ trợ tra cứu thông tin.,
+21,iBot lấy thông tin từ đâu,iBot sử dụng thông tin được công bố chính thức bởi nhà trường.,
+22,iBot có đảm bảo chính xác không,iBot cung cấp thông tin mang tính tham khảo theo nguồn chính thức.,
+23,Xin chào iBot,"Chào bạn, tôi là iBot, rất vui được hỗ trợ bạn.",
+24,Tôi là sinh viên mới,iBot có thể hỗ trợ bạn tra cứu thông tin chung và hướng dẫn liên hệ phù hợp.,
+25,Bạn là gì,"Tôi là ibot , là hệ thống trí tuệ nhân tạo của Trường Đại học Công nghệ Thông tin và Truyền thông Thái Nguyên, hỗ trợ cung cấp thông tin chung về nhà trường.",
+26,Những ai có thể dùng bạn?,"Tôi hỗ trợ sinh viên, phụ huynh và những người quan tâm đến Trường Đại học Công nghệ Thông tin và Truyền thông.",
+27,Bạn có hỗ trợ 24/7 không,Mình có thể hỗ trợ bạn tra cứu thông tin mọi lúc khi bạn cần.,
+28,xin chào trợ lý,"iBot xin chào, mình luôn sẵn sàng giúp bạn 👋",
+29,chào hệ thống,"iBot đang online, bạn cần hỗ trợ gì không?",
+30,hello ibot,"iBot ở đây rồi, bạn muốn hỏi vấn đề gì?",
+31,alo trợ lý,"iBot nghe rất rõ, bạn cứ hỏi nhé.",
+32,chào trợ lý ảo,iBot rất vui được gặp bạn hôm nay.,
+33,ibot xin chào,"iBot chào bạn, mình có thể giúp gì cho bạn?",
+34,gọi ibot,"iBot đã nhận tín hiệu, bạn cần tra cứu gì?",
+35,chào bot trường,iBot sẵn sàng hỗ trợ thông tin sinh viên.,
+36,xin chào hệ thống trường,iBot ở đây để hỗ trợ bạn.,
+37,chào i bot,"iBot chào bạn, bạn muốn hỏi nội dung nào?",
+38,trợ lý ơi,iBot đang lắng nghe bạn nè.,
+39,chào bộ phận hỗ trợ,iBot rất vui được giúp bạn.,
+40,hệ thống ơi,iBot sẵn sàng trả lời câu hỏi của bạn.,
+41,xin chào hỗ trợ,iBot đang trực tuyến cho bạn.,
+42,alo i bot,"iBot nghe rõ rồi, bạn hỏi đi nhé.",
+43,chào chatbot,iBot có thể hỗ trợ học vụ và thủ tục.,
+44,gọi hệ thống hỗ trợ,iBot ở đây để giải đáp cho bạn.,
+45,xin chào trợ lý trường,iBot sẵn sàng phục vụ bạn.,
+46,ibot đâu rồi,"iBot đã có mặt, bạn cần gì?",
+47,chào trợ lý sinh viên,iBot rất hân hạnh hỗ trợ bạn.,
+48,xin chào hệ thống hỗ trợ,iBot có thể giúp bạn tra cứu thông tin.,
+49,trợ lý ibot,"iBot chào bạn, bạn cứ hỏi nhé.",
+50,chào phòng hỗ trợ,iBot ở đây để giúp bạn nhanh nhất.,
+51,hệ thống hỗ trợ ơi,iBot sẵn sàng hỗ trợ bạn.,
+52,alo trợ lý ảo,"iBot đã nghe, bạn cần hỏi gì?",
+53,xin chào ibot nha,iBot rất vui được đồng hành cùng bạn.,
+54,chào bot hỗ trợ,iBot sẽ giúp bạn từng bước.,
+55,gọi trợ lý ảo,iBot đang online và chờ bạn.,
+56,xin chào kênh hỗ trợ,"iBot chào bạn, cần hỗ trợ gì không?",
+57,trợ lý trường ơi,iBot sẵn sàng giải đáp cho bạn.,
+58,ê trợ lý ơi,"iBot có mặt rồi nè, bạn cần mình hỗ trợ gì? 😆",
+59,ibot đâu rồi ta,"iBot ở đây nè, gọi là có liền luôn!",
+60,alo alo nghe hông,"iBot nghe rõ mồn một, bạn hỏi đi nhé.",
+61,bot còn thức không,iBot online 24/7 để giúp bạn đó.,
+62,ê hệ thống ơi,"iBot chào bạn, cần hỗ trợ gì không?",
+63,ibot cho xin cái chào,iBot gửi bạn một lời chào thật thân thiện nha 👋,
+64,gọi trợ lý gấp,"iBot đã tới, bạn cần giúp gì liền?",1
+65,có ai trực không vậy,iBot trực sẵn cho bạn rồi nè.,1
+66,bot ơi cho hỏi nhẹ,"Bạn cứ hỏi thoải mái, iBot luôn sẵn sàng.",1
+67,alo có người hông,"Có iBot đây, bạn cần thông tin gì?",
+68,ibot cho mình làm quen,Rất vui được làm quen với bạn nè 😄,
+69,ê ibot rep cái coi,iBot rep liền luôn đây!,
+70,trợ lý đâu mất rồi,"iBot chưa đi đâu hết, mình ở đây mà.",
+71,bot ơi cứu với,"Bình tĩnh nha, iBot sẽ hỗ trợ bạn ngay.",
+72,gọi ibot liền,"iBot đã nhận lệnh, bạn cần gì nào?",
+73,ibot cho xin trợ giúp,iBot sẵn sàng hỗ trợ bạn từ A tới Z.,
+74,alo alo bot ơi,"iBot nghe rõ, bạn hỏi đi nhé.",
+75,có bot ở đó không,Có iBot ở đây rồi nè.,
+76,ibot ơi mình cần gấp,"Bạn cứ nói, iBot hỗ trợ liền.",
+77,trợ lý rep nhanh nha,iBot đang trả lời cho bạn đây.,
+78,ibot cho mình hỏi xíu,"Ok luôn, bạn hỏi iBot nghe nè.",
+79,alo ibot có đó không,iBot có mặt liền cho bạn đây.,
+80,bot ơi cho xin info,iBot sẵn sàng cung cấp thông tin cho bạn.,
+81,ibot cho mình nhờ tí,"Không sao đâu, iBot giúp bạn ngay.",
+82,alo hệ thống có ai không,iBot đang trực cho bạn đây.,
+83,gọi trợ lý trường liền,"iBot đã tới, bạn cần hỗ trợ gì?",
+84,bot ơi mình rối quá,Để iBot giúp bạn gỡ rối nhé.,
+85,ibot cho mình hỏi gấp,"Bạn cứ hỏi, iBot trả lời ngay.",
+86,alo alo ibot đâu rồi,"iBot ở đây rồi nè, không để bạn đợi lâu đâu.",
+87,trợ lý ơi cứu tui,"Yên tâm nha, iBot sẽ giúp bạn từng bước.",
+88,bot ngu hả sao tìm hoài không ra,"Xin lỗi vì làm bạn khó chịu, iBot sẽ cố gắng hỗ trợ tốt hơn cho bạn ngay.",
+89,trời ơi bot trả lời kiểu gì vậy,"Rất xin lỗi vì trải nghiệm chưa tốt, bạn cho iBot biết rõ hơn nhé.",
+90,bot làm ăn gì kỳ vậy,"iBot thành thật xin lỗi, để mình sửa lại cho đúng hơn.",
+91,gọi hoài mà bot cứ lơ,"Xin lỗi vì phản hồi chậm, iBot đang ở đây rồi.",
+92,bot ơi sao mà khó dùng thế,"Cảm ơn bạn đã góp ý, iBot sẽ cố gắng cải thiện.",
+93,trả lời vậy ai mà hiểu nổi,"Xin lỗi bạn, để iBot giải thích lại rõ ràng hơn.",
+94,bot gì mà toàn sai,"Rất xin lỗi, iBot sẽ kiểm tra và hỗ trợ lại cho bạn.",
+95,dùng bot mà tức ghê,"Mình hiểu cảm giác đó, để iBot giúp bạn ngay nhé.",
+96,bot làm mình bực muốn xỉu,"Xin lỗi vì làm bạn khó chịu, iBot ở đây để hỗ trợ bạn.",
+97,sao hỏi cái gì cũng rối vậy bot,Để iBot giúp bạn từng bước cho dễ hiểu hơn.,
+98,bot trả lời chán ghê,"Xin lỗi bạn, mình sẽ cố gắng trả lời tốt hơn.",
+99,thiệt sự là không hài lòng luôn,"Cảm ơn bạn đã nói thẳng, iBot sẽ cải thiện cho bạn.",
+100,dùng bot mà mệt thêm,"Rất xin lỗi vì trải nghiệm chưa tốt, iBot sẵn sàng hỗ trợ lại.",
+101,bot nói chuyện gì đâu không,Để iBot chỉnh lại cách trả lời cho dễ hiểu hơn nhé.,
+102,hỏi hoài mà bot cứ lòng vòng,"Xin lỗi bạn, để mình trả lời thẳng vào vấn đề ngay.",
+103,bot làm mất thời gian ghê,"Rất xin lỗi, iBot sẽ hỗ trợ nhanh gọn hơn cho bạn.",
+104,nói thiệt là bot gây ức chế,"Mình hiểu cảm xúc của bạn, để iBot giúp bạn ngay bây giờ.",
+105,sao mà bot không hiểu ý người ta vậy,"Xin lỗi bạn, bạn nói rõ hơn để iBot hỗ trợ tốt hơn nhé.",
+106,hỏi một đằng trả lời một nẻo,"Rất xin lỗi vì sự nhầm lẫn, iBot sẽ sửa ngay.",
+107,bot kiểu này ai mà dùng nổi,"Cảm ơn góp ý của bạn, iBot sẽ cố gắng cải thiện.",
+108,trả lời vậy thì chịu luôn đó bot,"Xin lỗi bạn, để mình hỗ trợ lại cho chính xác hơn.",
+109,bot làm mình nản ghê,"Đừng nản nha, iBot ở đây để giúp bạn tiếp.",
+110,dùng bot mà thấy bực mình hơn,"Xin lỗi bạn, iBot sẽ cố gắng làm bạn hài lòng hơn.",
+111,sao mà hỏi hoài không được vậy,Để iBot kiểm tra và trả lời lại cho bạn nhé.,
+112,bot trả lời như chưa học bài vậy,"Xin lỗi bạn, iBot sẽ chỉnh lại cho đúng hơn.",
+113,thiệt sự là không tin bot luôn,"Cảm ơn bạn đã chia sẻ, iBot sẽ cố gắng lấy lại niềm tin của bạn.",
+114,dùng bot mà toàn phải tự mò,"Xin lỗi bạn, iBot sẽ hướng dẫn chi tiết hơn.",
+115,bot làm mình cáu thật sự,"Mình hiểu cảm xúc đó, để iBot giúp bạn ngay.",
+116,trả lời vậy thì thôi khỏi hỏi,"Xin lỗi vì làm bạn thất vọng, iBot sẽ hỗ trợ lại cho bạn.",
+117,bot kiểu này chắc chưa cập nhật gì,"Xin lỗi bạn, iBot sẽ cố gắng cung cấp thông tin tốt hơn.",
+118,học kỹ sư phải cày bao nhiêu tín chỉ vậy trời,Từ khóa 16–19: kỹ sư CNTT & Kỹ thuật–Công nghệ học 140 tín chỉ; khóa 20–22 là 150 tín chỉ; khóa 23–24 là 156 tín chỉ (không tính thể chất).,
+119,cử nhân học có nhiều tín chỉ không,Từ khóa 16–19: 125 tín chỉ; khóa 20–22: 125 tín chỉ; khóa 23–24: 126 tín chỉ (không tính thể chất).,
+120,quá hạn đăng ký môn rồi thì còn cứu được không,"Em nộp đủ học phí, tải đơn đăng ký học bổ sung trên dangkytinchi.ictu.edu.vn, điền thông tin và xin GVCN xác nhận tại phòng 106 C1.",
+121,trễ hạn chọn môn rồi làm sao giờ,Em thực hiện quy trình đăng ký học bổ sung và xin xác nhận GVCN tại phòng 106 C1.,
+122,muốn thêm môn ngoài thời gian đăng ký thì làm kiểu gì,Em tải đơn đăng ký học bổ sung trên hệ thống và nộp cho GVCN tại phòng 106 C1.,
+123,lỡ đăng ký nhầm môn có bỏ được không,"Em nộp học phí, tải đơn xin hủy học phần và xin GVCN xác nhận tại phòng 106 C1.",
+124,hủy môn rồi có được trả lại tiền không,"Nếu Phòng Đào tạo xác nhận hủy, học phí học phần sẽ được hoàn lại.",
+125,muốn đổi lớp học phần cho hợp giờ có được không,Nhà trường không cho phép đổi lớp học phần.,
+126,nộp tiền học kiểu gì cho đúng,Em xem file hướng dẫn nộp học phí trên hệ thống đăng ký tín chỉ.,
+127,điểm rèn luyện tính sao vậy,Em tham khảo file hướng dẫn xét điểm rèn luyện trên hệ thống.,
+128,muốn ra trường đúng hạn thì cần đủ điều kiện gì,"Hoàn thành CTĐT, đủ 2 học phần thể chất, có GDQP, điểm rèn luyện ≥160 và không bị kỷ luật.",
+129,săn học bổng thì coi ở đâu,Em xem file Quy định xét học bổng.,
+130,xem điểm học kỳ ở chỗ nào,Đăng nhập trang đăng ký tín chỉ → Trang chủ → Tra cứu điểm.,
+131,đóng bảo hiểm y tế lúc nào,"Trường thu theo từng đợt, GVCN sẽ thông báo và hướng dẫn nộp.",
+132,được miễn bhyt mà hệ thống vẫn báo nợ phải làm sao,"Sau khi kết thúc đợt thu, hệ thống sẽ tự động gỡ nợ BHYT cho em.",
+133,đóng học phí mà bị trừ tiền bảo hiểm là sao,"Hết đợt thu BHYT, tiền sẽ tự động hoàn lại cho em.",
+134,lỡ đóng bhyt dù được miễn thì có được trả lại không,Trường sẽ rà soát và hoàn tiền cho sinh viên thuộc diện miễn BHYT.,
+135,được miễn học phí thì có phải mua bảo hiểm không,Em được miễn học phí thì cũng được miễn BHYT.,
+136,ở vùng atk thì có phải đóng bhyt không,Sinh viên thuộc vùng ATK được miễn BHYT.,
+137,nộp thừa tiền học phí có rút ra được không,"Em làm đơn xin rút tiền thừa, có xác nhận gia đình, trường sẽ chuyển lại theo từng đợt.",
+138,muốn xin giấy hoãn nghĩa vụ quân sự thì lấy mẫu đâu,Em tải mẫu giấy xác nhận sinh viên tại website ictu.edu.vn.,
+139,đã học rồi mà giờ cần giấy xác nhận cũ thì sao,Em tự viết đơn và nộp tại phòng 106 C1 để xin xác nhận.,
+140,xin giấy để bố mẹ giảm thuế thu nhập cá nhân ở đâu,Em tải mẫu giấy xác nhận sinh viên và nộp tại phòng 106 C1.,
+141,muốn làm hồ sơ vay vốn sinh viên thì sao,Em tải mẫu giấy xác nhận vay vốn và nộp tại phòng 106 C1.,
+142,muốn đổi sang lớp khác thì phải làm sao,Em tải đơn chuyển lớp và nộp tại phòng 106 C1 cho GVCN.,
+143,chuyển sang khóa khác có được không,Em tải đơn xin chuyển khóa và nộp tại phòng 106 C1.,
+144,năm mấy mới được đổi ngành,Chỉ sinh viên năm 2 và năm 3 mới được phép chuyển ngành.,
+145,bảo lưu kết quả học tập khi nào được,"Khi điểm tổng kết ≥2.0, có giấy NVQS hoặc xác nhận y tế; tải đơn và nộp tại phòng 106 C1.",
+146,không học nữa thì làm thủ tục thôi học ở đâu,Em tải đơn xin thôi học và nộp tại phòng 106 C1.,
+147,xin bảng điểm thì tới đâu lấy,Em đến phòng 109 nhà C1 (Phòng Đào tạo).,
+148,muốn phúc khảo bài thi thì làm sao,Em đến phòng 106 C1 hoặc liên hệ GVCN qua Zalo.,
+149,lỡ trùng lịch thi có đổi ca được không,"Trường không cho đổi ca thi, em liên hệ GVCN để trao đổi thêm.",
+150,bị ốm không đi thi được thì làm sao,Em báo GVCN trước giờ thi và theo dõi thông báo để xin ghép thi tại phòng 109 C1.,
+151,thi trượt rồi có thi lại không,"Trường không tổ chức thi lại, em phải học lại học phần.",
+152,nếu không đủ điểm làm đồ án thì xử lý ra sao,Em sẽ học các học phần thay thế khi nhà trường triển khai và GVCN sẽ hướng dẫn trên nhóm Zalo lớp.,
+153,lỡ không đủ điều kiện khóa luận có bị chậm ra trường không,"Em học các học phần thay thế theo kế hoạch của nhà trường, GVCN sẽ thông báo cụ thể.",
+154,không được làm đồ án thì có phương án khác không,Em sẽ được học các học phần thay thế khi có kế hoạch triển khai.,
+155,cho hoi,Alo 👋 iBot đang online nha,
+156,Chào bạn,Alo 📞 iBot đang nghe rất rõ nè,
+157,chao bn,"Alooo 😆 iBot ở đây, bạn cần gì không?",
+158,Bot ơi,Bạn cần thông tin gì? iBot sẽ hỗ trợ bạn.,
+159,mk nhờ bot chút,Bạn cho iBot biết thông tin bạn cần tra cứu nhé,
+160,ho tro,"Bạn có thể hỏi về lịch học, học phí, thủ tục sinh viên",
+161,Mình mới vô hệ đại học,"Bạn cứ đặt câu hỏi nhé, iBot sẽ hỗ trợ",
+162,Mình vừa chính thức là sinh viên,"Bạn cứ nói rõ vấn đề, iBot hỗ trợ cho",
+163,Năm nhất mới vô,Bạn cứ nói vấn đề cần hỗ trợ nhé,
+164,hoi chut,"Bạn cứ nói vấn đề đang quan tâm, iBot hỗ trợ từng bước",
+165,Mình vừa thành sinh viên,Bạn đang cần hỏi thông tin gì?,
+166,bot ơi,"Chào bạn 👋 iBot đây, mình hỗ trợ gì cho bạn nè?",
+167,Hi,Chào bạn 👋 iBot hỗ trợ thông tin ICTU cho bạn nha,
+168,Cho sinh viên mới chào cái,Chào bạn 👋 iBot sẵn sàng hỗ trợ,
+169,can hoi,Chào bạn 😄 Bạn cần hỏi thông tin gì không?,
+170,t mới vào,Chào bạn 😄 iBot có thể hỗ trợ bạn từng bước khi mới vào trường.,
+171,t hỏi chút,Chào bạn 😊 iBot có thể giúp bạn làm quen với các thông tin của khóa mới.,
+172,Sinh viên mới nè,Chào bạn 😊 iBot có thể giúp bạn làm quen với các thông tin dành cho sinh viên năm nhất.,
+173,t nhờ bot chút,Chào bạn 😊 iBot có thể giúp bạn tìm hiểu các thông tin cần thiết ban đầu.,
+174,tư vấn,Chào bạn 😊 iBot có thể giúp bạn tra cứu các thông tin dành cho sinh viên khóa mới.,
+175,can giup,Chào bạn 😊 iBot rất vui được hỗ trợ nha,
+176,Tui là sinh viên năm đầu,Chào bạn 😊 iBot sẽ hỗ trợ bạn làm quen dần với môi trường đại học.,
+177,moi vao,"Chào bạn, iBot sẵn sàng hỗ trợ thông tin về trường",
+178,bot,"Chào bạn! Bạn cứ nói nhé, iBot đang nghe.",
+179,ibot,Chào bạn! iBot có thể giúp bạn các thông tin cần thiết cho tân sinh viên.,
+180,Sinh viên mới toanh nè,Chào bạn! iBot có thể giúp bạn nắm các thông tin cơ bản khi mới vào trường.,
+181,Sv mới toanh,Chào bạn! iBot có thể giúp bạn tìm hiểu các thông tin cơ bản về ngành học.,
+182,hoi gi bay gio,Chào bạn! iBot có thể giúp bạn tra cứu các thông tin dành cho sinh viên mới.,
+183,Mình là sinh viên mới tinh,Chào bạn! iBot có thể giúp bạn tra cứu các thông tin dành cho sinh viên năm nhất.,
+184,bat dau tu dau,Chào bạn! iBot có thể giúp gì cho bạn không?,
+185,Mình là tsv,Chào bạn! iBot có thể hỗ trợ bạn các thông tin cần thiết cho sinh viên mới.,
+186,Tui mới thành sinh viên,Chào bạn! iBot có thể hỗ trợ bạn các thông tin chung cho khóa học của mình.,
+187,hoi ti,Chào bạn! iBot có thể hỗ trợ bạn các thông tin chung cho tân sinh viên.,
+188,t hỏi được k,Chào bạn! iBot có thể hỗ trợ bạn các thông tin chung khi bắt đầu học đại học.,
+189,Mình cần hỏi thông tin,Chào bạn! iBot có thể hỗ trợ bạn các thông tin cơ bản cho sinh viên mới.,
+190,Mình là sinh viên năm đầu đời,Chào bạn! iBot có thể hỗ trợ bạn các thông tin cơ bản cho sinh viên năm nhất.,
+191,t cần hỏi thông tin,Chào bạn! iBot có thể hỗ trợ bạn các thông tin dành cho sinh viên khóa mới.,
+192,Mình là sv mới của trường,Chào bạn! iBot có thể hỗ trợ bạn các thông tin dành cho sinh viên mới trúng tuyển.,
+193,ibot ơi,Chào bạn! iBot có thể hỗ trợ bạn các thông tin dành cho sinh viên mới.,
+194,Mình là sinh viên khóa mới,Chào bạn! iBot có thể hỗ trợ bạn các thông tin dành cho sinh viên năm nhất.,
+195,Tui là sinh viên khóa mới,Chào bạn! iBot có thể hỗ trợ bạn các thông tin khi mới bắt đầu học tập.,
+196,Sv mới đây,Chào bạn! iBot có thể hỗ trợ bạn các thông tin liên quan đến ngành học của mình.,
+197,alo bot,"Chào bạn! iBot đang lắng nghe, bạn cần hỗ trợ gì?",
+198,alo,Chào bạn! iBot đang online và sẵn sàng hỗ trợ.,
+199,Alo alo,"Chào bạn! iBot đang ở đây, bạn cứ hỏi nhé.",
+200,Vừa lên đại học,Chào bạn! iBot ở đây để hỗ trợ bạn nha.,
+201,Sinh viên mới ra mắt bot,Chào bạn! iBot ở đây để hỗ trợ bạn nhé.,
+202,t muốn hỏi,Chào bạn! iBot ở đây để hỗ trợ bạn nhé.,
+203,admin oi,Chào bạn! iBot rất vui được hỗ trợ bạn.,
+204,t chưa biết hỏi gì,Chào bạn! iBot rất vui được hỗ trợ bạn.,
+205,Tui mới đậu đại học,Chào bạn! iBot rất vui được hỗ trợ bạn.,
+206,Mình là sv năm nhất,Chào bạn! iBot sẵn sàng hỗ trợ bạn các thông tin cho sinh viên mới trúng tuyển.,
+207,Mình là sinh viên khóa này,Chào bạn! iBot sẵn sàng hỗ trợ bạn các thông tin cho sinh viên năm nhất.,
+208,Mình là sinh viên mới vô ngành,Chào bạn! iBot sẵn sàng hỗ trợ bạn các thông tin cho sinh viên năm nhất.,
+209,hoi xi,Chào bạn! iBot sẵn sàng hỗ trợ bạn các thông tin cho tân sinh viên.,
+210,t hỏi cái này,Chào bạn! iBot sẵn sàng hỗ trợ bạn các thông tin chung cho khóa học của mình.,
+211,hỏi chút,Chào bạn! iBot sẵn sàng hỗ trợ bạn các thông tin cơ bản cho sinh viên mới.,
+212,Mình hỏi chút được không,Chào bạn! iBot sẵn sàng hỗ trợ bạn các thông tin khi mới vào đại học.,
+213,Tui năm nhất,Chào bạn! iBot sẵn sàng hỗ trợ bạn khi bạn cần.,
+214,Sv khóa mới đây,Chào bạn! iBot sẵn sàng hỗ trợ bạn khi bạn mới bắt đầu làm quen với môi trường học tập.,
+215,Mình là sinh viên năm nhất nè,Chào bạn! iBot sẵn sàng hỗ trợ bạn khi bạn mới là sinh viên năm nhất.,
+216,k biet hoi gi,Chào bạn! iBot sẵn sàng hỗ trợ bạn khi bạn vừa vào đại học.,
+217,t hỏi xíu,Chào bạn! iBot sẵn sàng hỗ trợ bạn trong giai đoạn đầu này.,
+218,Sinh viên mới tinh chào bot,Chào bạn! iBot sẵn sàng hỗ trợ bạn trong quá trình bắt đầu học tập.,
+219,Tui vừa đậu vô trường,Chào bạn! iBot sẵn sàng hỗ trợ bạn.,
+220,ad oi,"Chào bạn! Mình là iBot, mình có thể hỗ trợ gì cho bạn?",
+221,Sinh viên mới xin phép chào,"Chào bạn! Nếu bạn mới lên trường, iBot có thể hỗ trợ bạn từ những thông tin đầu tiên.",
+222,e bot,Chào fen 😆 iBot giúp được gì cho bạn không?,
+223,Sv năm nhất,Chúc mừng bạn 🎉 iBot rất vui được hỗ trợ bạn trong chặng đường sắp tới.,
+224,t cần hỏi,Chúc mừng bạn nha 😊 iBot sẵn sàng hỗ trợ bạn.,
+225,tu van,Chúc mừng bạn nha! iBot sẵn sàng hỗ trợ bạn.,
+226,Sv năm nhất chào bot,Chúc mừng bạn! iBot có thể hỗ trợ bạn các thông tin cần thiết khi bắt đầu học.,
+227,help me,Có iBot đang chờ nè 👋,
+228,cho hỏi tí,Có iBot đây 😄 Gọi to ghê luôn,
+229,helo,Có iBot đây 😊,
+230,chua biet hoi gi,Có iBot đây 😊 Bạn hỏi đi nè,
+231,help,Có iBot nè 😄,
+232,hello,Còn nha 👍 iBot chưa đi đâu đâu,
+233,Em mới lên đại học,Được chứ 😊 Bạn cứ hỏi đi,
+234,bot còn onl k,Được chứ! Bạn cứ đặt câu hỏi nhé.,
+235,Em mới vô hệ đại học,Được nha 👍 Bạn hỏi đi,
+236,Fen ơi,Được nha 😄 Bạn nói rõ hơn chút nhé,
+237,Em vừa đậu vào trường,Được nha 😊 Bạn cần hỗ trợ gì?,
+238,Mới lên đại học,"Được nha, bạn cứ đặt câu hỏi",
+239,bot giup,Được nhé 😊 Bạn cần hỏi nội dung gì?,
+240,Sinh viên khóa mới xin chào,"Được nhé, bạn cho iBot biết vấn đề cần hỗ trợ",
+241,Em là sinh viên khóa này,Fen gọi iBot nè 😄 Hỏi gì đi,
+242,Chào,Hello 👋 iBot sẵn sàng hỗ trợ bạn,
+243,Alo,"Hello 👋 Mình là iBot, bạn cần hỗ trợ gì không?",
+244,chào b,"Hello 😄 iBot đây, bạn cứ hỏi nhé",
+245,cần giúp,Hi bạn 👋 iBot đang online nè,
+246,ai o day k,Hi bạn! Bạn cần iBot hỗ trợ nội dung gì không?,
+247,chao,Hi nha 😊 Bạn cần iBot hỗ trợ gì?,
+248,cần hỏi,"Hiii 😄 iBot nghe nè, bạn hỏi đi",
+249,Em mới tập làm sinh viên,Hỏi thoải mái nha 😄,
+250,co ai k,iBot đang nghe nè 😄,
+251,Em là sv mới của trường,iBot đang online 👍 Bạn cứ hỏi,
+252,Cho hỏi nhẹ cái,iBot đây 👀 Bạn hỏi mình nha,
+253,ê,iBot đây 👍 Bạn cần hỗ trợ gì?,
+254,Cho mình hỏi xíu,iBot đây 😄 Bạn cần hỗ trợ gì?,
+255,Em là sinh viên năm đầu tiên,iBot đây nha 😊 Bạn cần hỗ trợ gì?,
+256,Em thuộc khóa mới của trường,iBot nghe nè 👂,
+257,Cho mình hỏi chút,iBot nghe nè 👂 Bạn nói đi,
+258,Em mới trở thành sinh viên,iBot sẵn sàng hỗ trợ 😊,
+259,fen,iBot sẵn sàng hỗ trợ 😊,
+260,hii,"Không sao đâu 😊 Bạn có thể hỏi về học vụ, quy định, phòng ban",
+261,bot oi,"Không sao đâu, bạn cứ hỏi nhé.",
+262,Mới làm sv năm nhất,"Không sao, iBot có thể gợi ý các nội dung bạn hay cần",
+263,cho hỏi xíu,Mình đây 😊 Bạn cần hỏi gì nè,
+264,aloo,Mình đây 😊 Bạn cần iBot hỗ trợ nội dung gì không?,
+265,cho hỏi,Mình đây 😊 Bạn cần iBot hỗ trợ nội dung gì?,
+266,fen oi,Ok 👍 Bạn cần tư vấn nội dung gì?,
+267,Em mới lên trường,Ok 👍 iBot nghe nè,
+268,hiii,Ok 😄 iBot gợi ý giúp bạn nha,
+269,Ê,Ok 😄 Nói vấn đề bạn đang gặp nha,
+270,Em mới vô ngành,Ok 😊 Bạn đang cần hỏi nội dung gì?,
+271,tao là sv năm nhất,Ok luôn 👍 Bạn cứ hỏi nha,
+272,Em vừa chính thức vô trường,Ok luôn 👍 iBot giúp cho,
+273,Ê bot ơi,Ok luôn 👍 iBot hỗ trợ cho nè,
+274,ê bot,Ok nha 😄 Cứ nói vấn đề đi,
+275,Em mới đậu đại học,Ok nha 😄 Hỏi nhẹ hay hỏi nặng gì cũng được,
+276,Mình muốn hỏi,"Ok, bạn cho iBot biết nội dung cần hỏi",
+277,mới vào,"Ok, bạn gửi câu hỏi để iBot hỗ trợ",
+278,Em là tsv,Vâng 😊 Bạn cần hỏi nội dung gì?,
+279,bot co day k,"Vâng, bạn cứ hỏi nhé. iBot sẽ hỗ trợ bạn.",
+280,bot oiii,"Vâng, bạn cứ nói nội dung cần hỏi.",
+281,hi,Welcome 😄 Bạn cần hỏi gì không?,
+282,lô ,Alo 👋 iBot đang nghe  nè,
+283,chào em  anh đứng đây từ chiều,chào anh em cũng đứng đây từ hôm qua chờ anh nè. Anh có cần em giúp gì không ?,
+284,Chào chào,"Chào bạn , nếu có gì thắc mắc đừng ngại hỏi nhá 😄",
+285,mày có biết t là ai không,"Dù fen là ai, iBot cũng hỗ trợ nhiệt tình",
+286,có ai ở đó không,"có bot nè , mình có thể giup gì được cho bạn",
+287,hehe,Cười gì vui vậy? Kể iBot nghe,
+288,,,
+289,Bao giờ thì bắt đầu học chính thức?,Thời gian bắt đầu học chính thức được công bố trong kế hoạch năm học trên hệ thống đào tạo – đăng ký tín chỉ.,
+290,Một tuần học mấy buổi?,Tùy ngành và thời khóa biểu từng lớp. Bạn xem trực tiếp trong thời khóa biểu trên hệ thống đăng ký tín chỉ để biết chính xác.,
+291,Học online hay học trực tiếp?,Tùy học phần và thông báo của trường/khoa. Bạn kiểm tra trong thời khóa biểu hoặc thông báo lớp để biết hình thức học.,
+292,Nghỉ học có cần xin phép không?,Thường cần báo/ xin phép theo quy định lớp và giảng viên. Bạn xem quy chế học tập hoặc hỏi cố vấn học tập để làm đúng.,
+293,Học phí một kỳ là bao nhiêu?,"Mức học phí tùy ngành, khóa và số tín chỉ. Bạn xem thông báo học phí trên cổng sinh viên hoặc hỏi Phòng Tài chính để biết con số chính xác.",
+294,Đóng học phí ở đâu?,Bạn có thể đóng theo hướng dẫn trên cổng sinh viên (mục Học phí/Thanh toán) hoặc theo kênh thu do trường thông báo.,
+295,Thời hạn đóng học phí là khi nào?,Hạn đóng học phí được ghi trong thông báo từng học kỳ trên cổng sinh viên/website trường. Bạn kiểm tra để tránh trễ hạn nhé.,
+296,Trễ học phí có bị sao không?,Có thể bị hạn chế đăng ký học phần hoặc bị nhắc nợ theo quy định. Bạn nên liên hệ Phòng Tài chính để được hướng dẫn xử lý.,
+297,Có được đóng học phí nhiều lần không?,Tùy quy định từng học kỳ. Bạn liên hệ Phòng Tài chính hoặc xem hướng dẫn thanh toán trên cổng sinh viên để biết trường hợp của bạn.,
+298,Tài khoản sinh viên đăng nhập ở đâu?,Bạn đăng nhập trên cổng thông tin sinh viên/hệ thống đào tạo của trường bằng tài khoản được cấp khi nhập học.,
+299,Quên mật khẩu thì làm sao?,Bạn sử dụng chức năng “Quên mật khẩu” trên hệ thống (nếu có) hoặc liên hệ giáo viên chủ nhiệm hoặc Phòng CTSV để được hỗ trợ.,
+300,Khi nào được cấp email sinh viên?,Thường sau khi hoàn tất nhập học và kích hoạt tài khoản. Bạn kiểm tra thông báo của trường hoặc hỏi Phòng CTSV/IT để biết thời điểm chính xác.,
+301,Email sinh viên dùng để làm gì?,"Email sinh viên dùng để nhận thông báo, đăng nhập các dịch vụ học tập và xác minh tài khoản các nền tảng của trường.",
+302,Không đăng nhập được hệ thống thì liên hệ ai?,Bạn liên hệ bộ phận IT/Trung tâm CNTT hoặc Phòng CTSV (tùy trường phân công) để được hỗ trợ đăng nhập.,
+303,Có cần nộp hồ sơ bản cứng không?,Tùy yêu cầu từng đợt nhập học. Bạn xem danh mục hồ sơ trong thông báo nhập học của trường để biết có cần nộp bản cứng không.,
+304,Thẻ sinh viên bao giờ có?,Thẻ sinh viên thường được cấp sau khi hoàn tất hồ sơ và xác nhận nhập học. Bạn theo dõi thông báo của Phòng CTSV để biết lịch trả thẻ.,
+305,Đi học có bắt buộc đeo thẻ sinh viên không?,Nhiều hoạt động trong trường yêu cầu mang/đeo thẻ để kiểm tra. Bạn nên mang theo thẻ và làm theo quy định của trường/khoa.,
+306,Nghỉ học bao nhiêu buổi thì bị cấm thi?,Mỗi môn có quy định điểm danh khác nhau theo đề cương/giảng viên. Bạn xem đề cương môn học hoặc hỏi giảng viên để biết chính xác.,
+307,Sinh viên năm nhất có được nghỉ học không?,"Có thể được, nhưng phải theo quy định (bảo lưu/tạm dừng học). Bạn liên hệ Phòng Đào tạo/CTSV để được hướng dẫn thủ tục đúng.",
+308,Đăng ký học phần ở đâu?,Bạn đăng ký học phần trên Hệ thống đăng ký tín chỉ của trường ICTU (trang dangkytinchi) bằng tài khoản sinh viên được cấp.,
+309,Khi nào mở hệ thống đăng ký tín chỉ?,Thời gian mở đăng ký tín chỉ được thông báo trên website/cổng sinh viên ICTU hoặc do giáo viên chủ nhiệm thông báo trước mỗi học kỳ.,
+310,Không đăng ký học phần đúng hạn có sao không?,"Bạn có thể không có lịch học hoặc không đủ số tín chỉ. Trường hợp đặc biệt, bạn nên liên hệ giáo viên chủ nhiệm để được hướng dẫn.",
+311,Xem thời khóa biểu ở đâu?,"Bạn xem thời khóa biểu trực tiếp trên hệ thống đăng ký tín chỉ ICTU, mục Thời khóa biểu / Lịch học.",
+312,Lịch học có cập nhật thay đổi không?,"Có. Lịch học có thể được điều chỉnh, bạn nên kiểm tra thường xuyên trên hệ thống đăng ký tín chỉ.",
+313,Xem điểm học tập ở đâu?,"Bạn tra cứu điểm trên cổng đăng ký tín chỉ ICTU, mục Tra cứu điểm / Bảng điểm.",
+314,Khi nào có điểm môn học?,Điểm được cập nhật sau khi giảng viên hoàn tất chấm và nhập điểm lên hệ thống.,
+315,Điểm hiển thị trên hệ thống có phải điểm chính thức không?,Điểm trên hệ thống đăng ký tín chỉ là điểm chính thức sau khi được phê duyệt theo quy định.,
+316,Nộp học phí ở đâu?,Bạn nộp học phí theo hướng dẫn trên cổng sinh viên / hệ thống đăng ký tín chỉ ICTU hoặc thông báo của Phòng Tài chính.,
+317,Không nộp học phí có đăng ký học được không?,"Thông thường chưa hoàn thành học phí sẽ bị hạn chế đăng ký học phần, bạn nên hoàn tất đúng hạn.",
+318,Kiểm tra tình trạng học phí ở đâu?,Bạn kiểm tra công nợ và trạng thái học phí trên hệ thống đăng ký tín chỉ ICTU.,
+319,Đăng ký tín chỉ bị lỗi thì liên hệ ai?,Bạn liên hệ Phòng Đào tạo hoặc bộ phận IT/Trung tâm CNTT của ICTU để được hỗ trợ.,
+320,Không đăng nhập được trang đăng ký tín chỉ phải làm sao?,"Bạn kiểm tra lại tài khoản, mật khẩu. Nếu vẫn lỗi, hãy liên hệ Phòng CTSV hoặc Giáo viên chủ nhiệm để được hướng dẫn, hỗ trợ.",
+321,Có thể đăng ký lại học phần đã trượt không?,Có. Sinh viên được đăng ký học lại học phần đã trượt theo kế hoạch và quy định của nhà trường trên hệ thống đăng ký tín chỉ.,
+322,Mỗi học kỳ đăng ký tối đa bao nhiêu tín chỉ?,"Số tín chỉ tối đa theo quy định đào tạo của ICTU, bạn xem chi tiết trong quy chế hoặc thông báo học kỳ.",
+323,Không thấy học phần cần đăng ký thì phải làm sao?,"Bạn nên kiểm tra kỹ lại thông tin trên trang chính thức của nhà trường hoặc hệ thống đăng ký tín chỉ. Nếu vẫn không thấy, bạn hãy liên hệ giáo viên chủ nhiệm hoặc Phòng Đào tạo để được hỗ trợ.",
+324,Học phần bị khóa đăng ký là vì sao?,"Học phần có thể đã đủ số lượng, chưa đến thời gian đăng ký hoặc bị khóa theo kế hoạch đào tạo.nếu muốn biết chi tiết bạn có thể theo dõi các trang thông báo của trường hoặc hỏi giáo viên chủ nhiệm nhé!",
+325,Đăng ký trùng lịch học thì xử lý thế nào?,"Bạn cần hủy hoặc đổi một trong các học phần bị trùng lịch trên hệ thống đăng ký tín chỉ, hoặc liên hệ Phòng Đào tạo/giáo viên chủ nhiệm để được tư vấn.",
+326,Có thể hủy học phần sau khi đã đăng ký không?,có.Tuy nhiên việc hủy học phần chỉ thực hiện trong thời gian cho phép theo kế hoạch học kỳ. Bạn kiểm tra mốc thời gian trên hệ thống đăng ký tín chỉ.,
+327,Khi nào kết thúc thời gian đăng ký tín chỉ?,"thường sẽ kết thúc sau 7-10 ngày sau khi bắt đầu vào kỳ học , hoặc bạn có thể theo dõi trên trang đăng ký của nhà trường",
+328,Không thấy lớp học trên thời khóa biểu thì phải làm sao?,"Bạn kiểm tra lại trạng thái đăng ký học phần. Nếu đã đăng ký nhưng chưa hiển thị, bạn hãy liên hệ Phòng Đào tạo để được kiểm tra.",
+329,Phòng học được cập nhật ở đâu?,Phòng học được cập nhật trong thời khóa biểu trên hệ thống đăng ký tín chỉ hoặc theo thông báo của giảng viên.,
+330,Lịch học hiển thị khác thông báo của giảng viên thì theo cái nào?,"Bạn ưu tiên theo thông báo trực tiếp của giảng viên, đồng thời theo dõi cập nhật trên hệ thống để tránh nhầm lẫn.",
+331,Nghỉ học có cần báo trên hệ thống không?,Tùy quy định môn học. Thông thường bạn cần báo cho giảng viên hoặc thực hiện theo hướng dẫn của lớp/khoa.,
+332,Có thể xin đổi lớp học không?,Việc đổi lớp học chỉ được thực hiện trong thời gian cho phép và theo quy định. Bạn liên hệ Phòng Đào tạo hoặc giáo viên chủ nhiệm để được hướng dẫn.,
+333,Vì sao chưa thấy điểm trên hệ thống?,Có thể giảng viên chưa hoàn tất nhập điểm hoặc điểm đang trong quá trình phê duyệt. Bạn theo dõi thêm trên hệ thống.,
+334,Điểm bị sai thì phản ánh ở đâu?,Bạn liên hệ giảng viên phụ trách môn học trong thời gian cho phép để được kiểm tra và điều chỉnh nếu có sai sót.,
+335,Bao lâu sau thi thì có điểm?,Thời gian có điểm phụ thuộc vào tiến độ chấm và nhập điểm của giảng viên theo quy định nhà trường.,
+336,Có được xem lại điểm chi tiết từng lần không?,Tùy môn học và hình thức đánh giá. Bạn liên hệ trực tiếp giảng viên để được giải đáp.,
+337,Điểm học lại hiển thị thế nào trên bảng điểm?,Điểm học lại sẽ được cập nhật trên hệ thống theo quy định hiện hành của nhà trường.,
+338,Vì sao đã đóng học phí nhưng hệ thống chưa cập nhật?,"Việc cập nhật có thể cần thời gian xử lý. Nếu quá lâu, bạn nên liên hệ Phòng Tài chính để được kiểm tra.",
+339,Học lại có phải đóng học phí không?,Thông thường học lại vẫn phải đóng học phí theo quy định. Bạn xem thông báo học phí của học kỳ tương ứng.,
+340,Đóng thừa học phí thì xử lý ra sao?,Bạn có thể để đó để kỳ sau đăng ký hoặc liên hệ Phòng Tài chính để được hướng dẫn đối soát và xử lý theo quy định.,
+341,Có thể xem chi tiết học phí từng học phần không?, Bạn có thể xem chi tiết học phí trên hệ thống đăng ký tín chỉ,
+342,Tài khoản bị khóa thì phải làm sao?,Bạn liên hệ Phòng CTSV hoặc giáo viên chủ nhiệm để được kiểm tra và mở lại theo quy trình.,
+343,Đổi mật khẩu tài khoản ở đâu?,Bạn đổi mật khẩu trên hệ thống sinh viên (nếu có chức năng) hoặc liên hệ bộ phận hỗ trợ ,
+344,Hệ thống đăng ký tín chỉ bị lỗi giờ cao điểm phải làm gì?,Bạn hãy thử đăng nhập lại sau hoặc vào thời điểm khác,
+345,Tài khoản sinh viên dùng được đến khi nào?,Tài khoản sinh viên được sử dụng trong suốt thời gian học tập tại trường và theo quy định sau khi tốt nghiệp.,
+346,Có thể đăng nhập hệ thống bằng điện thoại không?,"Bạn có thể truy cập hệ thống đăng ký tín chỉ bằng trình duyệt trên điện thoại, tuy nhiên nên dùng máy tính để thao tác ổn định hơn.",
+347,Có bắt buộc học đúng lộ trình không?,"Nhà trường khuyến khích học theo lộ trình đào tạo. Trường hợp học khác lộ trình, bạn cần đảm bảo đủ điều kiện học phần theo quy định.",
+348,Đăng ký thiếu tín chỉ có ảnh hưởng gì không?,Việc đăng ký thiếu tín chỉ có thể ảnh hưởng đến tiến độ học tập và thời gian hoàn thành chương trình đào tạo.,
+349,Có thể đăng ký vượt số tín chỉ không?,Việc đăng ký vượt số tín chỉ chỉ được thực hiện trong các trường hợp đủ điều kiện theo quy định của nhà trường.,
+350,Thay đổi giảng viên có được thông báo trước không?,"Khi có thay đổi, nhà trường hoặc giảng viên sẽ thông báo qua hệ thống hoặc trực tiếp cho lớp học.",
+351,Có thể học chung lớp với khóa khác không?,Có. Sinh viên có thể học chung lớp với khóa khác nếu học phần được mở và còn chỉ tiêu đăng ký.,
+352,Không đủ điều kiện dự thi là do đâu?,Nguyên nhân có thể do nghỉ học quá số buổi cho phép hoặc không hoàn thành các yêu cầu của môn học theo đề cương.,
+353,Thi lại có cần đăng ký không?,Có. Sinh viên cần đăng ký thi lại hoặc học lại theo hướng dẫn và kế hoạch của nhà trường.,
+354,Có được hoàn học phí không?,Việc hoàn học phí chỉ áp dụng trong một số trường hợp theo quy định. Bạn liên hệ Phòng Tài chính để được giải đáp.,
+355,Học phí có thay đổi giữa các học kỳ không?,Mức học phí có thể điều chỉnh theo từng học kỳ và được nhà trường thông báo chính thức.,
+356,Xin giấy xác nhận sinh viên như thế nào?,"Bạn nộp yêu cầu xin giấy xác nhận sinh viên tại Phòng CTSV hoặc đăng ký trực tuyến theo hướng dẫn của nhà trường, sau đó nhận giấy theo lịch hẹn.",
+357,Sinh viên có thể làm thủ tục online không?,Một số thủ tục sinh viên có thể thực hiện online qua hệ thống của trường. Các thủ tục còn lại cần thực hiện trực tiếp theo hướng dẫn của Phòng CTSV.,
+358,Thủ tục tạm hoãn nghĩa vụ quân sự thực hiện ra sao?,Sinh viên làm đơn xin xác nhận đang học và nộp tại Phòng CTSV để được hướng dẫn hoàn thiện hồ sơ theo quy định.,
+359,tao muốn tạm dừng học cần làm thủ tục gì?,Bạn làm đơn xin tạm dừng học (tạm nghỉ học) và liên hệ Phòng Đào tạo để được hướng dẫn thực hiện đúng quy trình.,
+360,Thời gian xử lý các thủ tục sinh viên là bao lâu?,Thời gian xử lý tùy từng loại thủ tục. Bạn liên hệ trực tiếp Phòng CTSV/Phòng Đào tạo để biết thời gian cụ thể.,
+361,Làm mất thẻ sinh viên thì phải xử lý thế nào?,Bạn báo mất và làm thủ tục xin cấp lại thẻ sinh viên tại Phòng CTSV theo hướng dẫn của nhà trường.,
+362,Muốn thay đổi thông tin cá nhân trên hệ thống thì làm sao?,Bạn liên hệ Phòng CTSV hoặc bộ phận quản lý hệ thống để được hướng dẫn cập nhật thông tin theo đúng quy định.,
+363,Giấy xác nhận sinh viên có dùng để hoãn nghĩa vụ quân sự không?,Có. Giấy xác nhận sinh viên có thể dùng để xin hoãn nghĩa vụ quân sự theo quy định. Việc chấp nhận do cơ quan quân sự địa phương quyết định.,
+364,Mất giấy tờ sinh viên thì làm lại thế nào?,Bạn liên hệ Phòng Công tác Sinh viên (CTSV) để được hướng dẫn thủ tục cấp lại giấy tờ theo quy định của nhà trường.,
+365,Có thể nhờ người khác làm thủ tục hộ không?,Tùy từng thủ tục. Một số thủ tục bắt buộc sinh viên trực tiếp thực hiện; một số trường hợp có thể nhờ người khác làm hộ nếu có giấy ủy quyền theo quy định của nhà trường.,
+366,"đổi mật khẩu tài khoản , mà không thấy có mã gửi về thì sao",bạn hãy liên hệ giáo viên chủ nhiệm hoăc xuống phòng CT HSSV đẻ được hỗ  trợ nhé.,
+367,1 học kỳ có thể đăng ký tối đa bao nhiêu tín.,Số tín chỉ tối đa được đăng ký trong một học kỳ phụ thuộc vào kết quả học tập và quy định của từng học kỳ.,
+368,Sinh viên có thể mua đồ ăn ngay trong tòa giảng đường không?,"Có. Sinh viên có thể mua đồ ăn hoặc nước uống ngay trong hầu hết các tòa giảng đường; tuy nhiên, mặt hàng và thời gian bán có thể khác nhau giữa các tòa.",
+369,toàn bộ các giảng đường đều bán đồ ăn chứ ?   ,"Không phải tòa giảng đường nào cũng có bán đồ ăn.
+Một số tòa có quầy bán nước hoặc đồ ăn nhẹ, tuy nhiên sinh viên có thể sử dụng căn-tin trung tâm hoặc các quán ăn gần khu giảng đường để tiện lợi hơn.",
+370,Tòa C1 có căng tin hoặc quầy bán đồ ăn không?,Không. Tòa C1 hiện không có quầy bán đồ ăn hoặc nước uống. Sinh viên có thể mua tại các tòa lân cận hoặc căng tin trung tâm của trường.,
+371,Tòa C2 có bán đồ ăn không?,Có. Tòa C2 có quầy bán đồ ăn và nước uống cho sinh viên.,
+372,Tòa C3 có bán đồ ăn không?,Có. Tòa C3 có quầy bán đồ ăn và nước uống cho sinh viên.,
+373,Tòa C4 có bán đồ ăn không?,Không.Tòa C4 không bán đồ ăn nhé!,
+374,Tòa C5 có bán đồ ăn không?,Không.Tòa C5 không bán đồ ăn nhé!,
+375,Tòa C6 có bán đồ ăn không?,Có. Tòa C6 có quầy bán đồ ăn và nước uống cho sinh viên.,
+376,hãy cho tôi biết các giảng đường có bán đồ ăn ,"Hiện nay, C2, C3 và C5 có quầy bán đồ ăn;nhưng tình trạng có thể thay đổi theo từng thời điểm.",
+377,Sinh viên năm nhất có dễ tìm chỗ mua đồ ăn trong trường không?,Có. Trường có căng tin và một số giảng đường có quầy bán đồ ăn.,
+378,Trong khu giảng đường có bán đồ ăn nhẹ không?,Có. Một số giảng đường có bán đồ ăn nhẹ và nước uống.,
+379,Sinh viên có thể mua nước uống khi đang học trong giảng đường không?,"Có, tại các giảng đường có quầy bán hàng.",
+380,Giờ nghỉ giải lao ngắn có kịp mua đồ ăn không?,Có. Sinh viên có thể mua nhanh tại quầy trong giảng đường hoặc căng tin.,
+381,Các quầy bán đồ ăn trong giảng đường có bán đồ ăn trưa không?,Tùy từng quầy và thời điểm hoạt động.,
+382,Sinh viên học liên tục nhiều tiết nên mua đồ ăn ở đâu cho tiện?,Có thể mua tại giảng đường có quầy bán đồ ăn hoặc căng tin trung tâm.,
+383,Trong trường có khu vực bán đồ ăn phục vụ sinh viên không?,Có. Trường có căng tin và các quầy bán đồ ăn tại một số giảng đường.,
+384,Sinh viên có cần ra khỏi khu giảng đường để mua đồ ăn không?,"Không nhất thiết, vì một số giảng đường có quầy bán đồ ăn.",
+385,Các quầy bán đồ ăn trong trường có phục vụ thường xuyên không?,Việc phục vụ phụ thuộc vào từng thời điểm.,
+386,Sinh viên có thể mua đồ ăn trong khuôn viên trường không?,Có. Sinh viên có thể mua tại căng tin hoặc các giảng đường có quầy bán hàng.,
+387,Sinh viên có thể mua đồ ăn trong giờ trống giữa các tiết học không?,"Có, sinh viên có thể mua tại căng tin hoặc một số giảng đường có quầy bán hàng.",
+388,Trong khu học tập có điểm bán đồ ăn phục vụ sinh viên không?,Có. Trường bố trí căng tin và quầy bán đồ ăn tại một số khu vực.,
+389,Sinh viên mới nhập học có dễ tìm chỗ mua đồ ăn không?,Có. Trường có căng tin và các điểm bán đồ ăn trong khu giảng đường.,
+390,"Khi học cả ngày ở trường, sinh viên nên ăn uống ở đâu?",Sinh viên có thể sử dụng căng tin hoặc các giảng đường có quầy bán đồ ăn.,
+391,Trường có bố trí chỗ bán đồ ăn phục vụ sinh viên không?,Có. Trường có căng tin và một số quầy bán đồ ăn trong khuôn viên.,
+392,Sinh viên có thể mua đồ ăn ngay gần phòng học không?,"Có, tại một số giảng đường có quầy bán hàng.",
+393,Các điểm bán đồ ăn trong trường có phục vụ sinh viên không?,Có. Các điểm bán đồ ăn được bố trí để phục vụ sinh viên.,
+394,Sinh viên có thể mua đồ ăn mà không cần ra ngoài trường không?,Có. Sinh viên có thể mua tại căng tin hoặc trong khu giảng đường.,
+395,Trường có hỗ trợ địa điểm ăn uống cho sinh viên không?,Có. Trường có căng tin và các quầy bán đồ ăn trong khu học tập.,
+396,Sinh viên có thể mua đồ ăn nhanh trong khuôn viên trường không?,Có. Một số khu vực trong trường có quầy bán đồ ăn nhanh.,
+397,Trường có sân bóng cho sinh viên không?,Có. Trường có sân bóng phục vụ hoạt động thể thao của sinh viên.,
+398,Sinh viên có được sử dụng sân bóng của trường không?,Có. Sinh viên có thể sử dụng sân bóng theo quy định của trường.,
+399,Sân bóng của trường có khán đài không?,Có. Sân bóng được bố trí khán đài để ngồi xem thi đấu.,
+400,Sinh viên có thể ngồi xem đá bóng tại sân trường không?,Có. Sinh viên có thể ngồi tại khu vực khán đài.,
+401,Trường có cho thuê sân bóng không?,Có. Sân bóng được cho thuê theo thời gian và quy định cụ thể.,
+402,Sinh viên muốn thuê sân bóng thì đăng ký ở đâu?,Sinh viên liên hệ bộ phận quản lý sân hoặc phòng chức năng của trường.,
+403,Sân bóng của trường có phục vụ thi đấu không?,Có. Sân bóng được sử dụng cho tập luyện và thi đấu.,
+404,Sinh viên có thể đá bóng ngoài giờ học không?,Có. Sinh viên có thể sử dụng sân bóng ngoài giờ học theo lịch cho phép.,
+405,Sân bóng trong trường có mở thường xuyên không?,Thời gian mở sân phụ thuộc vào lịch và quy định của trường.,
+406,Trường có tổ chức các hoạt động bóng đá cho sinh viên không?,Có. Trường thường tổ chức các hoạt động và giải bóng đá cho sinh viên.,
+407,Sinh viên có cần đăng ký trước khi sử dụng sân bóng không?,Có. Sinh viên cần đăng ký theo quy định của trường.,
+408,Sân bóng có cho sinh viên sử dụng miễn phí không?,Tùy từng thời điểm và mục đích sử dụng.,
+409,Sân bóng có cho thuê theo giờ không?,Có. Sân bóng được cho thuê theo khung giờ.,
+410,Giá thuê sân bóng của trường là bao nhiêu?,Mức phí thuê được áp dụng theo quy định hiện hành.,
+411,Sinh viên có được ưu tiên khi thuê sân bóng không?,Có. Sinh viên thường được ưu tiên theo quy định.,
+412,Có thể đặt sân bóng cho đá giao hữu không?,Có. Sân bóng được sử dụng cho các trận giao hữu.,
+413,Sân bóng có hoạt động vào buổi tối không?,Tùy vào lịch hoạt động và thời gian cho phép.,
+414,Sân bóng có thiết bị chiếu sáng không?,Có. Sân bóng được trang bị hệ thống chiếu sáng.,
+415,Khi trời mưa sân bóng có còn sử dụng được không?,Việc sử dụng phụ thuộc vào tình trạng sân.,
+416,Sinh viên có thể tổ chức giải bóng đá tại sân trường không?,"Có, nếu được nhà trường cho phép.",
+417,Sân bóng có cho các câu lạc bộ thể thao sử dụng không?,Có. Các câu lạc bộ được đăng ký sử dụng sân.,
+418,Có thể sử dụng sân bóng để tập luyện cá nhân không?,"Có, khi sân không có lịch thi đấu hoặc cho thuê.",
+419,Sân bóng có giới hạn số người tham gia không?,Có. Số lượng người tham gia phụ thuộc vào quy định.,
+420,Sinh viên ngoài trường có được thuê sân bóng không?,Tùy theo quy định và từng thời điểm.,
+421,Sân bóng có mở cửa vào cuối tuần không?,"Có thể mở, tùy theo lịch quản lý sân.",
+422,Sinh viên có được sử dụng khán đài khi xem thi đấu không?,Có. Khán đài được sử dụng để xem các trận đấu.,
+423,Có cần mang theo giấy tờ khi đăng ký thuê sân bóng không?,"Có thể cần, tùy theo yêu cầu của bộ phận quản lý.",
+424,Lịch sử dụng sân bóng được công bố ở đâu?,Lịch được thông báo bởi bộ phận quản lý sân.,
+425,Sân bóng có cho sử dụng vào các ngày lễ không?,Việc sử dụng phụ thuộc vào thông báo của nhà trường.,
+426,Sinh viên có được vào sân bóng tự do không?,Sinh viên được sử dụng sân bóng theo quy định của trường.,
+427,Sân bóng có giới hạn thời gian sử dụng không?,Có. Việc sử dụng sân phụ thuộc vào khung giờ cho phép.,
+428,Có cần đăng ký trước khi đá bóng không?,Có. Sinh viên cần đăng ký khi sử dụng sân.,
+429,Sân bóng có cho đá giao hữu không?,Có. Sân bóng được dùng cho các trận giao hữu.,
+430,Sinh viên có thể thuê sân để đá theo đội không?,Có. Sân bóng được cho thuê theo đội.,
+431,Sân bóng có phục vụ cho câu lạc bộ sinh viên không?,Có. Các câu lạc bộ có thể đăng ký sử dụng sân.,
+432,Sân bóng thi đấu không?,Có. Sân bóng được sử dụng cho các giải đấu.,
+433,Sân bóng có mở ngoài lịch học không?,"Có thể, tùy theo lịch quản lý sân.",
+434,Sân bóng có đèn chiếu sáng không?,Có. Sân bóng được trang bị đèn chiếu sáng.,
+435,Sinh viên có được sử dụng khán đài không?,Có. Khán đài phục vụ người xem thi đấu.,
+436,Có giới hạn số người tham gia trên sân bóng không?,Có. Số lượng người tham gia theo quy định.,
+437,Sân bóng có cho mượn dụng cụ thi đấu không?,Tùy từng thời điểm và quy định cụ thể.,
+438,Sinh viên có thể tập luyện cá nhân trên sân bóng không?,"Có, khi sân không có lịch sử dụng khác.",
+439,Sân bóng có mở vào buổi tối không?,"Có thể mở, tùy vào thời gian cho phép.",
+440,Sân bóng có áp dụng nội quy sử dụng không?,Có. Sinh viên cần tuân thủ nội quy khi sử dụng sân.,
+441,Trường có sân bóng chuyền cho sinh viên không?,Có. Trường hiện có 2 sân bóng chuyền.,
+442,Sinh viên có được sử dụng sân bóng chuyền của trường không?,Có. Sinh viên được sử dụng theo quy định.,
+443,Sân bóng chuyền có phục vụ sinh viên thường xuyên không?,Có. Sân được sử dụng cho hoạt động thể thao sinh viên.,
+444,Sinh viên có thể chơi bóng chuyền ngoài giờ học không?,"Có, tùy theo thời gian cho phép.",
+445,Hai sân bóng chuyền có thể dùng cùng lúc không?,Có. Hai sân phục vụ cho nhiều nhóm sinh viên.,
+446,Sinh viên có thể chơi bóng chuyền theo nhóm không?,Có. Sinh viên có thể chơi theo nhóm.,
+447,Sân bóng chuyền có giới hạn số người chơi không?,Có. Số lượng người chơi theo quy định.,
+448,Sinh viên có cần tuân thủ nội quy khi chơi bóng chuyền không?,Có. Sinh viên cần tuân thủ nội quy sân thể thao.,
+449,Sân bóng chuyền có cho sinh viên tập luyện không?,Có. Sinh viên có thể tập luyện bóng chuyền.,
+450,Sinh viên có thể chơi bóng chuyền tự do không?,"Có, khi sân không có lịch sử dụng khác.",
+451,Sân bóng chuyền có phục vụ cho các câu lạc bộ sinh viên không?,Có. Câu lạc bộ có thể đăng ký sử dụng.,
+452,Sân bóng chuyền có mở thường xuyên không?,Thời gian sử dụng phụ thuộc vào lịch hoạt động.,
+453,Sinh viên có thể tham gia hoạt động bóng chuyền không?,Có. Sinh viên có thể tham gia các hoạt động thể thao.,
+454,Sân bóng chuyền có áp dụng quy định sử dụng không?,Có. Việc sử dụng sân có quy định cụ thể.,
+455,Sinh viên các khóa đều được sử dụng sân bóng chuyền không?,Có. Sân bóng chuyền phục vụ sinh viên toàn trường.,
+456,Trường có sân pickleball không?,Có. Trường hiện có 2 sân pickleball.,
+457,Sinh viên có được chơi pickleball tại trường không?,Có. Sinh viên được tham gia theo quy định.,
+458,Sân pickleball có phục vụ sinh viên thường xuyên không?,Có. Sân được sử dụng cho hoạt động thể thao sinh viên.,
+459,Sinh viên có thể chơi pickleball ngoài giờ học không?,"Có, tùy theo thời gian cho phép.",
+460,Hai sân pickleball có thể sử dụng cùng lúc không?,Có. Hai sân phục vụ nhiều nhóm sinh viên.,
+461,Sinh viên có thể chơi pickleball theo nhóm không?,Có. Sinh viên có thể chơi theo nhóm.,
+462,Sân pickleball có giới hạn số người chơi không?,Có. Số lượng người chơi theo quy định.,
+463,Sinh viên có cần tuân thủ nội quy khi chơi pickleball không?,Có. Sinh viên cần tuân thủ nội quy sân thể thao.,
+464,Sân pickleball có cho tập luyện không?,Có. Sinh viên có thể tập luyện pickleball.,
+465,Sinh viên có thể chơi pickleball tự do không?,"Có, khi sân không có lịch sử dụng khác.",
+466,Trường có tổ chức hoạt động pickleball cho sinh viên không?,Có. Trường có tổ chức các hoạt động pickleball.,
+467,Sân pickleball có được dùng để thi đấu không?,Có. Sân pickleball được sử dụng cho thi đấu.,
+468,Sinh viên có thể tham gia thi đấu pickleball không?,Có. Sinh viên có thể tham gia các hoạt động thi đấu.,
+469,Trường có tổ chức giải pickleball không?,Có. Trường có thể tổ chức các giải pickleball.,
+470,Sinh viên có thể xem các trận pickleball tại trường không?,Có. Sinh viên có thể theo dõi các trận đấu.,
+471,Sân pickleball có phục vụ cho câu lạc bộ không?,Có. Các câu lạc bộ có thể sử dụng sân.,
+472,Sinh viên mới có thể tham gia chơi pickleball không?,Có. Sân phục vụ sinh viên mọi khóa.,
+473,Sân pickleball có mở thường xuyên không?,Thời gian sử dụng phụ thuộc vào lịch hoạt động.,
+474,Sinh viên có thể chơi pickleball nhiều buổi trong tuần không?,"Có, tùy theo lịch sử dụng sân.",
+475,Sân pickleball có yêu cầu giữ gìn vệ sinh không?,Có. Sinh viên cần giữ gìn vệ sinh sân bãi.,
+476,Có quy định riêng khi thi đấu pickleball không?,Có. Thi đấu cần tuân thủ quy định của trường.,
+477,Sinh viên có thể đăng ký tham gia hoạt động pickleball không?,Có. Sinh viên đăng ký theo thông báo của trường.,
+478,Sân pickleball có cho phép cổ vũ khi thi đấu không?,"Có, theo quy định và đảm bảo trật tự.",
+479,Sân pickleball có áp dụng giờ đóng mở sân không?,Có. Giờ sử dụng theo lịch quy định.,
+480,Sinh viên có thể chơi pickleball theo ca không?,Có. Việc sử dụng sân theo khung giờ.,
+481,Sân pickleball có phục vụ cả nam và nữ không?,Có. Sân phục vụ mọi sinh viên.,
+482,Sinh viên có thể rủ lớp hoặc khoa chơi pickleball không?,Có. Sinh viên có thể tổ chức chơi theo nhóm.,
+483,Sân pickleball có phù hợp cho người mới chơi không?,Có. Sân phù hợp cho người mới bắt đầu.,
+484,Sinh viên có cần chấp hành hướng dẫn khi thi đấu pickleball không?,Có. Sinh viên cần tuân thủ hướng dẫn và nội quy.,
+485,Trường có ký túc xá cho sinh viên không?,Có. Trường có ký túc xá cho sinh viên ở lại.,
+486,Sinh viên có thể đăng ký ở ký túc xá không?,Có. Sinh viên có thể đăng ký theo quy định.,
+487,Ký túc xá có cho sinh viên ở dài hạn không?,Có. Sinh viên có thể ở theo thời gian đăng ký.,
+488,Sinh viên năm nhất có được ở ký túc xá không?,Có. Ký túc xá phục vụ sinh viên các khóa.,
+489,Ký túc xá có áp dụng nội quy không?,Có. Sinh viên cần tuân thủ nội quy ký túc xá.,
+490,Ký túc xá có quy định giờ đóng cửa không?,Có. Ký túc xá có quy định thời gian đóng cửa.,
+491,Sinh viên về ký túc xá muộn có được vào không?,Việc vào muộn phụ thuộc vào quy định ký túc xá.,
+492,Sinh viên có được ra vào ký túc xá tự do không?,Việc ra vào tuân theo quy định thời gian.,
+493,Ký túc xá có quản lý sinh viên không?,Có. Ký túc xá có bộ phận quản lý.,
+494,Sinh viên có cần mang thẻ khi vào ký túc xá không?,Có thể cần theo quy định kiểm soát.,
+495,Ký túc xá có áp dụng giờ giới nghiêm không?,Có. Giờ giấc được quy định cụ thể.,
+496,Sinh viên có thể ở lại ký túc xá cuối tuần không?,"Có, theo quy định ký túc xá.",
+497,Ký túc xá có cho sinh viên ra ngoài buổi tối không?,"Có, nhưng cần tuân thủ thời gian quy định.",
+498,Sinh viên có được tiếp khách tại ký túc xá không?,Việc tiếp khách theo nội quy ký túc xá.,
+499,Ký túc xá có kiểm tra giờ giấc sinh viên không?,Có. Việc kiểm tra theo quy định.,
+500,Sinh viên có thể xin phép về muộn không?,"Có thể, tùy quy định từng thời điểm.",
+501,Ký túc xá có áp dụng xử lý vi phạm không?,Có. Vi phạm sẽ được xử lý theo nội quy.,
+502,Sinh viên có thể gia hạn thời gian ở ký túc xá không?,Có. Sinh viên đăng ký gia hạn theo quy định.,
+503,Ký túc xá có dành cho sinh viên toàn trường không?,Có. Ký túc xá phục vụ sinh viên toàn trường.,
+504,Sinh viên có thể chuyển phòng trong ký túc xá không?,"Có thể, theo quy định quản lý.",
+505,Trường có nhà gửi xe cho sinh viên không?,Có. Trường có nhà gửi xe cho sinh viên.,
+506,Trường có bao nhiêu nhà gửi xe?,Có 2 nhà gửi xe.,
+507,Nhà gửi xe được bố trí tại các cổng không?,Có. Nhà gửi xe ở cổng chính và cổng phụ.,
+508,Sinh viên có thể gửi xe máy trong trường không?,Có. Sinh viên được gửi xe tại nhà xe.,
+509,Sinh viên có thể gửi xe đạp trong trường không?,Có. Nhà xe phục vụ cả xe đạp.,
+510,Hai nhà gửi xe có hoạt động song song không?,Có. Cả hai nhà xe đều hoạt động.,
+511,Sinh viên có thể chọn nhà xe để gửi không?,Có. Sinh viên có thể lựa chọn thuận tiện.,
+512,Nhà gửi xe có phục vụ ngoài giờ học không?,Tùy theo thời gian hoạt động của nhà xe.,
+513,Sinh viên có cần thẻ khi gửi xe không?,Có thể cần trong 1 số trường hợp,
+514,Nhà gửi xe có quản lý xe ra vào không?,Có. Xe ra vào được quản lý.,
+515,Sinh viên có thể gửi xe cả ngày không?,"Có, trong thời gian nhà xe hoạt động.",
+516,Nhà gửi xe có áp dụng nội quy không?,Có. Sinh viên cần tuân thủ nội quy nhà xe.,
+517,Sinh viên gửi xe muộn có lấy xe được không?,Tùy vào thời gian đóng mở nhà xe.,
+518,Nhà gửi xe có hỗ trợ sinh viên thường xuyên không?,Có. Nhà xe phục vụ sinh viên hằng ngày.,
+519,Sinh viên có thể gửi xe trong thời gian học ca tối không?,"Có thể, tùy thời gian hoạt động.",
+520,Hai nhà xe có phục vụ số lượng lớn xe không?,Có. Nhà xe được bố trí để phục vụ sinh viên.,
+521,Sinh viên có cần xếp xe đúng quy định không?,Có. Xe cần xếp đúng vị trí quy định.,
+522,Nhà gửi xe có áp dụng biện pháp an ninh không?,Có. Nhà xe được quản lý an ninh.,
+523,Sinh viên có thể hỏi thông tin nhà xe ở đâu?,Sinh viên liên hệ bộ phận quản lý.,
+524,Nhà gửi xe có phục vụ sinh viên toàn trường không?,Có. Nhà xe phục vụ toàn bộ sinh viên.,
+525,Sinh viên làm mất vé gửi xe thì phải xử lý thế nào?,Sinh viên mang CCCD hoặc giấy phép lái xe chính chủ và báo với quản lý nhà xe để được hỗ trợ theo quy định.,
+526,Nếu bị mất vé xe trong trường thì có lấy được xe không?,Có. Sinh viên cần xuất trình CCCD hoặc GPLX chính chủ và báo quản lý nhà xe để được hỗ trợ.,
+527,Mất vé xe có cần giấy tờ gì để nhận xe không?,Có. Cần CCCD hoặc giấy phép lái xe có thông tin chính chủ.,
+528,Khi mất vé gửi xe thì liên hệ ai để giải quyết?,Sinh viên báo trực tiếp với người quản lý nhà xe để được xử lý theo quy định.,
+529,Mất vé xe trong nhà xe của trường phải làm gì trước?,Sinh viên mang giấy tờ cá nhân chính chủ và báo cáo với quản lý nhà xe để được hỗ trợ.,
+530,Cách đăng ký học,File Hướng dẫn đăng ký học,
+531,"Chương trình đào tạo cử nhân bao nhiêu tín chỉ, đào tạo kỹ sư bao nhiêu tín chỉ","Từ khóa 16 đến khóa 19:
+ - Các ngành của Khoa Công nghệ thông tin, Khoa Kỹ thuật và Công nghệ ( trước đây là Khoa Tự động hóa và Khoa Điện tử truyền thông): chỉ có chương trình đào tạo kỹ sư với tổng số 140 tín chỉ không tính học phần thể chất
+ - Các ngành còn lại của các Khoa Nghệ thuật & Truyền thông ( trước đây là Khoa Truyền thông đa phương tiện); Khoa Kinh tế và Quản trị ( trước đây là Khoa Hệ thống thông tin kinh tế) chỉ có chương trình đào tạo cử nhân với tổng số 125 tín chỉ không tính học phần thể chất 
+ Từ khóa 20 đến khóa 22:
+ - Đối với Chương trình đào tạo cử nhân:
+ + Tất cả các ngành đều học tổng số 125 tín chỉ không tính học phần thể chất
+ - Đồi với Chương trình đào tạo kỹ sư: 
+ + Chỉ các ngành của các khoa sau có chương trình đào tạo kỹ sư: Khoa Công nghệ thông tin, Khoa Kỹ thuật và Công nghệ ( trước đây là Khoa Tự động hóa và Khoa Điện tử truyền thông) với tổng số 150 tín chỉ không tính học phần thể chất
+ Từ khóa 23 đến khóa 24
+ - Đối với Chương trình đào tạo cử nhân:
+ + Tất cả các ngành đều học tổng số 126 tín chỉ không tính học phần thể chất
+ - Đồi với Chương trình đào tạo kỹ sư: 
+ + Chỉ các ngành của các khoa sau có chương trình đào tạo kỹ sư: Khoa Công nghệ thông tin, Khoa Kỹ thuật và Công nghệ ( trước đây là Khoa Tự động hóa và Khoa Điện tử truyền thông) với tổng số 156 tín chỉ không tính học phần thể chất",
+532,Hiện đã hết thời hạn đăng ký học thì em đăng ký học thế nào ạ,"Bước 1: Em cần nộp đầy đủ học phí lên hệ thống đăng ký tín chỉ
+ Bước 2: Tải mẫu Đơn đăng ký học bổ sung tại Trang chủ của Trang dangkytinchi.ictu.edu.vn
+ Bước 3: Điền đầy đủ thông tin vào đơn
+ Bước 4: Liên hệ với Giáo viên chủ nhiệm tại Phòng 106 nhà C1 để xin xác nhận",
+533,Cách đăng ký học bổ sung,"Bước 1: Em cần nộp đầy đủ học phí lên hệ thống đăng ký tín chỉ
+ Bước 2: Tải mẫu Đơn đăng ký học bổ sung tại Trang chủ của Trang dangkytinchi.ictu.edu.vn
+ Bước 3: Điền đầy đủ thông tin vào đơn
+ Bước 4: Liên hệ với Giáo viên chủ nhiệm tại Phòng 106 nhà C1 để xin xác nhận",
+534,Cách hủy học phần như nào ạ,"Bước 1: Em cần nộp đầy đủ học phí lên hệ thống đăng ký tín chỉ
+ Bước 2: Tải mẫu Đơn xin hủy học phần tại Trang chủ của Trang dangkytinchi.ictu.edu.vn
+ Bước 3: Điền đầy đủ thông tin vào đơn
+ Bước 4: Liên hệ với Giáo viên chủ nhiệm tại Phòng 106 nhà C1 để xin xác nhận",
+535,Em hủy học phần thì có được hoàn tiền không ạ,"Nếu học phần được Phòng Đào tạo xác nhận hủy, em sẽ hoàn lại tiền học phí học phần này.",
+536,Em xin đổi lớp học phần được không ạ,Lớp học phần không đổi được em nhé.,
+537,Cách nộp học phí,File Hướng dẫn nộp học phí,
+538,Điểm rèn luyện xét như nào ạ,File hướng dẫn xét điểm rèn luyện,
+539,Để xét điều kiện ra trường cần những điều kiện gì ạ,"Để đủ điều kiện được xét tốt nghiệp em cần các điều kiện sau:
+ - Hoàn thành các môn học theo khung chương trình đào tạo
+ - Hoàn thành 02 học phần Thể chất
+ - Có chứng chỉ Giáo dục quốc phòng
+ - Điểm rèn luyện 4 năm đạt tối thiểu 160 điểm
+ - Cho đến thời điểm xét tốt nghiệp không bị truy cứu trách nhiệm hình sự hoặc không đang trong thời gian bị kỷ luật ở mức đình chỉ học tập",
+540,Học bổng được xét như nào ạ,File Quy định xét học bổng,
+541,Em xem điểm ở đâu ạ,Em có thể đăng nhập vào tài khoản đăng ký tín chỉ rồi vào mục Trang chủ --> Tra cứu điểm,
+542,Em nộp Bảo hiểm y tế (BHYT) như nào ạ,"Em chỉ nộp được bảo hiểm y tế sau khi nhà trường triển khai thu bảo hiểm ( GVCN sẽ gửi đến các em qua zalo nhóm lớp). Mỗi năm trường sẽ triển khai thu bảo hiểm khoảng 2 đợt vào cuối năm. Khi nào có thông báo đợt thu, GVCN sẽ hướng dẫn em cách nộp trên hệ thống",
+543,Em được miễn giảm bảo hiểm y tế nhưng vẫn bị tích nợ bảo hiểm thì làm thế nào ạ,"Nếu em thuộc đối tượng được miễn Bảo hiểm y tế, em không cần nộp, hệ thống sẽ tự gỡ nỡ Bảo hiểm y tế của em sau khi hết đợt triển khai nộp bảo hiểm y tế",
+544,Em nộp học phí vào thì bị trừ nợ bảo hiểm y tế ạ,Sau khi kết thúc đợt triển khai nộp bảo hiểm y tế thì tiền trên hệ thống của em sẽ tự động được hoàn về,
+545,Em được miễn bảo hiểm y tế mà em nộp bảo hiểm rồi thì có được hoàn tiền không ạ,Nếu em thuộc đối tượng được miễn Bảo hiểm y tế mà đã nộp bảo hiểm tại nhà trường thì em vẫn sẽ được hoàn tiền về. Em chờ thông báo rà soát của Giáo viên chủ nhiệm với những bạn được miễn bảo hiểm y tế và được hoàn tiền,
+546,Em được miễn giảm học phí thì có được miễn bảo hiểm y tế không ạ,Nếu em được miễn giảm học phí thì em sẽ được miễn Bảo hiểm y tế.,
+547,Em thuộc vùng ATK có được miễn bảo hiểm y tế không ạ,Em thuộc vùng ATK thì em được miễn Bảo hiểm y tế,
+548,Em xin rút học phí thừa được không ạ,"Học phí nộp thừ trên trang dangkytinchi có thể rút nhưng em cần làm đơn và xin xác nhận của gia đình, nhà trường sẽ chuyển lại số tiền thừa này qua số tài khoản của em, tuy nhiên nhà trường sẽ không chuyển ngay mà chia theo đợt, nếu em cần gấp thì nên cân nhắc việc rút tiền thừa thay vì để số tiền này lại để đăng ký cho học kỳ sau.",
+549,Em muốn xin xác nhận để tạm hoãn nghĩa vụ quân sự ạ,"Em vào link sau và tải mẫu Giấy xác nhận sinh viên theo đúng đối tượng
+ https://ictu.edu.vn/cac-bieu-mau-thuong-dung-12/",
+550,Em muốn xin giấy xác nhận sinh viên đã từng học tại trường,"Nhà trường hiện không có mẫu đơn xác nhận sinh viên dành cho sinh viên đã từng theo học tại trường. Tùy vào mục đích sử dụng, em chủ động viết đơn và nộp tại phòng 106 nhà C1( Bộ phận một cửa) của nhà trường để được hướng dãn xin xác nhận",
+551,Em muốn xin xác nhận để xin miễn giảm thuế thu nhập cá nhân cho bố mẹ,"Em vào link sau và tải mẫu Giấy xác nhận sinh viên theo đúng đối tượng và nộp tại phòng 106 nhà C1( Bộ phận một cửa) của nhà trường để được hướng dẫn xin xác nhận 
+ https://ictu.edu.vn/cac-bieu-mau-thuong-dung-12/",
+552,Em muốn xin xác nhận để vạy vốn sinh viên,"Em vào link sau và tải mẫu Giấy xác nhận vay vốn và nộp tại phòng 106 nhà C1( Bộ phận một cửa) của nhà trường để được hướng dẫn xin xác nhận 
+ https://ictu.edu.vn/cac-bieu-mau-thuong-dung-12/",
+553,Em muốn xin chuyển lớp,"Em vào link sau và tải mẫu Đơn đề nghị chuyển lớp và nộp tại phòng 106 nhà C1( Bộ phận một cửa) cho Giáo viên chủ nhiệm 
+ https://ictu.edu.vn/cac-bieu-mau-thuong-dung-12/",
+554,Em muốn xin chuyển khóa,"Em vào link sau và tải mẫu Đơn xin chuyển khóa và nộp tại phòng 106 nhà C1( Bộ phận một cửa) cho Giáo viên chủ nhiệm 
+ https://ictu.edu.vn/cac-bieu-mau-thuong-dung-12/",
+555,Em muốn xin chuyển ngành,"Em vào link sau và tải mẫu Đơn xin chuyển ngành và nộp tại phòng 106 nhà C1( Bộ phận một cửa) cho Giáo viên chủ nhiệm 
+ https://ictu.edu.vn/cac-bieu-mau-thuong-dung-12/
+ Em lưu ý: Chỉ sinh viên năm thứ 2 và năm thứ 3 mới được chuyển ngành",
+556,Em muốn xin bảo lưu,"Theo quy định các trường hợp sau đây được phép bảo lưu: 
+ - Điểm tổng kết học phần của em đạt từ 2.0 
+ - Sinh viên có giấy gọi tham gia nghĩa vụ quân sự( trường hợp này khi nộp Đơn xin bảo lưu, em cần nộp kèm Giấy gọi tham gia nghĩa vụ và Quyết định nhập ngũ)
+ - Có vấn đề về sức khỏe cần thời gian nghỉ ngơi để điều trị bệnh ( trong trường hợp này em cần xin xác nhận của cơ quan y tế)
+ Em vào link sau và tải mẫu Đơn xin bảo lưu kết quả học tập và nộp tại phòng 106 nhà C1( Bộ phận một cửa) cho Giáo viên chủ nhiệm 
+ https://ictu.edu.vn/cac-bieu-mau-thuong-dung-12/",
+557,Em muốn xin thôi học,"Em vào link sau và tải mẫu Đơn xin thôi học và nộp tại phòng 106 nhà C1( Bộ phận một cửa) cho Giáo viên chủ nhiệm 
+ https://ictu.edu.vn/cac-bieu-mau-thuong-dung-12/",
+558,Em muốn xin bảng điểm,Em qua phòng 109 nhà C1( Phòng Đào tạo) để xin bảng điểm nhé,
+559,Em muốn xin phúc khảo bài thi,Em qua phòng 106 nhà C1( Bộ phận một cửa) hoặc liên hệ với giáo viên chủ nhiệm qua zalo để được hướng dẫn cụ thể,
+560,Em muốn xin đổi ca thi,Nhà trường không có quy định cho phép sinh viên được đổi ca thi. Em liên hệ với giáo viên chủ nhiệm qua zalo để trao đổi thêm,
+561,Em muốn xin hoãn thi,"Khi có việc bất khả kháng không thể tham gia thi, sinh viên có nguyện vọng hoãn thi cần liên hệ với Giáo viên chủ nhiệm trước khi ca thi bắt đầu để xin được hoãn thi. Đối với môn thi sinh viên xin hoãn thi, nhà trường sẽ không chủ động ghép thi cho sinh viên, sinh viên cần chủ động theo dõi các Thông báo lịch thi ( các Thông báo trên Trang chủ trang dangkytinchi.ictu.edu.vn) để xin ghép thi tại phòng 109 nhà C1( Phòng Đào tạo)",
+562,Em muốn xin thi lại,"Nhà trường không tổ chức thi lại cho các sinh viên thi không đạt. Các học phần không đạt hoặc cấm thi, sinh viên cần học lại",
+563,Em muốn làm lại thẻ sinh viên,"Em vào link sau và tải mẫu Đơn xin cấp lại thẻ sinh viên và nộp tại phòng 106 nhà C1( Bộ phận một cửa) cho Giáo viên chủ nhiệm nhé
+ https://ictu.edu.vn/cac-bieu-mau-thuong-dung-12/",
+564,Em muốn rút hồ sơ,"Để rút hồ sơ em cần làm Đơn xin thôi học, sau khi có quyết định thôi học em có thể rút hồ sơ.",
+565,Em muốn mượn hồ sơ,"Em vào link sau và tải mẫu Đơn xin mượn hồ sơ và nộp tại phòng 106 nhà C1( Bộ phận một cửa) cho Giáo viên chủ nhiệm 
+ https://ictu.edu.vn/cac-bieu-mau-thuong-dung-12/
+ Em lưu ý, nhà trường chỉ cho các em mượn hồ sơ vào thứ 3 và thứ 5 hàng tuần, khi đi em mang theo Căn cước công dân bản gốc",
+566,Em muốn lấy bằng tốt nghiệp và rút hồ sơ,"Nhà trường sẽ trả bằng tốt nghiệp và hồ sơ cho sinh viên vào thứ 3 và thứ 5 hàng tuần. Lưu ý khi đi lấy em cần mang theo Căn cước công dân và giấy biên nhận hồ sơ nhập học( từ khóa 23 trở về trước). Nếu mất Giấy biên nhận hồ sơ nhập học em có thể tải mẫu Bản cam kết lấy hồ sơ ở link sau để thay cho giấy này
+ https://ictu.edu.vn/cac-bieu-mau-thuong-dung-12/ 
+ Sau khi có đủ giấy tờ cần thiết em đến phòng 106 nhà C1( Bộ phận một cửa) để được hướng dẫn Lấy bằng tốt nghiệp và hồ sơ",
+567,Em đã nộp chứng chỉ quốc phòng để xét tốt nghiệp thì bao giờ có bằng tốt nghiệp ạ,Em check email cá nhân (email do nhà trường cấp) để biết thông tin này nhé.,
+568,Em nhờ người rút hồ sơ được không ạ,"Em cần chuẩn bị các giấy tờ sau để có thể nhờ người khác đi rút hồ sơ hoặc lấy hộ bằng tốt nghiệp:
+ - Giấy ủy quyền 
+ - Căn cước công dân photo công chứng của chính chủ và người đi lấy
+ - Căn cước công dân bản gốc của người đi lấy hộ.
+ - Giấy biên nhận hồ sơ nhập học ( Dành cho sinh viên từ khóa 23 trở về trước). Nếu mất Giấy biên nhận hồ sơ nhập học em có thể tải mẫu Bản cam kết lấy hồ sơ ở link sau để thay cho giấy này
+ https://ictu.edu.vn/cac-bieu-mau-thuong-dung-12/ 
+ Em lưu ý: Nhà trường chỉ trả bằng tốt nghiệp và hồ sơ cho sinh viên vào thứ 3 và thứ 5 hàng tuần. Sau khi có đủ giấy tờ cần thiết người đi rút hồ sơ đến phòng 106 nhà C1( Bộ phận một cửa) để được hướng dẫn Lấy bằng tốt nghiệp và hồ sơ",
+569,Em muốn nhờ người lấy bằng tốt nghiệp được không ạ,"Em cần chuẩn bị các giấy tờ sau để có thể nhờ người khác đi rút hồ sơ hoặc lấy hộ bằng tốt nghiệp:
+ - Giấy ủy quyền 
+ - Căn cước công dân photo công chứng của chính chủ và người đi lấy
+ - Căn cước công dân bản gốc của người đi lấy hộ.
+ - Giấy biên nhận hồ sơ nhập học ( Dành cho sinh viên từ khóa 23 trở về trước). Nếu mất Giấy biên nhận hồ sơ nhập học em có thể tải mẫu Bản cam kết lấy hồ sơ ở link sau để thay cho giấy này
+ https://ictu.edu.vn/cac-bieu-mau-thuong-dung-12/ 
+ Em lưu ý: Nhà trường chỉ trả bằng tốt nghiệp và hồ sơ cho sinh viên vào thứ 3 và thứ 5 hàng tuần. Sau khi có đủ giấy tờ cần thiết người đi rút hồ sơ/ lấy bằng TN đến phòng 106 nhà C1( Bộ phận một cửa) để được hướng dẫn Lấy bằng tốt nghiệp và hồ sơ",
+570,Em muốn nhờ người lên mượn hồ sơ được không ạ,"Em cần chuẩn bị các giấy tờ sau để có thể nhờ người khác đi mượn hồ sơ 
+ - Giấy ủy quyền 
+ - Căn cước công dân photo công chứng của chính chủ và người đi mượn
+ - Căn cước công dân bản gốc của người đi mượn.
+ - Đơn xin mượn hồ sơ
+ https://ictu.edu.vn/cac-bieu-mau-thuong-dung-12/ 
+ Em lưu ý: Nhà trường chỉ cho mượn hồ sơ vào thứ 3 và thứ 5 hàng tuần. Sau khi có đủ giấy tờ cần thiết em đến phòng 106 nhà C1( Bộ phận một cửa) để được hướng dẫn",
+571,Những môn em chưa học do chuyển ngành thì bao giờ em đăng ký học được ạ,"Theo quy định của nhà trường, đối với các học phần em chưa đăng ký học thì em không được đăng ký vào đợt học lại. Do đó, để đăng ký được các học phần này em cần theo dõi kế hoạch đào tạo để đăng ký học cùng khóa sau",
+572,Những môn em chưa học do chuyển ngành nhưng đăng ký học chéo khóa mà bị trùng lịch học thì em làm thế nào ạ,Em liên hệ với giáo viên chủ nhiệm để được hướng dẫn cụ thể nhé,
+573,Môn thể chất có bắt buộc học xong trong năm đầu không ạ,Trong 4 năm học em cần hoàn thành 2 học phần thể chất nên không bắt buộc em phải hoàn thành 2 học phần này trong năm học đầu,
+574,Học phí của em là bao nhiêu ạ,File Quy định học phí,
+575,Kỳ này em học những môn gì ạ,Em liên hệ với giáo viên chủ nhiệm để được hướng dẫn cụ thể nhé,
+576,Em có chứng chỉ tiếng anh hoặc chứng chỉ ngoại ngữ khác thì có được miễn học phần ngoại ngữ không ạ,"File quy đổi chứng chỉ ngoại ngữ
+ Em lưu ý, em cần nộp chứng chỉ ngoại ngữ khi nhập học hoặc trong tuần đầu tiên sau khi nhập học hoặc theo hướng dẫn của giáo viên chủ nhiệm",
+577,Em muốn chuyển học tiếng anh sang tiếng trung được không ạ,"Em không được chuyển học từ học phần ngoại ngữ này sang học phần ngoại ngữ khác nhưng em có thể chờ tân sinh viên nhập học để đăng ký học một học phần ngoại ngữ khác từ đầu, tuy nhiên em cân nhắc việc thay đổi này vì có thể dẫn tới chậm tiến độ học tập",
+578,Em muốn chuyển từ tiếng trung sang tiếng anh được không ạ,"Em không được chuyển học từ học phần ngoại ngữ này sang học phần ngoại ngữ khác nhưng em có thể chờ tân sinh viên nhập học để đăng ký học một học phần ngoại ngữ khác từ đầu, tuy nhiên em cân nhắc việc thay đổi này vì có thể dẫn tới chậm tiến độ học tập",
+579,Em muốn chuyển từ tiếng Nhật sang tiếng anh được không ạ,"Em không được chuyển học từ học phần ngoại ngữ này sang học phần ngoại ngữ khác nhưng em có thể chờ tân sinh viên nhập học để đăng ký học một học phần ngoại ngữ khác từ đầu, tuy nhiên em cân nhắc việc thay đổi này vì có thể dẫn tới chậm tiến độ học tập",
+580,Em muốn chuyển từ tiếng anh sang tiếng nhật được không ạ,"Em không được chuyển học từ học phần ngoại ngữ này sang học phần ngoại ngữ khác nhưng em có thể chờ tân sinh viên nhập học để đăng ký học một học phần ngoại ngữ khác từ đầu, tuy nhiên em cân nhắc việc thay đổi này vì có thể dẫn tới chậm tiến độ học tập",
+581,Em quên mật khẩu email thì làm thế nào ạ,"Để xin cấp lại mật khẩu email em liên hệ với thầy Duy theo số zalo: 0988229944. Em cần cung cấp các thông tin sau cho thầy: Mã sinh viên, Họ và tên, Lớp, số điện thoại hiện tại",
+582,Em không đăng nhập được email,"Em liên hệ với thầy Duy theo số zalo: 0988229944. Em cần cung cấp các thông tin sau cho thầy: Mã sinh viên, Họ và tên, Lớp, số điện thoại hiện tại",
+583,Em không cài đặt được SEB,Em có thể mang máy đến phòng 105 nhà C6 để xin hỗ trợ cài đặt trực tiếp trên máy hoặc xin hỗ trợ trên nhóm zalo LMS - Hỗ trợ sinh viên,
+584,Em quên mật khẩu vào đăng ký tín chỉ thì làm thế nào ạ,Em liên hệ với giáo viên chủ nhiệm của mình để được reset lại tài khoản,
+585,Em muốn tham gia nghiên cứu khoa học thì làm thế nào ạ,Em liên hệ với giáo viên chủ nhiệm của mình để được hướng dẫn chi tiết,
+586,Điều kiện để đi thực tập tốt nghiệp là gì ạ,File quy định về thực tập tốt nghiệp,
+587,Điều kiện để làm khóa luận là gì ạ,File quy định về khóa luận/ đồ án tốt nghiệp,
+588,Điều kiện để làm đồ án là gì ạ,File quy định về khóa luận/ đồ án tốt nghiệp,
+589,Nếu em không đủ điều kiện để làm đồ án hoặc khóa luận thì em làm thế nào ạ,"Em có thể học các học phần thay thế, khi nhà trường có kế hoạch triển khai, giáo viên chủ nhiêm sẽ có thông báo và hướng dẫn cụ thể trên nhóm zalo lớp",
+590,Em có được tự giới thiệu cơ sở thực tập không ạ,Em cần chờ thông báo triển khai của giáo viên chủ nhiệm trên nhóm zalo lớp để được hướng dẫn,
+591,Em có được nhận giáo viên hướng dẫn không ạ,Em cần chờ thông báo triển khai của giáo viên chủ nhiệm trên nhóm zalo lớp để được hướng dẫn,
+592,"Em thuộc hộ nghèo, cận nghèo thì làm hồ sơ miễn giảm học phí như nào ạ",File quy định về chế độ chính sách cho sinh viên,
+593,Em thuộc vùng đặc biệt khó khăn thì làm hồ sơ miễn giảm học phí như nào ạ,File quy định về chế độ chính sách cho sinh viên,
+594,Em bị khuyết tật thì có được miễn thể chất không ạ,"Em cần có giấy chứng nhận hoặc giấy tờ liên quan tới việc em bị khuyết tật để làm đơn xin miễn giảm học phần thể chất. Em vào link sau để lấy mẫu đơn Xin miễn học phần thể chất rồi nộp cho giáo viên chủ nhiệm tại phòng 106 nhà C1
+ https://ictu.edu.vn/cac-bieu-mau-thuong-dung-12/",
+595,Bố mẹ em bị mất do tai nạn lao động thì em có được miễn giảm học phí không ạ,File quy định về chế độ chính sách cho sinh viên,
+596,Thời hạn nộp hồ sơ chế độ chính sách là bao giờ ạ,Em theo dõi thông báo về thờ hạn nộp các thủ tục này trên nhóm zalo chế độ chính sách hoặc Thông báo của giáo viên chủ nhiệm trên nhóm zalo lớp khi có các đợt thu,
+597,"Em bị ốm, tai nạn nằm viện em xin làm thanh toán bảo hiểm thân thể thế nào ạ",Em liên hệ với giáo viên chủ nhiệm để được hướng dẫn cụ thể nhé,
+598,Em muốn xin số điện thoại của thầy..,Em liên hệ với giáo viên chủ nhiệm để được hướng dẫn cụ thể nhé,
+599,Em muốn xin số điện thoại của cô..,Em liên hệ với giáo viên chủ nhiệm để được hướng dẫn cụ thể nhé,
+600,Cách tính điểm hoạt động ngoại khóa,File quy định về điểm hoạt động ngoại khóa,
+601,Em muốn xin Chuyển điểm tương đương,Em đến phòng 109 nhà C1( phòng Đào tạo) để làm đơn và nộp đơn,
+602,Như thế nào thì bị cảnh báo học tập ạ,"Cảnh báo học tập là hình thức cảnh báo cho sinh viên về kết quả học tập yếu kém của bản thân. Tại thời điểm tiến hành xử lý học tập của một học kỳ, sinh viên nào vi phạm một trong các quy định sau sẽ bị cảnh báo học tập:
+ - Không tích lũy đạt số tín chỉ tối thiểu do trường qui định cho khóa-ngành đào tạo;
+ - Có điểm trung bình chung học kỳ (ĐTBCHK) dưới 0,8 trong học kỳ đầu hoặc đạt dưới 1,00 với học kỳ tiếp theo hoặc đạt dưới 1,10 đối với hai học kỳ liên tiếp (theo thang điểm 4);
+ - Có điểm trung bình chung tích luỹ (ĐTBCTL) đạt dưới 1,2 đối với sinh viên năm thứ nhất; dưới 1,40 đối với sinh viên năm thứ hai; dưới 1,60 đối với sinh viên năm thứ ba hoặc dưới 1,80 đối với sinh viên các năm tiếp theo.",
+603,Em muốn học hai chương trình đào tạo,File quy định về học 2 chương trình đào tạo cùng lúc,
+604,Em muốn ở ký túc xá thì liên hệ với ai ạ,Em liên hệ với Ban quản lý ký túc xá: chị Dung SĐT: 0913019067,
+605,Điều kiện để miễn giáo dục quốc phòng,"Có 3 đối tượng được miễn học môn học giáo dục quốc phòng và an ninh gồm: Học sinh, sinh viên có giấy chứng nhận sĩ quan dự bị hoặc bằng tốt nghiệp do các trường quân đội, công an cấp; Học sinh, sinh viên đã có chứng chỉ giáo dục quốc phòng và an ninh tương ứng với trình độ đào tạo; Học sinh, sinh viên là người nước ngoài.
+ Đối tượng được miễn học, miễn thi học phần, nội dung trong chương trình giáo dục quốc phòng và an ninh, gồm: học sinh, sinh viên có giấy xác nhận kết quả học tập các học phần, nội dung đó đạt từ 5 điểm trở lên theo thang điểm 10.
+ Đối tượng được miễn học, các nội dung thực hành kỹ năng quân sự là các trường hợp sau: Học sinh, sinh viên là người khuyết tật, có giấy xác nhận khuyết tật theo quy định của pháp luật về người khuyết tật; Học sinh, sinh viên không đủ sức khoẻ về thể lực hoặc mắc những bệnh lý thuộc diện miễn làm nghĩa vụ quân sự theo quy định hiện hành; Học sinh, sinh viên đã hoàn thành nghĩa vụ quân sự, công an nhân dân.",
+606,Vi phạm quy chế thi,Em tham khảo Quy định xét kỷ luật sinh viên,
+607,"Điều kiện để được bằng giỏi, xuất sắc","1. Bằng tốt nghiệp đại học, cao đẳng được cấp theo ngành đào tạo chính (đơn ngành hoặc song ngành). Hạng tốt nghiệp được xác định theo điểm trung bình chung tích lũy của toàn khoá học, như sau: 
+ a) Loại xuất sắc: Điểm trung bình chung tích lũy từ 3,60 đến 4,00;
+ b) Loại giỏi: Điểm trung bình chung tích lũy từ 3,20 đến 3,59;
+ c) Loại khá: Điểm trung bình chung tích lũy từ 2,50 đến 3,19;
+ d) Loại trung bình: Điểm trung bình chung tích lũy từ 2,00 đến 2,49.
+ 2. Hạng tốt nghiệp của những sinh viên có kết quả học tập toàn khoá loại xuất sắc và giỏi sẽ bị giảm đi một mức, nếu rơi vào một trong các trường hợp sau:
+ a) Có khối lượng của các học phần phải thi lại vượt quá 5% so với tổng số tín chỉ quy định cho toàn chương trình;
+ b) Đã bị kỷ luật từ mức cảnh cáo trở lên trong thời gian học.",
+608,Em muốn xin giờ ra vào lớp,"Em có thể đăng nhập vào tài khoản đăng ký tín chỉ rồi vào mục Trang chủ, ở góc dưới bên trái của trang có Quy định giờ ra vào lớp học",
+609,Em đã nộp bảo hiểm y tế nhưng chưa nhận được thẻ bảo hiểm,"Bảo hiểm xã hội không in thẻ bảo hiểm y tế nữa, em dùng căn cước công dân để thay cho thẻ bảo hiểm y tế",
+610,Em muốn xin cấp bản sao bằng tốt nghiệp,"Em vào link sau và tải mẫu Đơn xin cấp bản sao bằng tốt nghiệp và nộp tại phòng 106 nhà C1( Bộ phận một cửa) 
+ https://ictu.edu.vn/cac-bieu-mau-thuong-dung-12/",
+611,Em muốn hỏi điều kiện và thủ tục xin chuyển trường,"1. Sinh viên được xét chuyển trường nếu có các điều kiện sau đây:
+ a) Trong thời gian học tập, nếu gia đình chuyển nơi cư trú hoặc sinh viên có hoàn cảnh khó khăn, cần thiết phải chuyển đến trường gần nơi cư trú của gia đình để thuận lợi trong học tập;
+ b) Xin chuyển đến trường có cùng ngành hoặc thuộc cùng nhóm ngành với ngành đào tạo mà sinh viên đang học;
+ c) Được sự đồng ý của Hiệu trưởng trường xin chuyển đi và trường xin chuyển đến;
+ d) Không thuộc một trong các trường hợp không được phép chuyển trường quy định tại khoản 2 Điều này.
+ 2. Sinh viên không được phép chuyển trường trong các trường hợp sau:
+ a) Sinh viên đã tham dự kỳ thi tuyển sinh theo đề thi chung, nhưng không trúng tuyển vào trường hoặc có kết quả thi thấp hơn điểm trúng tuyển của trường xin chuyển đến;
+ b) Sinh viên thuộc diện nằm ngoài vùng tuyển quy định của trường xin chuyển đến;
+ c) Sinh viên năm thứ nhất và năm cuối khóa;
+ d) Sinh viên đang trong thời gian bị kỷ luật từ cảnh cáo trở lên.
+ 3. Thủ tục chuyển trường:
+ a) Sinh viên xin chuyển trường phải làm hồ sơ xin chuyển trường theo quy định của nhà trường;
+ b) Hiệu trưởng trường có sinh viên xin chuyển đến quyết định tiếp nhận hoặc không tiếp nhận; quyết định việc học tập tiếp tục của sinh viên, công nhận các học phần mà sinh viên chuyển đến được chuyển đổi kết quả và số học phần phải học bổ sung, trên cơ sở so sánh chương trình ở trường sinh viên xin chuyển đi và trường xin chuyển đến.",
+612,trường itcu ở đâu vậy,"Trường Đại học Công nghệ Thông tin và Truyền thông (ICTU) có địa chỉ tại Phường Quyết Thắng, Thành phố Thái Nguyên, Tỉnh Thái Nguyên.",
+613,rượt điều kiện khóa luận thì phải làm gì tiếp,Em chờ thông báo từ GVCN về việc học học phần thay thế.,
+614,không được xét làm khóa luận có phải đăng ký môn khác không,Em sẽ học các học phần thay thế theo hướng dẫn của GVCN.,
+615,nếu không đủ chuẩn làm đồ án thì học sao cho kịp,"Khi nhà trường triển khai, GVCN sẽ thông báo để em đăng ký học phần thay thế.",
+616,em tự tìm chỗ thực tập có được duyệt không,Em cần chờ thông báo triển khai của GVCN trên nhóm Zalo lớp để được hướng dẫn.,
+617,có được giới thiệu công ty thực tập mình quen không,Em chờ GVCN thông báo kế hoạch thực tập để làm theo hướng dẫn.,
+618,em tự đề xuất nơi thực tập có ổn không,Em cần đợi thông báo chính thức từ GVCN.,
+619,muốn đăng ký cơ sở thực tập sớm thì làm thế nào,Em theo dõi thông báo của GVCN trên nhóm Zalo lớp.,
+620,có được nhờ người quen nhận thực tập không,Em chờ hướng dẫn của GVCN khi trường triển khai.,
+621,em có thể chọn chỗ thực tập theo ý mình không,Em cần đợi GVCN hướng dẫn cụ thể.,
+622,bao giờ thì được phân giáo viên hướng dẫn,Em chờ thông báo triển khai của GVCN trên nhóm Zalo lớp.,
+623,muốn đăng ký giảng viên hướng dẫn sớm được không,Em cần đợi kế hoạch và hướng dẫn của GVCN.,
+624,khi nào trường cho nhận GVHD,Em theo dõi thông báo từ GVCN.,
+625,em có được tự chọn giáo viên hướng dẫn không,Em cần chờ thông báo chính thức của GVCN.,
+626,hộ nghèo thì làm thủ tục miễn giảm sao cho đúng,Em xem File quy định về chế độ chính sách cho sinh viên.,
+627,bị khuyết tật có phải học thể chất không,Em cần có giấy chứng nhận khuyết tật để làm đơn xin miễn học phần thể chất.,
+628,Ictu ra đời năm nào,30/3/2011 thành lập Trường Đại học Công nghệ Thông tin và Truyền thông trên cơ sở nâng cấp Khoa Công nghệ thông tin trực thuộc Đại học Thái Nguyên.,
+629,Ictu ai là người đứng đầu,hiện tại hiệu trưởng trường ICTU là thầy Phùng Trung Nghĩa,
+630,ictu có diều hòa không,"có , điều hòa được trang bị hầu hết ở các phòng học trong mỗi giảng đường",
+631,iBot có bị tắt vào buổi tối không?,Không 😊 iBot luôn online.,
+632,iBot có trả lời nhanh mọi thời điểm không?,Có 👍 Tốc độ trả lời ổn định mọi thời điểm.,
+633,iBot có trực liên tục không?,Có ✅ iBot trực liên tục 24/7.,
+634,iBot có nghỉ vào giờ khuya không?,"Không, iBot vẫn hỗ trợ lúc khuya.",
+635,iBot có thể hỗ trợ bất kỳ thời gian nào khi tao rảnh không?,Có 😊 iBot hỗ trợ bạn mọi lúc.,
+636,iBot có hoạt động cả ngày không?,"Có, iBot hoạt động xuyên suốt cả ngày.",
+637,iBot có hoạt động cả tuần không?,Có 👍 iBot hoạt động suốt 7 ngày/tuần.,
+638,iBot có nghỉ ngày nào không?,Không ⏰ iBot không có ngày nghỉ.,
+639,iBot có bị gián đoạn thời gian trả lời không?,Không 😊 iBot hoạt động ổn định.,
+640,iBot có sẵn sàng hỗ trợ mọi lúc không?,Có ✅ iBot luôn sẵn sàng hỗ trợ bạn.,
+641,iBot có thể hỗ trợ bất kỳ thời gian nào không?,Có ✅ iBot luôn sẵn sàng hỗ trợ bạn.,
+642,hiệu trưởng là ai,PGS. TS Phùng Trung Nghĩa,
+643,vậy còn hiệu phó là ai,TS Đỗ Đình Cường,
+644,phó hiệu trưởng là ai,TS Đỗ Đình Cường,
+645,trường có mấy khoa,"hiện tại trường có 4 khoa :CNTT, NT&TT, KTQT, KT&CN",
+646,trường có dạy bóng đá không,"có, hiện tại trường có đào tạo bóng đá 1 (2 tín chỉ) và bóng đá 2 (2 tín chỉ)",
+647,các cách nào để kiếm điểm ngoại khóa ,"có rất nhiều cách để kiếm điểm ngoại khóa vd: tham gia đại hội , các hoạt động do trường tổ chức , cổ vũ bóng đá , tham gia SHL .....",
+648,IBOT có miễn phí cho sinh viên không?,"có,ibot miễn phí cho toàn bộ sv và người dùng",
+649,Chỉ tiêu tuyển sinh của ngành cntt là bao nhiêu?,"Để trả lời chính xác, mình cần bạn cho biết năm tuyển sinh bạn quan tâm.
+Ví dụ: —
+
+Chỉ tiêu năm 2025: … (nêu số liệu + nguồn/đường dẫn chính thức)
+
+Chỉ tiêu năm 2024: … (nêu số liệu + nguồn/đường dẫn chính thức)
+
+Chỉ tiêu năm 2023: … (nêu số liệu + nguồn/đường dẫn chính thức)
+
+Nếu bạn không biết rõ năm, bạn hãy nói rõ là “chỉ tiêu năm nào” để mình kiểm tra đúng dữ liệu.”",
+650,Điểm chuẩn các năm trước của ngành cntt là bao nhiêu?,"Xin lỗi mình không có dữ liệu chỉ tiêu từng năm cho ngành CNTT trong hệ thống hiện tại.
+Bạn vui lòng cho mình biết năm bạn cần tra cứu để mình tìm nguồn chính xác.
+Hoặc bạn có thể kiểm tra trực tiếp tại trang tuyển sinh chính thức của trường:",
+651,Thời gian bắt đầu và kết thúc nhận hồ sơ xét tuyển?,"Bạn yên tâm nhé 😊
+Thời gian nhận hồ sơ xét tuyển thường thay đổi theo từng năm và từng đợt, nên hiện tại mình cần biết bạn đang quan tâm đến năm tuyển sinh nào.
+
+Thông thường, nhà trường sẽ có:
+
+Đợt nhận hồ sơ sớm
+
+Đợt chính thức
+
+Có thể có đợt bổ sung (nếu còn chỉ tiêu)
+
+Để không bị lỡ hạn, bạn nên theo dõi mục Tuyển sinh / Thông báo tuyển sinh trên website chính thức của trường.
+Nếu bạn cho mình biết năm tuyển sinh hoặc phương thức xét tuyển (thi tốt nghiệp, học bạ…), mình sẽ hỗ trợ kiểm tra chi tiết hơn cho bạn nhé 🌟",
+652,Cơ hội việc làm của ngành cntt sau khi ra trường?,"Bạn có thể yên tâm phần nào nhé 😊
+Ngành Công nghệ thông tin hiện nay có nhu cầu nhân lực khá lớn, nên cơ hội việc làm sau khi ra trường nhìn chung là tương đối tốt.
+
+Sinh viên CNTT sau khi tốt nghiệp có thể làm việc ở nhiều vị trí khác nhau như:
+
+Lập trình viên phần mềm, web, ứng dụng
+
+Kỹ sư hệ thống, mạng máy tính
+
+Phân tích dữ liệu, trí tuệ nhân tạo
+
+Kiểm thử phần mềm, hỗ trợ kỹ thuật…
+
+Tuy nhiên, cơ hội việc làm còn phụ thuộc vào:
+
+Năng lực và kỹ năng cá nhân
+
+Khả năng tự học, thực hành
+
+Trình độ ngoại ngữ và kỹ năng mềm
+
+Nếu bạn chủ động rèn luyện trong quá trình học thì khả năng tìm được việc làm phù hợp sau khi ra trường là khá khả quan.
+Nếu bạn muốn, mình có thể tư vấn thêm về định hướng nghề nghiệp hoặc kỹ năng cần chuẩn bị từ sớm cho ngành CNTT nhé 🌱",
+653,Học phí dự kiến cho khóa tuyển sinh mới là bao nhiêu?,"Bạn yên tâm nhé 😊
+Học phí dự kiến cho khóa tuyển sinh mới thường được nhà trường công bố trong Thông báo tuyển sinh/Quy định học phí trước khi kỳ học bắt đầu.
+
+Vì học phí có thể thay đổi tùy theo chương trình học và năm học, nên để trả lời chính xác, mình cần bạn cho biết: khóa tuyển sinh bạn đang quan tâm là năm nào?
+
+Ví dụ:
+
+Học phí dự kiến khóa 2025: … (nếu có số liệu & nguồn công bố chính thức)
+
+Học phí dự kiến khóa 2024: …
+
+Nếu bạn chưa rõ khóa, bạn có thể kiểm tra Thông báo học phí trên trang tuyển sinh chính thức của trường, hoặc gửi mình năm bạn muốn tra cứu nhé 🌟",
+654,Trường có ký túc xá cho tân sinh viên không?,"Bạn hỏi rất chuẩn luôn — ai mà không muốn ký túc xá xanh – sạch – đẹp cơ chứ 😊
+
+Hiện tại, ký túc xá là một phần dịch vụ thường có ở nhiều trường, và thường dành cho tân sinh viên trong các năm đầu học.
+
+Nếu bạn cần, mình cũng có thể hỗ trợ cách tham quan/tra cứu hình ảnh kí túc xá nữa nhé",
+655,Khi nào bắt đầu đăng ký tín chỉ kỳ này cho k22?,"Bạn hỏi rất thực tế 😊
+Thời gian đăng ký tín chỉ thường được nhà trường công bố trong Lịch học/Thông báo học vụ cho từng kỳ của khóa K22.
+
+Vì vậy, mình cần bạn cho biết: kỳ học nào (ví dụ: kỳ 1, kỳ 2…) và năm học hiện tại để tra đúng lịch.
+
+Thông thường:
+
+Đợt đăng ký tín chỉ sẽ mở trước khi bắt đầu học kỳ vài tuần,
+
+Có khoảng thời gian đăng ký và chỉnh sửa trước khi khóa học chính thức bắt đầu,
+
+Và sẽ có nhắc nhở trong cổng/sinh viên email khi đến hạn.
+
+Nếu bạn bật cho mình kỳ học và năm học, mình sẽ kiểm tra thời gian chính xác cho bạn nhé 😊",
+656,Học phí kỳ này là bao nhiêu 1 tín chỉ?,"Bạn yên tâm nhé 😊
+Học phí theo tín chỉ mỗi kỳ thường được nhà trường công bố trong Quy định học phí cho từng năm học/kỳ.
+
+Vì mỗi chương trình đào tạo và mỗi năm học có thể có mức khác nhau, mình cần biết bạn đang hỏi kỳ nào và năm học nào để kiểm tra con số chính xác.",
+657,Số tài khoản ngân hàng chính thức của nhà trường?,"Câu hỏi này rất quan trọng, bạn hỏi vậy là đúng rồi 👍
+
+Đối với Trường Đại học Công nghệ Thông tin và Truyền thông – ĐH Thái Nguyên, số tài khoản ngân hàng để nộp học phí chỉ được công bố trong các thông báo chính thức của nhà trường (ví dụ: Thông báo nộp học phí theo từng học kỳ).
+
+Vì đây là thông tin liên quan đến tài chính, mình không thể cung cấp số tài khoản nếu không trích dẫn trực tiếp từ văn bản công bố chính thức.
+
+Bạn vui lòng kiểm tra:
+
+Thông báo nộp học phí trên website ICTU
+
+Cổng thông tin sinh viên
+
+Hoặc liên hệ Phòng Tài chính – Kế toán của trường để được xác nhận chính xác
+
+Làm vậy sẽ giúp bạn tránh nhầm lẫn và đảm bảo nộp đúng tài khoản của nhà trường nhé",
+658,Thủ tục xin miễn giảm học phí cho đối tượng chính sách?,"
+Tại ICTU, sinh viên thuộc đối tượng chính sách có thể làm thủ tục xin miễn hoặc giảm học phí theo quy định hiện hành của Nhà nước và của nhà trường.
+
+Thông thường, thủ tục sẽ gồm các bước:
+
+Xác định bạn thuộc đối tượng chính sách theo quy định
+
+Chuẩn bị giấy tờ minh chứng hợp lệ (bản sao có xác nhận)
+
+Nộp hồ sơ theo hướng dẫn của Phòng Công tác Sinh viên hoặc theo thông báo từng học kỳ
+
+Chờ xét duyệt và thông báo kết quả
+
+Vì mỗi năm học có thể có thời hạn và biểu mẫu khác nhau, bạn nên theo dõi:
+
+Mục Thông báo sinh viên / Chính sách sinh viên trên website ICTU
+
+Hoặc liên hệ trực tiếp Phòng Công tác Sinh viên để được hướng dẫn chi tiết
+
+Nếu bạn muốn, mình có thể giúp bạn kiểm tra đối tượng của bạn có thuộc diện được miễn giảm hay không nhé 🌱",
+659,Trường có hỗ trợ vay vốn sinh viên không?,"
+Sinh viên Trường Đại học Công nghệ Thông tin và Truyền thông – ĐH Thái Nguyên hiện nay có thể được hỗ trợ vay vốn sinh viên theo các chương trình vay vốn ưu đãi dành cho sinh viên.
+
+Nhà trường thường xác nhận tình trạng sinh viên đang học để bạn hoàn thiện hồ sơ vay vốn theo quy định.
+
+Để biết chi tiết về:
+
+Điều kiện vay
+
+Thủ tục xác nhận
+
+Thời gian tiếp nhận hồ sơ
+
+Bạn nên theo dõi thông báo hoặc liên hệ Phòng Công tác Sinh viên của trường để được hướng dẫn cụ thể cho trường hợp của mình.
+
+Nếu bạn đang gặp khó khăn về tài chính trong quá trình học, cứ yên tâm trao đổi thêm, mình sẽ cố gắng hỗ trợ thông tin cho bạn nhé 🌱",
+660,Sơ đồ các giảng đường/phòng học?,"Câu này rất hữu ích cho sinh viên, nhất là khi mới vào trường đó 😊
+
+Sơ đồ các giảng đường và phòng học của ICTU thường được:
+
+Niêm yết trực tiếp tại khu vực giảng đường
+
+Hoặc đăng trong các thông báo/hướng dẫn dành cho sinh viên
+
+Hiện tại, mình chưa có sơ đồ chi tiết từng giảng đường trong hệ thống chat.
+Để xem chính xác, bạn có thể:
+
+Theo dõi thông tin tại khuôn viên trường
+
+Hỏi trực tiếp giảng viên, cố vấn học tập hoặc Phòng Công tác Sinh viên
+
+Hoặc xem hướng dẫn dành cho tân sinh viên (nếu có)
+
+Nếu bạn đang cần tìm một giảng đường hoặc phòng học cụ thể, bạn cứ nói tên phòng (ví dụ: giảng đường A, phòng máy…), mình sẽ hướng dẫn cách tìm dễ nhất nhé 👍",
+661,Canteen trường nằm ở khu vực nào?,"Hiện nay, Trường Đại học Công nghệ Thông tin và Truyền thông – ĐH Thái Nguyên có canteen phục vụ cho thầy cô và các bạn sinh viên, đáp ứng nhu cầu ăn uống và sinh hoạt hàng ngày trong khuôn viên trường 😊
+
+Canteen là khu vực sinh hoạt chung, thuận tiện cho việc học tập và nghỉ ngơi của sinh viên.
+
+Khi đến trường, bạn có thể dễ dàng hỏi:
+
+Thầy cô
+
+Các bạn sinh viên khóa trên
+
+Hoặc xem hướng dẫn tại khuôn viên trường
+
+Nếu bạn là tân sinh viên, đừng quá lo lắng nhé, mọi người trong trường đều rất sẵn sàng chỉ dẫn cho bạn 👍",
+662,"Mình quên mật khẩu trang đăng ký tín chỉ rồi, reset kiểu gì?","Bạn yên tâm nhé 😊
+Nếu bạn quên mật khẩu trang đăng ký tín chỉ, bạn có thể tự đặt lại rất dễ theo các bước sau:
+
+Bước 1: Truy cập vào trang đăng ký tín chỉ
+Bước 2: Nhấn vào nút “Quên mật khẩu”
+Bước 3: Nhập tên đăng nhập và địa chỉ email đã đăng ký
+Bước 4: Nhấn nút “Gửi đi”
+
+Sau đó, hệ thống sẽ gửi mật khẩu về địa chỉ email bạn đã đăng ký.
+Bạn vui lòng kiểm tra cả hộp thư đến và thư rác (spam) nhé 📩
+
+Nếu bạn không nhận được email hoặc email đã đăng ký không còn sử dụng, bạn nên liên hệ bộ phận hỗ trợ/Phòng Công tác Sinh viên để được hỗ trợ thêm",
+663,Tài khoản LMS của mình không đăng nhập được?,"Mình hiểu cảm giác này khá bất tiện đó 😥, bạn cứ yên tâm nhé.
+Việc không đăng nhập được tài khoản LMS thường xuất phát từ một trong các nguyên nhân sau:
+
+🔹 Quên mật khẩu
+🔹 Nhập sai tên đăng nhập hoặc mật khẩu
+🔹 Tài khoản chưa được kích hoạt hoặc bị tạm khóa
+🔹 Hệ thống LMS đang bảo trì hoặc gặp lỗi kỹ thuật
+
+Bạn cho mình biết thêm một chút nhé:
+👉 Bạn không đăng nhập được vì quên mật khẩu, hay
+👉 Bạn đã nhập đúng nhưng hệ thống vẫn báo lỗi?
+
+Nếu là quên mật khẩu, bạn có thể thử sử dụng chức năng “Quên mật khẩu” trên trang LMS để đặt lại.
+Còn nếu bạn đã thử nhiều lần nhưng vẫn không vào được, rất có thể là do lỗi hệ thống hoặc tài khoản, khi đó bạn nên liên hệ bộ phận hỗ trợ LMS / Phòng Công tác Sinh viên để được kiểm tra giúp.
+
+Bạn mô tả thêm tình trạng bạn đang gặp phải, mình sẽ hỗ trợ bạn kỹ hơn nhé 😊",
+664,Cách nộp bài tập lớn online trên hệ thống?,"Bạn lưu ý giúp mình một chút nhé 😊
+Hiện tại, hệ thống LMS của Trường Đại học Công nghệ Thông tin và Truyền thông – ĐH Thái Nguyên chỉ được sử dụng để làm bài kiểm tra/quiz, không hỗ trợ nộp bài tập lớn.
+
+Việc nộp bài tập lớn thường sẽ được giảng viên hướng dẫn theo hình thức khác, ví dụ như:
+
+Nộp qua email
+
+Nộp qua Google Drive/Google Classroom
+
+Hoặc nộp trực tiếp theo yêu cầu của giảng viên
+
+Vì mỗi môn học có thể có cách nộp bài khác nhau, bạn nên:
+
+Xem kỹ thông báo của giảng viên
+
+Hoặc liên hệ trực tiếp với giảng viên phụ trách môn học để nộp đúng yêu cầu
+
+Nếu bạn chưa rõ hình thức nộp của môn học mình đang học, cứ hỏi lại giảng viên để tránh bị nhầm nhé 👍",
+665,Thủ tục thuê lễ phục tốt nghiệp?,"Chúc mừng bạn sắp tốt nghiệp nhé 🎉
+
+Việc thuê lễ phục tốt nghiệp tại ICTU thường được nhà trường tổ chức và thông báo trước thời gian diễn ra lễ tốt nghiệp.
+
+Thông thường, thủ tục sẽ gồm:
+
+Theo dõi thông báo về lễ tốt nghiệp trên website hoặc các kênh chính thức của trường
+
+Đăng ký thuê lễ phục theo hướng dẫn (trực tiếp hoặc theo danh sách lớp/khoa)
+
+Nhận lễ phục đúng thời gian và địa điểm được thông báo
+
+Vì mỗi đợt tốt nghiệp có thể có thời gian, hình thức và quy định khác nhau, bạn nên:
+
+Theo dõi thông báo của Phòng Công tác Sinh viên
+
+Hoặc liên hệ trực tiếp để được hướng dẫn cụ thể cho đợt tốt nghiệp của mình
+
+Bạn cứ yên tâm nhé, nhà trường sẽ có thông báo rất rõ ràng trước ngày tổ chức lễ để các bạn chuẩn bị đầy đủ 🌱",
+666,Sau khi tốt nghiệp bao lâu thì lấy được bằng gốc?,"Sau khi sinh viên hoàn thành các điều kiện tốt nghiệp, nhà trường sẽ tiến hành xét và cấp bằng theo quy định.
+
+Thời gian nhận bằng tốt nghiệp gốc thường không giống nhau giữa các đợt, phụ thuộc vào kế hoạch xét tốt nghiệp và in bằng của từng năm.
+
+Khi có thông báo chính thức, nhà trường sẽ thông tin cụ thể về thời gian và địa điểm nhận bằng.
+Bạn nên theo dõi thông báo hoặc liên hệ Phòng Đào tạo để được cập nhật chính xác nhé 😊",
+667,Sân bóng của trường có thu phí sinh viên không?,"Hiện nay, sân bóng của trường được miễn phí đối với các buổi học thể chất theo kế hoạch đào tạo.
+
+Trường hợp sinh viên có nhu cầu thuê sân để tổ chức giao lưu, thi đấu hoặc hoạt động ngoài giờ học, có thể sẽ tính phí thuê theo quy định.
+
+Bạn nên liên hệ bộ phận quản lý cơ sở vật chất hoặc hỏi trực tiếp tại sân để biết chi tiết mức phí (nếu có) nhé 👍",
+668,Gửi xe máy qua đêm ở trường được không?,"Hiện tại, thông tin về việc gửi xe máy qua đêm trong khuôn viên trường chưa được công bố rõ ràng.
+
+Nếu bạn có nhu cầu gửi xe qua đêm, bạn nên liên hệ trực tiếp với bộ phận bảo vệ của trường để được hướng dẫn và xác nhận cụ thể nhé 😊",
+669,Xem bảng điểm rèn luyện của mình ở đâu?,"Bảng điểm rèn luyện của sinh viên thường sẽ được thầy/cô chủ nhiệm (cố vấn học tập) tổng hợp và gửi cho sinh viên vào cuối mỗi học kỳ.
+
+Nếu bạn chưa nhận được hoặc cần kiểm tra lại, bạn có thể liên hệ trực tiếp với thầy/cô chủ nhiệm để được hỗ trợ nhé 👍",
+670,Xin giấy xác nhận vay vốn ngân hàng chính sách xã hội?,"Sinh viên có nhu cầu vay vốn tại Ngân hàng Chính sách Xã hội cần xin giấy xác nhận đang học tại trường.
+
+Bạn nên liên hệ Phòng Công tác Sinh viên để được hướng dẫn thủ tục và thời gian cấp giấy xác nhận theo quy định nhé 😊",
+671,Thủ tục chuyển sinh hoạt Đảng về trường?,"Để chuyển sinh hoạt Đảng về trường, bạn cần thực hiện theo hướng dẫn của Chi bộ/Đảng bộ nơi đang sinh hoạt và làm thủ tục tiếp nhận tại trường.
+
+Bạn nên liên hệ trực tiếp với tổ chức Đảng tại trường hoặc Phòng Công tác Sinh viên để được hướng dẫn chi tiết từng bước nhé.",
+672,Thẻ BHYT của trường khám được ở những bệnh viện nào?,"Thẻ BHYT sinh viên có thể sử dụng để khám chữa bệnh tại tất cả các cơ sở y tế theo quy định của Bảo hiểm Y tế.
+
+Tuy nhiên, để được hưởng đúng quyền lợi và mức chi trả cao nhất, bạn nên khám chữa bệnh đúng nơi đăng ký ban đầu hoặc theo tuyến chuyển viện hợp lệ nhé 😊",
+673,Mình muốn xin hỗ trợ thiết bị học tập cho sinh viên khiếm thị?,"Hiện tại, thông tin về chính sách hỗ trợ thiết bị học tập cho sinh viên khiếm thị chưa được công bố cụ thể.
+
+Bạn nên liên hệ trực tiếp Phòng Công tác Sinh viên để được tư vấn và xem xét hỗ trợ theo từng trường hợp cụ thể nhé 🌱",
+674,Phạt quá hạn trả sách bao nhiêu tiền một ngày?,"Hiện tại, thư viện không thu phí phạt đối với việc trả sách quá hạn.
+
+Nếu bạn cần biết thêm quy định chi tiết hoặc có trường hợp đặc biệt, bạn có thể liên hệ trực tiếp với thư viện để được giải đáp rõ hơn nhé 😊",
+675,Học song bằng thì thời gian ra trường có bị kéo dài không?,"Việc học song bằng có thể ảnh hưởng đến thời gian hoàn thành chương trình học, tùy thuộc vào:
+
+Khối lượng môn học đăng ký
+
+Khả năng sắp xếp thời gian học tập của sinh viên
+
+Trong một số trường hợp, nếu sinh viên sắp xếp tốt, thời gian ra trường có thể không bị kéo dài.
+
+Bạn nên trao đổi thêm với Phòng Đào tạo hoặc cố vấn học tập để được tư vấn cụ thể cho lộ trình học của mình nhé 👍",
+676,"Điều hòa phòng 302 nhà C5 bị hỏng, báo cho ai?","Khi phát hiện điều hòa phòng học bị hỏng, bạn nên báo với giảng viên chủ nhiệm/cố vấn học tập.
+
+Thầy/cô sẽ hỗ trợ liên hệ với các bộ phận liên quan để xử lý và khắc phục sớm cho bạn nhé 😊",
+677,Lịch nghỉ Tết Nguyên Đán năm nay cụ thể từ ngày nào đến ngày nào?,"Lịch nghỉ Tết Nguyên Đán sẽ khác nhau theo từng năm và được nhà trường thông báo chính thức trước kỳ nghỉ.
+
+Bạn nên theo dõi thông báo của trường để biết chính xác thời gian nghỉ và thời gian học trở lại nhé 🌸",
+678,"Mình bị lừa đảo đa cấp trong trường, phải làm sao?","Trường hợp này rất nghiêm trọng, bạn nên giữ bình tĩnh nhé.
+
+Bạn cần:
+
+Lưu giữ các bằng chứng liên quan
+
+Báo ngay cho Phòng Công tác Sinh viên, Đoàn Thanh niên hoặc bảo vệ nhà trường
+
+Nhà trường sẽ phối hợp để hỗ trợ và xử lý theo quy định nhằm đảm bảo quyền lợi và an toàn cho sinh viên.",
+679,Ký túc xá có giờ giới nghiêm (đóng cửa) lúc mấy giờ?,"Ký túc xá thường có quy định về giờ đóng/mở cửa nhằm đảm bảo an ninh và trật tự chung.
+
+Thời gian cụ thể có thể thay đổi theo từng giai đoạn, bạn nên liên hệ Ban quản lý ký túc xá để biết giờ giới nghiêm chính xác nhé 😊",
+680,"Em ra trường 5 năm rồi, giờ muốn xin lại bảng điểm gốc được không?","Sinh viên đã tốt nghiệp, kể cả sau nhiều năm, vẫn có thể làm thủ tục xin cấp lại bảng điểm theo quy định.
+
+Bạn nên liên hệ Phòng Đào tạo để được hướng dẫn thủ tục và hồ sơ cần thiết nhé 👍",
+681,Tiêu chuẩn để được kết nạp Đảng tại trường là gì?,"Để được xem xét kết nạp Đảng tại trường, trước tiên sinh viên cần tham gia và có chứng nhận hoàn thành lớp học cảm tình Đảng.
+
+Sau đó, việc xét kết nạp sẽ dựa trên:
+
+Quá trình rèn luyện, học tập
+
+Phẩm chất đạo đức
+
+Sự giới thiệu của tổ chức Đảng
+
+Bạn nên liên hệ với tổ chức Đảng tại trường để được hướng dẫn đầy đủ lộ trình và điều kiện nhé.",
+682,"Khu vực quanh trường (Z115, Quyết Thắng...) có hay mất trộm laptop/xe máy không?","Hiện tại, khu vực quanh trường nhìn chung khá đông sinh viên sinh sống và đi lại, nên tình hình an ninh cơ bản ổn định. Tuy nhiên, giống như nhiều khu vực đông người khác, vẫn có thể xảy ra mất trộm lẻ tẻ nếu sinh viên chủ quan trong việc bảo quản tài sản.
+
+Để đảm bảo an toàn, sinh viên nên lưu ý:
+
+Gửi xe đúng nơi quy định, sử dụng khóa cổ và khóa càng đầy đủ.
+
+Không để laptop, điện thoại, ví tiền hớ hênh ở quán ăn, quán nước hoặc trong phòng trọ không khóa cửa.
+
+Tránh để xe qua đêm ở những khu vực vắng, thiếu người trông coi.
+
+Khi có sự cố mất đồ, cần báo ngay cho bảo vệ nhà trường hoặc công an khu vực để được hỗ trợ.",
+683,"tao bị lỗi ,  không vào được đăng ký tín chỉ",Bạn liên hệ Phòng Đào tạo để được hỗ trợ.,
+684,ktx mấy giờ đóng cửa,"Ký túc xá thường có quy định về giờ đóng/mở cửa nhằm đảm bảo an ninh và trật tự chung.
+
+Thời gian cụ thể có thể thay đổi theo từng giai đoạn, bạn nên liên hệ Ban quản lý ký túc xá để biết giờ giới nghiêm chính xác nhé 😊",
+685,mấy giờ ký túc xá đóng cửa,"Ký túc xá thường có quy định về giờ đóng/mở cửa nhằm đảm bảo an ninh và trật tự chung.
+
+Thời gian cụ thể có thể thay đổi theo từng giai đoạn, bạn nên liên hệ Ban quản lý ký túc xá để biết giờ giới nghiêm chính xác nhé 😊",
+686,Quên mật khẩu đăng ký tín chỉ thì khôi phục thế nào?,"Bạn yên tâm nhé 😊
+Nếu bạn quên mật khẩu trang đăng ký tín chỉ, bạn có thể tự đặt lại rất dễ theo các bước sau:
+
+Bước 1: Truy cập vào trang đăng ký tín chỉ
+Bước 2: Nhấn vào nút “Quên mật khẩu”
+Bước 3: Nhập tên đăng nhập và địa chỉ email đã đăng ký
+Bước 4: Nhấn nút “Gửi đi”
+
+Sau đó, hệ thống sẽ gửi mật khẩu về địa chỉ email bạn đã đăng ký.
+Bạn vui lòng kiểm tra cả hộp thư đến và thư rác (spam) nhé 📩
+
+Nếu bạn không nhận được email hoặc email đã đăng ký không còn sử dụng, bạn nên liên hệ bộ phận hỗ trợ/Phòng Công tác Sinh viên để được hỗ trợ thêm",
+687,Không đăng nhập được LMS thì phải làm sao?,"Mình hiểu cảm giác này khá bất tiện đó 😥, bạn cứ yên tâm nhé.
+Việc không đăng nhập được tài khoản LMS thường xuất phát từ một trong các nguyên nhân sau:
+
+🔹 Quên mật khẩu
+🔹 Nhập sai tên đăng nhập hoặc mật khẩu
+🔹 Tài khoản chưa được kích hoạt hoặc bị tạm khóa
+🔹 Hệ thống LMS đang bảo trì hoặc gặp lỗi kỹ thuật
+
+Bạn cho mình biết thêm một chút nhé:
+👉 Bạn không đăng nhập được vì quên mật khẩu, hay
+👉 Bạn đã nhập đúng nhưng hệ thống vẫn báo lỗi?
+
+Nếu là quên mật khẩu, bạn có thể thử sử dụng chức năng “Quên mật khẩu” trên trang LMS để đặt lại.
+Còn nếu bạn đã thử nhiều lần nhưng vẫn không vào được, rất có thể là do lỗi hệ thống hoặc tài khoản, khi đó bạn nên liên hệ bộ phận hỗ trợ LMS / Phòng Công tác Sinh viên để được kiểm tra giúp.
+
+Bạn mô tả thêm tình trạng bạn đang gặp phải, mình sẽ hỗ trợ bạn kỹ hơn nhé 😊",
+688,Thủ tục thuê lễ phục tốt nghiệp gồm những gì?,"Chúc mừng bạn sắp tốt nghiệp nhé 🎉
+
+Việc thuê lễ phục tốt nghiệp tại ICTU thường được nhà trường tổ chức và thông báo trước thời gian diễn ra lễ tốt nghiệp.
+
+Thông thường, thủ tục sẽ gồm:
+
+Theo dõi thông báo về lễ tốt nghiệp trên website hoặc các kênh chính thức của trường
+
+Đăng ký thuê lễ phục theo hướng dẫn (trực tiếp hoặc theo danh sách lớp/khoa)
+
+Nhận lễ phục đúng thời gian và địa điểm được thông báo
+
+Vì mỗi đợt tốt nghiệp có thể có thời gian, hình thức và quy định khác nhau, bạn nên:
+
+Theo dõi thông báo của Phòng Công tác Sinh viên
+
+Hoặc liên hệ trực tiếp để được hướng dẫn cụ thể cho đợt tốt nghiệp của mình
+
+Bạn cứ yên tâm nhé, nhà trường sẽ có thông báo rất rõ ràng trước ngày tổ chức lễ để các bạn chuẩn bị đầy đủ 🌱",
+689,Trường có thu tiền khi sinh viên sử dụng sân bóng không?,"Hiện nay, sân bóng của trường được miễn phí đối với các buổi học thể chất theo kế hoạch đào tạo.
+
+Trường hợp sinh viên có nhu cầu thuê sân để tổ chức giao lưu, thi đấu hoặc hoạt động ngoài giờ học, có thể sẽ tính phí thuê theo quy định.
+
+Bạn nên liên hệ bộ phận quản lý cơ sở vật chất hoặc hỏi trực tiếp tại sân để biết chi tiết mức phí (nếu có) nhé 👍",
+690,Xem điểm rèn luyện cá nhân bằng cách nào?,"
+Bảng điểm rèn luyện của sinh viên thường sẽ được thầy/cô chủ nhiệm (cố vấn học tập) tổng hợp và gửi cho sinh viên vào cuối mỗi học kỳ.
+
+Nếu bạn chưa nhận được hoặc cần kiểm tra lại, bạn có thể liên hệ trực tiếp với thầy/cô chủ nhiệm để được hỗ trợ nhé 👍",
+691,Mức phạt khi trả sách muộn của thư viện là bao nhiêu?,"Hiện tại, thư viện không thu phí phạt đối với việc trả sách quá hạn.
+
+Nếu bạn cần biết thêm quy định chi tiết hoặc có trường hợp đặc biệt, bạn có thể liên hệ trực tiếp với thư viện để được giải đáp rõ hơn nhé 😊",
+692,Thời gian nghỉ Tết Âm lịch năm nay cụ thể ra sao?,"Lịch nghỉ Tết Nguyên Đán sẽ khác nhau theo từng năm và được nhà trường thông báo chính thức trước kỳ nghỉ.
+
+Bạn nên theo dõi thông báo của trường để biết chính xác thời gian nghỉ và thời gian học trở lại nhé 🌸",
+693,Điều kiện để được kết nạp Đảng trong trường gồm những gì?,"Để được xem xét kết nạp Đảng tại trường, trước tiên sinh viên cần tham gia và có chứng nhận hoàn thành lớp học cảm tình Đảng.
+
+Sau đó, việc xét kết nạp sẽ dựa trên:
+
+Quá trình rèn luyện, học tập
+
+Phẩm chất đạo đức
+
+Sự giới thiệu của tổ chức Đảng
+
+Bạn nên liên hệ với tổ chức Đảng tại trường để được hướng dẫn đầy đủ lộ trình và điều kiện nhé.",
+694,Khu ẩm thực sinh viên của trường ở đâu vậy?,"Hiện nay, Trường Đại học Công nghệ Thông tin và Truyền thông – ĐH Thái Nguyên có canteen phục vụ cho thầy cô và các bạn sinh viên, đáp ứng nhu cầu ăn uống và sinh hoạt hàng ngày trong khuôn viên trường 😊
+
+Canteen là khu vực sinh hoạt chung, thuận tiện cho việc học tập và nghỉ ngơi của sinh viên.
+
+Khi đến trường, bạn có thể dễ dàng hỏi:
+
+Thầy cô
+
+Các bạn sinh viên khóa trên
+
+Hoặc xem hướng dẫn tại khuôn viên trường
+
+Nếu bạn là tân sinh viên, đừng quá lo lắng nhé, mọi người trong trường đều rất sẵn sàng chỉ dẫn cho bạn 👍",
+695,Mục tiêu đào tạo chính của trường là về mảng gì?,"Trường chuyên đào tạo nhân lực chất lượng cao về CNTT, truyền thông và kinh tế số.",
+696,Em muốn vào xem thông tin chính thống thì vào web nào?,Bạn truy cập https://ictu.edu.vn/ hoặc trang tuyển sinh https://tuyensinh.ictu.edu.vn/.,
+697,Có số điện thoại nào để gọi hỏi chuyện tuyển sinh không?,Bạn gọi hotline: 0981.33.66.28 hoặc 0981.33.66.29 nhé.,
+698,Địa chỉ chính xác của trường,"Đường Z115, xã Quyết Thắng, TP. Thái Nguyên.",
+699,Trường có bao nhiêu khoa tất cả?,"Trường có 5 khoa chính: CNTT, Kỹ thuật & Công nghệ, Kinh tế & Quản trị, Nghệ thuật & Truyền thông, và Khoa học cơ bản.",
+700,tao không vào được đăng ký tín chỉ,Bạn liên hệ Phòng Đào tạo để được hỗ trợ.,
+701,Chuẩn đầu ra tiếng Anh của  là bao nhiêu?,"có thể thay đổi qua từng năm ,Thường là TOEIC 450 hoặc bậc 3/6 (B1).",
+702,Nếu không đạt chuẩn tiếng Anh có được ra trường không?,"Không, bạn sẽ bị treo bằng cho đến khi nộp đủ chứng chỉ.",
+703,Vào web nào để đăng ký tín chỉ vậy ad?, Bạn truy cập trang Đăng ký học http://dangkytinchi.ictu.edu.vn,
+704,Kỳ hè có bắt buộc phải học không?,"Không bắt buộc, kỳ hè chủ yếu để học vượt hoặc học trả nợ môn.",
+705,Bị điểm F là sao ạ?,"Điểm F là trượt môn (dưới 4.0 điểm), bạn phải đăng ký học lại môn đó.",
+706,Em muốn bảo lưu kết quả học tập để đi làm 1 năm được không?,"Được, bạn nộp đơn xin bảo lưu tại phòng Đào tạo, nhưng phải có lý do chính đáng và được duyệt.",
+707,Phòng máy tính của trường có cài sẵn phần mềm học tập không?,"Có, máy đã cài sẵn VS Code, Visual Studio, Photoshop... và các phần mềm chuyên dụng khác.",
+708,mấy giờ thư viện mở ,"Thư viện thường mở từ 7h30 sáng đến 17h00 chiều, có khu tự học có thể mở muộn hơn.",
+709,Mượn sách thư viện có được mang về nhà không?,"Giáo trình được mượn về nhà, còn sách tham khảo quý hiếm chỉ được đọc tại chỗ.",
+710,Có chỗ nào để ngủ trưa trong trường không?,"Sinh viên thường nghỉ trưa tại các ghế đá, khu giảng đường trống hoặc về KTX.",
+711,Gần trường có cây ATM nào không?,"Có cây ATM của Agribank, Vietinbank... ngay cổng trường hoặc khu vực lân cận.",
+712,Nếu bị mất bằng tốt nghiệp bản chính thì có được cấp lại không?,"Không, chỉ được cấp bản sao từ sổ gốc.",
+713,Sinh viên có điểm thi lại hoặc thi cải thiện trong kỳ thì có được xét học bổng KKHT không?,"Không, chỉ tính điểm thi lần thứ nhất (lần 1).",
+714,"Sinh viên đạt danh hiệu ""Sinh viên 5 tốt"" cấp trường được cộng bao nhiêu điểm rèn luyện?",Thường được cộng từ 10-15 điểm vào mục thành tích.,
+715,Điểm chấm Đồ án/Khóa luận tốt nghiệp của 2 phản biện chênh lệch nhau bao nhiêu thì phải xin ý kiến người thứ 3?,Thường là chênh lệch từ 2.0 điểm trở lên (theo quy định cụ thể của từng trường/khoa).,
+716,Học bổng khuyến khích học tập có được cấp cho thời gian sinh viên bảo lưu không?,Học bổng khuyến khích học tập không được cấp cho thời gian sinh viên bảo lưu,
+717,tao nộp tiền học nhưng nộp thừa tiền thì có rút được không,"Bạn yên tâm nhé , hãy lên - P.106: Bộ phận một cửa (c1) để được hướng dẫn rút tiền .",
+718,"tao còn dư 1 triệu ở web đăng ký tín chỉ ,hãy chỉ tao cách rút",bạn hãy lên - P.106: Bộ phận một cửa (c1) để được hướng dẫn rút tiền nhé .,
+719,Sinh viên rời khỏi phòng học cuối cùng trong ngày có trách nhiệm gì?,"Tắt hết các thiết bị điện, quạt, đèn và đóng cửa sổ, cửa ra vào.",
+720,muốn xin miễn môn thể chất thì cần giấy tờ gì,Em cần giấy xác nhận khuyết tật và tải mẫu đơn xin miễn học phần thể chất trên website ictu.edu.vn.,
+721,làm đơn miễn thể chất nộp ở đâu,Em nộp đơn cho GVCN tại phòng 106 nhà C1.,
+722,khuyết tật thì thủ tục miễn thể chất thế nào,Em tải mẫu đơn xin miễn học phần thể chất trên ictu.edu.vn và nộp tại phòng 106 C1.,
+723,xin miễn môn thể chất cho sinh viên khuyết tật ở đâu,"Em cần giấy tờ liên quan, tải mẫu đơn và nộp cho GVCN tại phòng 106 C1.",
+724,Nếu sinh viên phát hiện bạn cùng phòng KTX dùng ma túy mà không báo cáo thì có bị phạt không?,"Có. Bị xử lý lỗi ""Che giấu, không tố giác hành vi vi phạm pháp luật"".",
+725,Đường dây nóng (Hotline) hỗ trợ sinh viên hoạt động vào thời gian nào?,"Thường hoạt động trong giờ hành chính, một số số điện thoại bảo vệ/y tế trực 24/7.",
+726,Thời gian vào lớp buổi sáng là mấy giờ,Thông thường là bắt đầu từ 6 giờ 45 phút và có thể thay đổi ,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,

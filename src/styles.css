@@ -1,0 +1,217 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* =========================
+   Trợ lý Sinh viên AI
+   Educational SaaS design system
+   ========================= */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-chat-user: var(--chat-user);
+  --color-chat-user-foreground: var(--chat-user-foreground);
+
+  --shadow-soft: 0 1px 2px 0 oklch(0.2 0.05 250 / 0.04), 0 4px 12px -2px oklch(0.2 0.05 250 / 0.06);
+  --shadow-card: 0 2px 6px -1px oklch(0.2 0.05 250 / 0.05), 0 12px 32px -8px oklch(0.2 0.05 250 / 0.08);
+  --shadow-elevated: 0 6px 24px -6px oklch(0.2 0.05 250 / 0.12), 0 24px 64px -16px oklch(0.2 0.05 250 / 0.16);
+
+  --font-sans: "Be Vietnam Pro", "Inter", system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  --radius: 1rem; /* 16px */
+
+  /* Surfaces */
+  --background: oklch(0.985 0.005 240);          /* #F8FAFC */
+  --foreground: oklch(0.18 0.025 260);           /* #111827 */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.025 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.025 260);
+
+  /* Brand: deep university navy #0F4C81 */
+  --primary: oklch(0.42 0.105 247);
+  --primary-foreground: oklch(0.99 0.005 240);
+  --primary-soft: oklch(0.95 0.025 247);
+
+  /* Secondary: bright blue #2563EB */
+  --secondary: oklch(0.585 0.196 264);
+  --secondary-foreground: oklch(0.99 0.005 240);
+
+  /* Accent: amber #F59E0B */
+  --accent: oklch(0.78 0.158 75);
+  --accent-foreground: oklch(0.22 0.04 60);
+
+  --muted: oklch(0.965 0.008 247);
+  --muted-foreground: oklch(0.5 0.025 260);
+
+  --destructive: oklch(0.6 0.22 27);
+  --destructive-foreground: oklch(0.99 0.005 240);
+
+  --border: oklch(0.92 0.01 250);
+  --input: oklch(0.92 0.01 250);
+  --ring: oklch(0.585 0.196 264);
+
+  /* Sidebar */
+  --sidebar: oklch(0.985 0.005 240);
+  --sidebar-foreground: oklch(0.25 0.03 260);
+  --sidebar-border: oklch(0.92 0.01 250);
+  --sidebar-accent: oklch(0.95 0.02 247);
+  --sidebar-accent-foreground: oklch(0.3 0.07 247);
+
+  /* User chat bubble */
+  --chat-user: oklch(0.42 0.105 247);
+  --chat-user-foreground: oklch(0.99 0.005 240);
+}
+
+.dark {
+  --background: oklch(0.17 0.02 260);
+  --foreground: oklch(0.97 0.008 247);
+  --card: oklch(0.22 0.025 260);
+  --card-foreground: oklch(0.97 0.008 247);
+  --popover: oklch(0.22 0.025 260);
+  --popover-foreground: oklch(0.97 0.008 247);
+
+  --primary: oklch(0.7 0.13 247);
+  --primary-foreground: oklch(0.17 0.02 260);
+  --primary-soft: oklch(0.28 0.06 247);
+
+  --secondary: oklch(0.65 0.18 264);
+  --secondary-foreground: oklch(0.99 0.005 240);
+
+  --accent: oklch(0.78 0.158 75);
+  --accent-foreground: oklch(0.18 0.04 60);
+
+  --muted: oklch(0.26 0.025 260);
+  --muted-foreground: oklch(0.7 0.02 260);
+
+  --destructive: oklch(0.65 0.2 27);
+  --destructive-foreground: oklch(0.99 0.005 240);
+
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.65 0.18 264);
+
+  --sidebar: oklch(0.2 0.022 260);
+  --sidebar-foreground: oklch(0.92 0.015 247);
+  --sidebar-border: oklch(1 0 0 / 8%);
+  --sidebar-accent: oklch(0.28 0.04 247);
+  --sidebar-accent-foreground: oklch(0.97 0.015 247);
+
+  --chat-user: oklch(0.55 0.13 247);
+  --chat-user-foreground: oklch(0.99 0.005 240);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html, body {
+    font-family: var(--font-sans);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+}
+
+/* Custom utilities */
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+  &::-webkit-scrollbar { width: 8px; height: 8px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 999px; }
+}
+
+@utility prose-chat {
+  line-height: 1.7;
+  & p { margin-bottom: 0.75rem; }
+  & p:last-child { margin-bottom: 0; }
+  & ul, & ol { margin: 0.5rem 0 0.75rem 1.25rem; }
+  & ul { list-style: disc; }
+  & ol { list-style: decimal; }
+  & li { margin: 0.25rem 0; }
+  & strong { font-weight: 600; color: var(--color-foreground); }
+  & a { color: var(--color-secondary); text-decoration: underline; text-underline-offset: 2px; }
+  & code {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.875em;
+    background: var(--color-muted);
+    padding: 0.15em 0.35em;
+    border-radius: 0.35rem;
+  }
+  & pre {
+    background: var(--color-muted);
+    padding: 0.875rem 1rem;
+    border-radius: 0.75rem;
+    overflow-x: auto;
+    margin: 0.5rem 0;
+  }
+  & pre code { background: transparent; padding: 0; }
+  & h1, & h2, & h3 { font-weight: 600; margin: 1rem 0 0.5rem; }
+  & h1 { font-size: 1.25rem; }
+  & h2 { font-size: 1.125rem; }
+  & h3 { font-size: 1rem; }
+  & blockquote {
+    border-left: 3px solid var(--color-primary);
+    padding-left: 0.875rem;
+    color: var(--color-muted-foreground);
+    margin: 0.5rem 0;
+  }
+}
+
+@keyframes pulse-dot {
+  0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+  40% { opacity: 1; transform: scale(1); }
+}
+@utility typing-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+  animation: pulse-dot 1.4s infinite ease-in-out both;
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@utility animate-message-in {
+  animation: fade-in-up 0.25s ease-out;
+}
