@@ -50,16 +50,25 @@ export function getPrimaryModel() {
   if (provider) {
     return provider("gemmatranslate-27b");
   }
-  // Fallback to NVIDIA if ExpSolution config is missing
-  const nvidiaProvider = createOpenAICompatible({
-    name: "nvidia",
-    baseURL: "https://integrate.api.nvidia.com/v1",
-    headers: {
-      Authorization: `Bearer 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`,
-    },
-  });
-  return nvidiaProvider("meta/llama-3.2-90b-vision-instruct");
+  return nvidiaModel;
 }
+
+// ── NVIDIA Provider (legacy / fallback) ──────────────────────
+export const nvidia = createOpenAICompatible({
+  name: "nvidia",
+  baseURL: "https://integrate.api.nvidia.com/v1",
+  headers: {
+    Authorization: `Bearer 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`,
+  },
+});
+
+export const nvidiaModel = nvidia("meta/llama-3.2-90b-vision-instruct");
+
+export const nvidiaModelSettings = {
+  maxTokens: 512,
+  temperature: 1,
+  topP: 1,
+} as const;
 
 export const primaryModelSettings = {
   maxTokens: 350,
