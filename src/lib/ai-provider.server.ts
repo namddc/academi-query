@@ -62,7 +62,7 @@ export function getPrimaryModel() {
 }
 
 export const primaryModelSettings = {
-  maxTokens: 1024,
+  maxTokens: 350,
   temperature: 0.7,
   topP: 1,
 } as const;
