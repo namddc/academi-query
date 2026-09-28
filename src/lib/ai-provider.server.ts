@@ -63,16 +63,25 @@ export function createExpSolutionProvider() {
   });
 }
 
+// ── NVIDIA Provider (primary, smarter RAG) ───────────────────
+export function createNvidiaProvider() {
+  const apiKey = process.env.NVIDIA_API_KEY || "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";
+  return createOpenAICompatible({
+    name: "nvidia",
+    baseURL: "https://integrate.api.nvidia.com/v1",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+    },
+  });
+}
+
 /**
  * The primary model for chat & LLM tasks.
- * Returns ExpSolution model when available, falls back to NVIDIA.
+ * Uses NVIDIA Llama-3.2-90B because it is much better at strict RAG than gemmatranslate-27b.
  */
 export function getPrimaryModel() {
-  const provider = createExpSolutionProvider();
-  if (provider) {
-    return provider("gemmatranslate-27b");
-  }
-  return nvidiaModel;
+  const provider = createNvidiaProvider();
+  return provider("meta/llama-3.2-90b-vision-instruct");
 }
 
 export const primaryModelSettings = {
