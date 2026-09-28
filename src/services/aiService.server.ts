@@ -40,47 +40,50 @@ export const aiService = {
    * Returns an enhanced system prompt with the found context injected.
    */
   async getEnhancedPrompt(userMessage: string): Promise<EnhancedPromptResult> {
-    // ── LAYER 1: FAQ ─────────────────────────────────────────
-    const l1Results = await knowledgeService.searchKnowledge(userMessage);
+    // ── LAYER 1 & 2: CONCURRENT SEARCH ──────────────────────
+    const [l1Results, l2Results] = await Promise.all([
+      knowledgeService.searchKnowledge(userMessage),
+      chunkService.searchL2(userMessage),
+    ]);
 
-    if (l1Results.length > 0) {
-      const context = knowledgeService.buildContext(l1Results);
-      const systemPrompt = buildSystemPromptWithContext(context);
+    const hasL1 = l1Results.length > 0;
+    const hasL2 = l2Results.chunks.length > 0;
+
+    if (hasL1 || hasL2) {
+      let combinedContext = "";
+      if (hasL1) {
+        combinedContext += "### TỪ FAQ:\n" + knowledgeService.buildContext(l1Results) + "\n\n";
+      }
+      if (hasL2) {
+        combinedContext += "### TỪ VĂN BẢN QUY ĐỊNH:\n" + chunkService.buildL2Context(l2Results) + "\n\n";
+      }
+
+      const systemPrompt = `${SYSTEM_PROMPT}
+
+---
+
+## 📋 CƠ SỞ DỮ LIỆU TỔNG HỢP
+
+> ⚠️ **Đây là nguồn dữ liệu DUY NHẤT bạn được phép dùng để trả lời.**
+> Nếu nội dung FAQ quá ngắn (ví dụ: "xem file quy định"), hãy DÙNG THÔNG TIN TỪ VĂN BẢN QUY ĐỊNH để trả lời chi tiết.
+> Trích dẫn cả nguồn FAQ và văn bản nếu có.
+
+${combinedContext}
+
+---
+
+**NHẮC LẠI:** Chỉ trả lời dựa trên dữ liệu bên trên. Không bịa đặt.`;
 
       console.log(
-        `[AIService] ✅ L1 HIT — ${l1Results.length} FAQ matches for: "${userMessage.slice(0, 50)}"`,
+        `[AIService] ✅ HIT — L1: ${l1Results.length} FAQs | L2: ${l2Results.chunks.length} chunks`,
       );
 
       return {
         systemPrompt,
         knowledgeResults: l1Results,
-        l2Results: null,
-        hasKnowledge: true,
-        layer: "L1_FAQ",
-      };
-    }
-
-    console.log(
-      `[AIService] ⬇️  L1 MISS — trying L2 chunks for: "${userMessage.slice(0, 50)}"`,
-    );
-
-    // ── LAYER 2: CHUNK ────────────────────────────────────────
-    const l2Results = await chunkService.searchL2(userMessage);
-
-    if (l2Results.chunks.length > 0) {
-      const context = chunkService.buildL2Context(l2Results);
-      const systemPrompt = buildSystemPromptWithL2Context(context);
-
-      console.log(
-        `[AIService] ✅ L2 HIT — ${l2Results.chunks.length} chunks | category: "${l2Results.matchedCategory}"`,
-      );
-
-      return {
-        systemPrompt,
-        knowledgeResults: [],
         l2Results,
         hasKnowledge: true,
-        layer: "L2_CHUNK",
+        layer: hasL1 && hasL2 ? "L1_FAQ" : (hasL1 ? "L1_FAQ" : "L2_CHUNK"),
       };
     }
 
