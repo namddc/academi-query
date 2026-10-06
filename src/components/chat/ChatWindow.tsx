@@ -23,6 +23,10 @@ import {
   Bell,
   Link as LinkIcon,
   CalendarDays,
+  ThumbsUp,
+  ThumbsDown,
+  Copy,
+  Check,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { AttachmentPreview } from "@/components/chat/AttachmentPreview";
@@ -434,6 +438,114 @@ function parseSuggestedQuestions(markdown: string): {
   return { mainContent, suggestions };
 }
 
+// ── Message Feedback ─────────────────────────────────────────
+
+type FeedbackValue = "up" | "down" | null;
+
+function getFeedbackKey(messageId: string) {
+  return `ibot_feedback_${messageId}`;
+}
+
+function loadFeedback(messageId: string): FeedbackValue {
+  try {
+    const raw = localStorage.getItem(getFeedbackKey(messageId));
+    return (raw as FeedbackValue) ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function saveFeedback(messageId: string, value: FeedbackValue) {
+  try {
+    if (value) localStorage.setItem(getFeedbackKey(messageId), value);
+    else localStorage.removeItem(getFeedbackKey(messageId));
+  } catch {}
+}
+
+function MessageFeedback({ messageId, text }: { messageId: string; text: string }) {
+  const [feedback, setFeedback] = useState<FeedbackValue>(() => loadFeedback(messageId));
+  const [copied, setCopied] = useState(false);
+  const [showThanks, setShowThanks] = useState(false);
+
+  const handleFeedback = (value: "up" | "down") => {
+    const next = feedback === value ? null : value;
+    setFeedback(next);
+    saveFeedback(messageId, next);
+    if (next) {
+      setShowThanks(true);
+      setTimeout(() => setShowThanks(false), 2000);
+    }
+  };
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {}
+  };
+
+  return (
+    <div className="flex items-center gap-1 mt-3 pt-2.5 border-t border-border/40">
+      {/* Copy button */}
+      <button
+        onClick={handleCopy}
+        title={copied ? "Đã sao chép!" : "Sao chép câu trả lời"}
+        className={cn(
+          "flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all duration-200",
+          copied
+            ? "text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40"
+            : "text-muted-foreground hover:text-foreground hover:bg-muted",
+        )}
+      >
+        {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
+        <span>{copied ? "Đã chép" : "Sao chép"}</span>
+      </button>
+
+      <div className="w-px h-3.5 bg-border/60 mx-0.5" />
+
+      {/* Feedback label */}
+      <span className="text-xs text-muted-foreground/70 px-1 select-none">
+        {showThanks ? (
+          <span className="text-primary font-medium animate-message-in">Cảm ơn phản hồi! 🙏</span>
+        ) : (
+          "Câu trả lời có hữu ích không?"
+        )}
+      </span>
+
+      {/* Thumbs up */}
+      <button
+        onClick={() => handleFeedback("up")}
+        title="Hữu ích"
+        className={cn(
+          "size-7 rounded-lg flex items-center justify-center transition-all duration-200",
+          feedback === "up"
+            ? "text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40 scale-110"
+            : "text-muted-foreground hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/30",
+        )}
+      >
+        <ThumbsUp className={cn("size-3.5 transition-transform", feedback === "up" && "fill-emerald-600")} />
+      </button>
+
+      {/* Thumbs down */}
+      <button
+        onClick={() => handleFeedback("down")}
+        title="Chưa hữu ích"
+        className={cn(
+          "size-7 rounded-lg flex items-center justify-center transition-all duration-200",
+          feedback === "down"
+            ? "text-rose-500 bg-rose-50 dark:bg-rose-950/40 scale-110"
+            : "text-muted-foreground hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30",
+        )}
+      >
+        <ThumbsDown className={cn("size-3.5 transition-transform", feedback === "down" && "fill-rose-500")} />
+      </button>
+    </div>
+  );
+}
+
+// ── MessageBubble ─────────────────────────────────────────────
+
 function MessageBubble({
   message,
   onSend,
@@ -515,6 +627,9 @@ function MessageBubble({
             </div>
           </div>
         )}
+
+        {/* ── Feedback bar ── */}
+        {text && <MessageFeedback messageId={message.id} text={text} />}
       </div>
     </div>
   );
