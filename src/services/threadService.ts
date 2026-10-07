@@ -75,8 +75,18 @@ export const threadService = {
       .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
   },
 
-  /** Create a new empty thread. */
+  /** Create a new empty thread or return an existing empty one to prevent spam. */
   createThread(userId: string, title = "Cuộc trò chuyện mới"): Thread {
+    const threads = readThreads();
+    
+    // Check if there's already a thread for this user with 0 messages
+    const emptyThread = threads.find(
+      (t) => t.userId === userId && readMessages(t.id).length === 0
+    );
+    if (emptyThread) {
+      return emptyThread; // Reuse the empty thread instead of creating a new one
+    }
+
     const thread: Thread = {
       id: genId(),
       title,
@@ -84,7 +94,6 @@ export const threadService = {
       createdAt: now(),
       updatedAt: now(),
     };
-    const threads = readThreads();
     threads.push(thread);
     writeThreads(threads);
     return thread;
