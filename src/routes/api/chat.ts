@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { streamText, type UIMessage } from "ai";
+import { streamText, generateText, type UIMessage } from "ai";
 import {
   getPrimaryModel,
   primaryModelSettings,
@@ -64,7 +64,44 @@ export const Route = createFileRoute("/api/chat")({
 
         // Extract latest user message text using the robust extractText helper
         const lastUser = [...messages].reverse().find((m) => m.role === "user") as any;
-        const userText: string = lastUser ? extractText(lastUser) : "";
+        let userText: string = lastUser ? extractText(lastUser) : "";
+
+        // ── PRE-RETRIEVAL OCR FOR IMAGES ──────────────────────────
+        // If the user sent images, the RAG system needs to "read" them FIRST 
+        // to have keywords to search for in the database.
+        if (lastUser) {
+          const imageParts: any[] = (lastUser.parts ?? []).filter(
+            (p: any) => p.type === "file" && p.mediaType?.startsWith("image/"),
+          );
+
+          if (imageParts.length > 0) {
+            console.log(`[API/Chat] 🖼️ Vision OCR pre-retrieval triggered for ${imageParts.length} images...`);
+            try {
+              const ocrContentParts: any[] = [
+                { type: "text", text: "Trích xuất chính xác tất cả các chữ, câu hỏi và văn bản xuất hiện trong hình ảnh này. Chỉ trả về văn bản, KHÔNG giải thích thêm. Nếu là câu hỏi, hãy chép lại đúng câu hỏi đó." }
+              ];
+              for (const img of imageParts) {
+                ocrContentParts.push({ type: "image", image: img.url });
+              }
+
+              // Call NVIDIA Llama Vision purely for OCR
+              const ocrResult = await generateText({
+                model: nvidiaModel,
+                messages: [{ role: "user", content: ocrContentParts }],
+                maxTokens: 300,
+              });
+
+              if (ocrResult.text) {
+                console.log(`[API/Chat] 📝 OCR Extracted Text: "${ocrResult.text}"`);
+                // Append extracted text to userText so RAG can search it
+                userText = userText ? `${userText}\n${ocrResult.text}` : ocrResult.text;
+              }
+            } catch (ocrError) {
+              console.error("[API/Chat] Pre-retrieval OCR failed:", ocrError);
+            }
+          }
+        }
+
         // Knowledge retrieval
         let systemPrompt = SYSTEM_PROMPT;
 
