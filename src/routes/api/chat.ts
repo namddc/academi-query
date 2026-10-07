@@ -88,7 +88,6 @@ export const Route = createFileRoute("/api/chat")({
               const ocrResult = await generateText({
                 model: nvidiaModel,
                 messages: [{ role: "user", content: ocrContentParts }],
-                maxTokens: 300,
               });
 
               if (ocrResult.text) {
