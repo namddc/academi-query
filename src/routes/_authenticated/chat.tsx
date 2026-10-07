@@ -3,27 +3,48 @@ import { useState } from "react";
 import { Sidebar, MobileTopBar } from "@/components/chat/Sidebar";
 import { InfoPanel } from "@/components/chat/ChatWindow";
 import { Route as AuthenticatedRoute } from "@/routes/_authenticated/route";
-import { LogIn, History } from "lucide-react";
+import { LogIn, GraduationCap } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/chat")({
   component: ChatLayout,
 });
 
-function GuestBanner() {
+function GuestHeader() {
   return (
-    <div className="flex items-center justify-between gap-3 px-4 py-2.5 bg-primary/10 border-b border-primary/20 text-sm shrink-0">
-      <div className="flex items-center gap-2 text-primary font-medium">
-        <History className="size-4 shrink-0" />
-        <span>Bạn đang dùng chế độ khách — lịch sử sẽ bị xoá khi tải lại trang.</span>
+    <header
+      className="shrink-0 flex items-center justify-between px-5 py-3 border-b"
+      style={{
+        background: "linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--card)) 100%)",
+        borderColor: "hsl(var(--border))",
+        backdropFilter: "blur(12px)",
+      }}
+    >
+      {/* Brand */}
+      <div className="flex items-center gap-2.5">
+        <div
+          className="size-8 rounded-xl flex items-center justify-center shadow-sm"
+          style={{ background: "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary)/0.7) 100%)" }}
+        >
+          <GraduationCap className="size-4 text-primary-foreground" />
+        </div>
+        <div className="leading-tight">
+          <p className="text-sm font-bold tracking-tight text-foreground">Trợ lý Sinh viên AI</p>
+          <p className="text-[10px] text-muted-foreground">Phiên không lưu · NAM-NGKH</p>
+        </div>
       </div>
+
+      {/* Login CTA */}
       <Link
         to="/auth"
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-xs font-semibold hover:bg-primary/90 transition-colors shrink-0"
+        className="group flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:scale-105 hover:shadow-md active:scale-95"
+        style={{
+          background: "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary)/0.85) 100%)",
+        }}
       >
-        <LogIn className="size-3.5" />
-        Đăng nhập để lưu
+        <LogIn className="size-3.5 transition-transform group-hover:-translate-x-0.5" />
+        Đăng nhập
       </Link>
-    </div>
+    </header>
   );
 }
 
@@ -45,7 +66,7 @@ function ChatLayout() {
       )}
       <div className="flex flex-col flex-1 min-w-0">
         {isGuest ? (
-          <GuestBanner />
+          <GuestHeader />
         ) : (
           <MobileTopBar onMenuOpen={() => setMobileOpen(true)} />
         )}
