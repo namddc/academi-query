@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, useRouter } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,7 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
+  const router = useRouter();
   const { isAuthenticated, login, register, loginWithGoogleProfile } = useAuth();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
@@ -44,6 +45,10 @@ function AuthPage() {
       } else {
         await login(email, password);
       }
+      
+      // IMPORTANT: Invalidate router cache so the authenticated guard re-runs
+      await router.invalidate();
+      
       navigate({ to: "/chat" });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Có lỗi xảy ra");
@@ -62,6 +67,10 @@ function AuthPage() {
         const profile = await res.json();
         await loginWithGoogleProfile(profile);
         toast.success("Đăng nhập bằng Google thành công!");
+        
+        // IMPORTANT: Invalidate router cache here too
+        await router.invalidate();
+        
         navigate({ to: "/chat" });
       } catch (err) {
         toast.error("Đăng nhập Google thất bại");
