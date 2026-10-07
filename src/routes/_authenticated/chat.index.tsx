@@ -11,8 +11,6 @@ import {
   Calendar, Wallet, Award, Home, FileText, Phone,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Route as AuthenticatedRoute } from "@/routes/_authenticated/route";
-import { nanoid } from "nanoid";
 
 export const Route = createFileRoute("/_authenticated/chat/")({
   head: () => ({
@@ -35,7 +33,6 @@ const SUGGESTIONS = [
 
 function ChatHome() {
   const navigate = useNavigate();
-  const { isGuest } = AuthenticatedRoute.useRouteContext();
   const { createThread } = useThreads();
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -82,8 +79,7 @@ function ChatHome() {
           : `📎 Tệp đính kèm:\n${fileList}`;
       }
 
-      // Guests get a temporary thread ID (no DB / localStorage save)
-      const threadId = isGuest ? `guest-${nanoid(8)}` : createThread().id;
+      const threadId = createThread().id;
 
       sessionStorage.setItem(`pending:${threadId}`, enrichedText);
       if (images.length > 0) {

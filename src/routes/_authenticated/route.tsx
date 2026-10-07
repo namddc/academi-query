@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { authService } from "@/services/authService";
 
 export const Route = createFileRoute("/_authenticated")({
@@ -6,12 +6,14 @@ export const Route = createFileRoute("/_authenticated")({
   beforeLoad: () => {
     // Skip auth check on the server since localStorage isn't available
     if (typeof window === "undefined") {
-      return { user: null, isGuest: true };
+      return { user: null };
     }
 
-    // Allow guests — they get a limited experience (no history saved)
     const user = authService.getCurrentUser();
-    return { user, isGuest: user === null };
+    if (!user) {
+      throw redirect({ to: "/auth" });
+    }
+    return { user };
   },
   component: () => <Outlet />,
 });
