@@ -46,10 +46,8 @@ function AuthPage() {
         await login(email, password);
       }
       
-      // IMPORTANT: Invalidate router cache so the authenticated guard re-runs
-      await router.invalidate();
-      
-      navigate({ to: "/chat" });
+      // Hard redirect to bypass Router cache issues entirely
+      window.location.href = "/chat";
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Có lỗi xảy ra");
     } finally {
@@ -68,10 +66,8 @@ function AuthPage() {
         await loginWithGoogleProfile(profile);
         toast.success("Đăng nhập bằng Google thành công!");
         
-        // IMPORTANT: Invalidate router cache here too
-        await router.invalidate();
-        
-        navigate({ to: "/chat" });
+        // Hard redirect
+        window.location.href = "/chat";
       } catch (err) {
         toast.error("Đăng nhập Google thất bại");
       } finally {

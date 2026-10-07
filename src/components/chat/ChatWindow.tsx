@@ -58,18 +58,19 @@ type Props = {
   threadId: string;
   initialMessages: UIMessage[];
   onAfterFirstSend?: () => void;
+  guestMode?: boolean;
 };
 
 // ── ChatWindow ────────────────────────────────────────────────
 
-export function ChatWindow({ threadId, initialMessages, onAfterFirstSend }: Props) {
+export function ChatWindow({ threadId, initialMessages, onAfterFirstSend, guestMode = false }: Props) {
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // ── Mock auth token ───────────────────────────────────────
+  // ── Mock auth token (guests send no token but can still chat) ───
   const user = typeof window !== "undefined" ? authService.getCurrentUser() : null;
-  const token = user ? `mock-token-${user.id}` : null;
+  const token = !guestMode && user ? `mock-token-${user.id}` : null;
 
   // ── Attachments ───────────────────────────────────────────
   const {
@@ -110,8 +111,9 @@ export function ChatWindow({ threadId, initialMessages, onAfterFirstSend }: Prop
     transport,
   });
 
-  // ── Sync to localStorage ──────────────────────────────────
+  // ── Sync to localStorage (skipped in guest mode) ───────────
   useEffect(() => {
+    if (guestMode) return; // guests: no history persistence
     if (messages.length === 0) return;
 
     const storedMessages = messages.map((m) => ({
@@ -132,7 +134,7 @@ export function ChatWindow({ threadId, initialMessages, onAfterFirstSend }: Prop
         .join(" ");
       threadService.autoTitleFromMessage(threadId, firstText);
     }
-  }, [messages, threadId]);
+  }, [messages, threadId, guestMode]);
 
   // ── Auto-scroll ───────────────────────────────────────────
   useEffect(() => {

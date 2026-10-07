@@ -4,6 +4,7 @@ import { threadService, type StoredMessage } from "@/services/threadService";
 import { ChatWindow } from "@/components/chat/ChatWindow";
 import { Loader2 } from "lucide-react";
 import type { UIMessage } from "ai";
+import { Route as AuthenticatedRoute } from "@/routes/_authenticated/route";
 
 export const Route = createFileRoute("/_authenticated/chat/$threadId")({
   component: ThreadPage,
@@ -11,6 +12,7 @@ export const Route = createFileRoute("/_authenticated/chat/$threadId")({
 
 function ThreadPage() {
   const { threadId } = Route.useParams();
+  const { isGuest } = AuthenticatedRoute.useRouteContext();
   const [messages, setMessages] = useState<StoredMessage[] | null>(null);
   const [activeThreadId, setActiveThreadId] = useState(threadId);
 
@@ -20,12 +22,16 @@ function ThreadPage() {
     setMessages(null);
   }
 
-
-  // Load messages from localStorage on mount / when threadId changes
+  // Load messages: guests always start fresh (no localStorage), logged-in users load saved history
   useEffect(() => {
-    const stored = threadService.getMessages(threadId);
-    setMessages(stored);
-  }, [threadId]);
+    if (isGuest) {
+      // Guest mode: start with empty messages — nothing is persisted
+      setMessages([]);
+    } else {
+      const stored = threadService.getMessages(threadId);
+      setMessages(stored);
+    }
+  }, [threadId, isGuest]);
 
   if (messages === null) {
     return (
@@ -49,6 +55,7 @@ function ThreadPage() {
       key={threadId}
       threadId={threadId}
       initialMessages={initialMessages}
+      guestMode={isGuest}
       onAfterFirstSend={() => {
         // Auto-title is handled by ChatWindow calling threadService.autoTitleFromMessage
         // Sidebar refreshes via the useThreads hook's storage event listener
