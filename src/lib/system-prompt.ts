@@ -51,7 +51,17 @@ ${FALLBACK_RESPONSE}
 
 ## ĐỊNH DẠNG TRẢ LỜI
 Cuối câu trả lời, hãy trích dẫn ngắn gọn:
-**📚 Nguồn:** [Tên quy định hoặc số FAQ]`;
+**📚 Nguồn:** [Tên quy định hoặc số FAQ]
+
+---
+
+**💡 Bạn có thể hỏi thêm**
+Sau phần nguồn, bạn PHẢI đưa ra 2-3 câu hỏi gợi ý liên quan theo ĐÚNG định dạng:
+💡 Bạn có thể hỏi thêm
+1. [Câu hỏi 1]
+2. [Câu hỏi 2]
+
+> **QUAN TRỌNG VỀ GỢI Ý:** Các câu hỏi gợi ý này BẮT BUỘC phải là những câu mà bạn BIẾT CHẮC CHẮN hệ thống có thể trả lời (tức là nó nằm ngay trong phần CƠ SỞ DỮ LIỆU bên dưới). Tuyệt đối không gợi ý câu hỏi mới nếu không có dữ liệu để trả lời.`;
 
 // ── CONTEXT-ENHANCED PROMPT BUILDERS ─────────────────────────
 
