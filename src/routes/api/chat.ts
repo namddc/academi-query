@@ -151,23 +151,25 @@ export const Route = createFileRoute("/api/chat")({
         }
 
         // ── Primary: ExpSolution AI Gateway ─────────────────────
-        // Falls back to NVIDIA automatically if key not set.
-        const primaryModel = getPrimaryModel();
-        const isExpSolution = primaryModel !== nvidiaModel;
-        const modelSettings = isExpSolution
-          ? primaryModelSettings
-          : nvidiaModelSettings;
+        let primaryModel;
+        try {
+          primaryModel = getPrimaryModel();
+        } catch (configErr: any) {
+          console.error("[API/Chat] Model config error:", configErr.message);
+          return new Response(
+            JSON.stringify({ error: "AI chưa được cấu hình. Vui lòng liên hệ quản trị viên để cài đặt API key." }),
+            { status: 503, headers: { "Content-Type": "application/json" } }
+          );
+        }
 
-        console.log(
-          `[API/Chat] Using model: ${isExpSolution ? "expsolution/gemmatranslate-27b" : "nvidia/llama-3.2-90b"}`,
-        );
+        console.log("[API/Chat] Using model: expsolution/gemmatranslate-27b");
 
         try {
           const result = streamText({
             model: primaryModel,
             system: systemPrompt,
             messages: coreMessages,
-            ...modelSettings,
+            ...primaryModelSettings,
           });
 
           return result.toUIMessageStreamResponse({
@@ -176,31 +178,6 @@ export const Route = createFileRoute("/api/chat")({
             },
           });
         } catch (e: any) {
-          // ── Fallback: NVIDIA if ExpSolution fails ────────────────
-          if (isExpSolution) {
-            console.warn(
-              "[API/Chat] ExpSolution failed, falling back to NVIDIA:",
-              e?.message,
-            );
-            try {
-              const fallback = streamText({
-                model: nvidiaModel,
-                system: systemPrompt,
-                messages: coreMessages,
-                ...nvidiaModelSettings,
-              });
-              return fallback.toUIMessageStreamResponse({
-                headers: { "x-thread-id": threadId },
-              });
-            } catch (fe: any) {
-              console.error("[API/Chat] NVIDIA fallback also failed:", fe);
-              return new Response(
-                "Runtime Error: " + (fe?.message || String(fe)),
-                { status: 500 },
-              );
-            }
-          }
-
           console.error("[API/Chat] Runtime error in streamText:", e);
           return new Response("Runtime Error: " + (e?.message || String(e)), {
             status: 500,

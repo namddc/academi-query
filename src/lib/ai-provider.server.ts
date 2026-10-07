@@ -10,8 +10,8 @@ export function createExpSolutionProvider() {
   const { apiKey, baseURL } = getExpSolutionConfig();
 
   if (!apiKey) {
-    console.warn(
-      "[AIProvider] EXPSOLUTION_API_KEY missing — falling back to NVIDIA.",
+    console.error(
+      "[AIProvider] EXPSOLUTION_API_KEY is not set in environment variables. Please add it to Vercel Settings > Environment Variables.",
     );
     return null;
   }
@@ -22,7 +22,6 @@ export function createExpSolutionProvider() {
     headers: {
       Authorization: `Bearer ${apiKey}`,
     },
-    // Graceful error handling: log network failures instead of crashing
     fetch: async (input, init) => {
       try {
         const response = await fetch(input, init);
@@ -42,23 +41,33 @@ export function createExpSolutionProvider() {
 }
 
 /**
- * The primary model for chat & LLM tasks.
- * Uses ExpSolution gemmatranslate-27b.
+ * The primary model: ExpSolution gemmatranslate-27b
  */
 export function getPrimaryModel() {
   const provider = createExpSolutionProvider();
-  if (provider) {
-    return provider("gemmatranslate-27b");
+  if (!provider) {
+    throw new Error(
+      "AI provider not configured. Please set EXPSOLUTION_API_KEY in Vercel environment variables.",
+    );
   }
-  return nvidiaModel;
+  return provider("gemmatranslate-27b");
 }
 
-// ── NVIDIA Provider (legacy / fallback) ──────────────────────
+// ── Model settings ────────────────────────────────────────────
+
+export const primaryModelSettings = {
+  maxTokens: 512,
+  temperature: 0.7,
+  topP: 1,
+} as const;
+
+// Keep nvidiaModel exported for OCR calls (vision model)
+// but use a null-safe wrapper so it only fails at call time
 export const nvidia = createOpenAICompatible({
-  name: "nvidia",
+  name: "nvidia-vision",
   baseURL: "https://integrate.api.nvidia.com/v1",
   headers: {
-    Authorization: `Bearer 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`,
+    Authorization: `Bearer ${process.env.NVIDIA_API_KEY ?? ""}`,
   },
 });
 
@@ -70,8 +79,3 @@ export const nvidiaModelSettings = {
   topP: 1,
 } as const;
 
-export const primaryModelSettings = {
-  maxTokens: 350,
-  temperature: 0.7,
-  topP: 1,
-} as const;
