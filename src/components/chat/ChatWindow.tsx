@@ -465,16 +465,11 @@ function saveFeedback(messageId: string, value: FeedbackValue) {
 function MessageFeedback({ messageId, text }: { messageId: string; text: string }) {
   const [feedback, setFeedback] = useState<FeedbackValue>(() => loadFeedback(messageId));
   const [copied, setCopied] = useState(false);
-  const [showThanks, setShowThanks] = useState(false);
 
   const handleFeedback = (value: "up" | "down") => {
     const next = feedback === value ? null : value;
     setFeedback(next);
     saveFeedback(messageId, next);
-    if (next) {
-      setShowThanks(true);
-      setTimeout(() => setShowThanks(false), 2000);
-    }
   };
 
   const handleCopy = async () => {
@@ -506,7 +501,7 @@ function MessageFeedback({ messageId, text }: { messageId: string; text: string 
 
       {/* Feedback label */}
       <span className="text-xs text-muted-foreground/70 px-1 select-none">
-        {showThanks ? (
+        {feedback ? (
           <span className="text-primary font-medium animate-message-in">Cảm ơn phản hồi! 🙏</span>
         ) : (
           "Câu trả lời có hữu ích không?"
