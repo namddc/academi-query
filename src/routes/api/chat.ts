@@ -66,6 +66,20 @@ export const Route = createFileRoute("/api/chat")({
         const lastUser = [...messages].reverse().find((m) => m.role === "user") as any;
         let userText: string = lastUser ? extractText(lastUser) : "";
 
+        // ── Primary: ExpSolution AI Gateway ─────────────────────
+        let primaryModel;
+        try {
+          primaryModel = getPrimaryModel();
+        } catch (configErr: any) {
+          console.error("[API/Chat] Model config error:", configErr.message);
+          return new Response(
+            JSON.stringify({ error: "AI chưa được cấu hình. Vui lòng liên hệ quản trị viên để cài đặt API key." }),
+            { status: 503, headers: { "Content-Type": "application/json" } }
+          );
+        }
+
+        console.log("[API/Chat] Using model: expsolution/gemmatranslate-27b");
+
         // ── PRE-RETRIEVAL OCR FOR IMAGES ──────────────────────────
         // If the user sent images, the RAG system needs to "read" them FIRST 
         // to have keywords to search for in the database.
@@ -84,9 +98,9 @@ export const Route = createFileRoute("/api/chat")({
                 ocrContentParts.push({ type: "image", image: img.url });
               }
 
-              // Call NVIDIA Llama Vision purely for OCR
+              // Call ExpSolution model for OCR (gemmatranslate-27b supports vision)
               const ocrResult = await generateText({
-                model: nvidiaModel,
+                model: primaryModel,
                 messages: [{ role: "user", content: ocrContentParts }],
               });
 
@@ -149,20 +163,6 @@ export const Route = createFileRoute("/api/chat")({
             coreMessages.push({ role: m.role as any, content: extractText(m as any) || "" });
           }
         }
-
-        // ── Primary: ExpSolution AI Gateway ─────────────────────
-        let primaryModel;
-        try {
-          primaryModel = getPrimaryModel();
-        } catch (configErr: any) {
-          console.error("[API/Chat] Model config error:", configErr.message);
-          return new Response(
-            JSON.stringify({ error: "AI chưa được cấu hình. Vui lòng liên hệ quản trị viên để cài đặt API key." }),
-            { status: 503, headers: { "Content-Type": "application/json" } }
-          );
-        }
-
-        console.log("[API/Chat] Using model: expsolution/gemmatranslate-27b");
 
         try {
           const result = streamText({
