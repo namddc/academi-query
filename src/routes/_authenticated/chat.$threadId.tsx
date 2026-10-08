@@ -35,13 +35,20 @@ function ThreadPage() {
   }
 
   // Convert StoredMessage → UIMessage shape expected by ChatWindow
-  const initialMessages: UIMessage[] = messages.map((m) => ({
-    id: m.id,
-    role: m.role,
-    parts: m.parts,
-    content: m.parts.map((p) => p.text).join(""),
-    createdAt: new Date(m.createdAt),
-  }));
+  const initialMessages: UIMessage[] = messages.map((m) => {
+    const textContent = m.parts
+      .filter((p) => p.type === "text")
+      .map((p: any) => p.text || "")
+      .join("");
+
+    return {
+      id: m.id,
+      role: m.role,
+      parts: m.parts as any,
+      content: textContent,
+      createdAt: new Date(m.createdAt),
+    };
+  });
 
   return (
     <ChatWindow

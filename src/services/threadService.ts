@@ -16,10 +16,24 @@ export interface Thread {
   updatedAt: string;
 }
 
+export interface StoredMessagePartText {
+  type: "text";
+  text: string;
+}
+
+export interface StoredMessagePartFile {
+  type: "file";
+  mediaType: string;
+  url: string;
+  filename?: string;
+}
+
+export type StoredMessagePart = StoredMessagePartText | StoredMessagePartFile;
+
 export interface StoredMessage {
   id: string;
   role: "user" | "assistant" | "system";
-  parts: { type: "text"; text: string }[];
+  parts: StoredMessagePart[];
   createdAt: string;
 }
 
@@ -43,7 +57,14 @@ function readThreads(): Thread[] {
 }
 
 function writeThreads(threads: Thread[]): void {
-  localStorage.setItem(THREADS_KEY, JSON.stringify(threads));
+  try {
+    localStorage.setItem(THREADS_KEY, JSON.stringify(threads));
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new Event("academi_threads_updated"));
+    }
+  } catch (e) {
+    console.warn("Failed to write threads to localStorage:", e);
+  }
 }
 
 function messagesKey(threadId: string): string {
@@ -60,7 +81,26 @@ function readMessages(threadId: string): StoredMessage[] {
 }
 
 function writeMessages(threadId: string, messages: StoredMessage[]): void {
-  localStorage.setItem(messagesKey(threadId), JSON.stringify(messages));
+  try {
+    localStorage.setItem(messagesKey(threadId), JSON.stringify(messages));
+  } catch (e) {
+    console.warn("Storage error when saving thread messages, trying fallback:", e);
+    try {
+      // If quota exceeded, preserve text and only retain images for latest 10 messages
+      const fallback = messages.map((m, idx) => {
+        if (idx < messages.length - 10) {
+          return {
+            ...m,
+            parts: m.parts.filter((p) => p.type === "text"),
+          };
+        }
+        return m;
+      });
+      localStorage.setItem(messagesKey(threadId), JSON.stringify(fallback));
+    } catch {
+      // Suppress error to avoid breaking chat UI
+    }
+  }
 }
 
 // ── Public API ───────────────────────────────────────────────

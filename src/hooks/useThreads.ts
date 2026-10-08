@@ -34,8 +34,14 @@ export function useThreads(): UseThreadsReturn {
     const onStorage = (e: StorageEvent) => {
       if (e.key?.startsWith("academi_")) load();
     };
+    const onCustomUpdate = () => load();
+
     window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
+    window.addEventListener("academi_threads_updated", onCustomUpdate);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("academi_threads_updated", onCustomUpdate);
+    };
   }, [load]);
 
   const createThread = useCallback(

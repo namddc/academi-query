@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from "react";
 import { toast } from "sonner";
+import { compressImageFile } from "@/lib/imageUtils";
 
 // ── Constants ────────────────────────────────────────────────
 
@@ -89,15 +90,25 @@ export function useAttachments(): UseAttachmentsReturn {
       const id = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
       valid.push({ id, file, name: file.name, size: file.size, type: file.type, progress: 0 });
 
-      // Generate image preview
+      // Generate image preview (compressed & optimized for AI vision and chat storage)
       if (file.type.startsWith("image/")) {
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          setAttachments((prev) =>
-            prev.map((a) => (a.id === id ? { ...a, previewUrl: ev.target?.result as string } : a)),
-          );
-        };
-        reader.readAsDataURL(file);
+        compressImageFile(file, 1280, 0.82)
+          .then(({ dataUrl, contentType }) => {
+            setAttachments((prev) =>
+              prev.map((a) =>
+                a.id === id ? { ...a, previewUrl: dataUrl, type: contentType } : a,
+              ),
+            );
+          })
+          .catch(() => {
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+              setAttachments((prev) =>
+                prev.map((a) => (a.id === id ? { ...a, previewUrl: ev.target?.result as string } : a)),
+              );
+            };
+            reader.readAsDataURL(file);
+          });
       }
     }
 

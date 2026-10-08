@@ -39,7 +39,8 @@ import {
 import { FileUIPart } from "ai";
 import { useVoiceInput } from "@/hooks/useVoiceInput";
 import { authService } from "@/services/authService";
-import { threadService } from "@/services/threadService";
+import { threadService, type StoredMessage } from "@/services/threadService";
+import { ImageLightbox, type LightboxImage } from "@/components/chat/ImageLightbox";
 
 // ── Suggestion chips ──────────────────────────────────────────
 
@@ -110,29 +111,108 @@ export function ChatWindow({ threadId, initialMessages, onAfterFirstSend }: Prop
     transport,
   });
 
+  // ── Image Lightbox State ───────────────────────────────────
+  const [lightboxState, setLightboxState] = useState<{
+    isOpen: boolean;
+    images: LightboxImage[];
+    initialIndex: number;
+  }>({
+    isOpen: false,
+    images: [],
+    initialIndex: 0,
+  });
+
+  const handleViewImage = useCallback(
+    (images: LightboxImage[], index = 0) => {
+      setLightboxState({
+        isOpen: true,
+        images,
+        initialIndex: index,
+      });
+    },
+    [],
+  );
+
   // ── Sync to localStorage ───────────────────────────────────
   useEffect(() => {
     if (messages.length === 0) return;
 
-    const storedMessages = messages.map((m) => ({
-      id: m.id,
-      role: m.role as "user" | "assistant" | "system",
-      parts: m.parts
-        .filter((p) => p.type === "text")
-        .map((p) => ({ type: "text" as const, text: p.text })),
-      createdAt: (m as any).createdAt ? new Date((m as any).createdAt).toISOString() : new Date().toISOString(),
-    }));
+    const storedMessages: StoredMessage[] = messages.map((m) => {
+      const parts = m.parts
+        .filter((p) => p.type === "text" || p.type === "file" || (p as any).type === "image")
+        .map((p) => {
+          if (p.type === "file") {
+            const fp = p as FileUIPart;
+            return {
+              type: "file" as const,
+              mediaType: fp.mediaType || "image/png",
+              url: fp.url,
+              filename: fp.filename,
+            };
+          }
+          if ((p as any).type === "image") {
+            const ip = p as any;
+            return {
+              type: "file" as const,
+              mediaType: ip.mimeType || "image/png",
+              url: ip.image instanceof URL ? ip.image.toString() : ip.image,
+              filename: "image.png",
+            };
+          }
+          return {
+            type: "text" as const,
+            text: (p as any).text ?? "",
+          };
+        });
+
+      return {
+        id: m.id,
+        role: m.role as "user" | "assistant" | "system",
+        parts,
+        createdAt: (m as any).createdAt
+          ? new Date((m as any).createdAt).toISOString()
+          : new Date().toISOString(),
+      };
+    });
 
     threadService.setMessages(threadId, storedMessages);
 
-    // Auto-title if we just sent the first message
-    if (messages.length > 0 && messages[0].role === "user") {
-      const firstText = messages[0].parts
-        .map((p) => (p.type === "text" ? p.text : ""))
-        .join(" ");
-      threadService.autoTitleFromMessage(threadId, firstText);
+    // Auto-title logic
+    if (messages.length > 0) {
+      const firstUserMsg = messages.find((m) => m.role === "user");
+      if (firstUserMsg) {
+        let sourceText = firstUserMsg.parts
+          .map((p) => (p.type === "text" ? p.text : ""))
+          .join(" ")
+          .trim();
+
+        if (!sourceText) {
+          // If no user text (e.g. only image), wait for assistant response to finish
+          if (status !== "streaming" && status !== "submitted") {
+            const firstAssistantMsg = messages.find((m) => m.role === "assistant");
+            if (firstAssistantMsg) {
+              const rawText = firstAssistantMsg.parts
+                .map((p) => (p.type === "text" ? p.text : ""))
+                .join(" ")
+                .trim();
+              
+              // Remove markdown syntax for cleaner title
+              sourceText = rawText.replace(/[*#_`~]/g, "").trim();
+            }
+          }
+        }
+
+        if (sourceText) {
+          const words = sourceText.split(/\s+/).filter(Boolean);
+          let title = sourceText;
+          if (words.length > 20) {
+            title = words.slice(0, 10).join(" ") + "...";
+          }
+          threadService.autoTitleFromMessage(threadId, title);
+        }
+      }
     }
-  }, [messages, threadId]);
+  }, [messages, threadId, status]);
 
   // ── Auto-scroll ───────────────────────────────────────────
   useEffect(() => {
@@ -247,7 +327,12 @@ export function ChatWindow({ threadId, initialMessages, onAfterFirstSend }: Prop
         ) : (
           <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-6">
             {messages.map((m) => (
-              <MessageBubble key={m.id} message={m} onSend={handleSend} />
+              <MessageBubble
+                key={m.id}
+                message={m}
+                onSend={handleSend}
+                onViewImage={handleViewImage}
+              />
             ))}
             {status === "submitted" && <TypingIndicator />}
             {error && (
@@ -373,6 +458,14 @@ export function ChatWindow({ threadId, initialMessages, onAfterFirstSend }: Prop
           </p>
         </div>
       </div>
+
+      {/* ── Interactive Image Lightbox ────────────────────────── */}
+      <ImageLightbox
+        isOpen={lightboxState.isOpen}
+        images={lightboxState.images}
+        initialIndex={lightboxState.initialIndex}
+        onClose={() => setLightboxState((prev) => ({ ...prev, isOpen: false }))}
+      />
     </div>
   );
 }
@@ -544,18 +637,31 @@ function MessageFeedback({ messageId, text }: { messageId: string; text: string 
 function MessageBubble({
   message,
   onSend,
+  onViewImage,
 }: {
   message: UIMessage;
   onSend: (text: string) => void;
+  onViewImage: (images: LightboxImage[], index: number) => void;
 }) {
   const text = message.parts
     .map((p) => (p.type === "text" ? p.text : ""))
     .join("");
 
-  // Images sent via files → stored as 'file' parts in the message
-  const imageParts = message.parts.filter(
-    (p): p is FileUIPart => p.type === "file" && (p as FileUIPart).mediaType?.startsWith("image/"),
-  ) as FileUIPart[];
+  // Images sent via files or directly as images → mapped to a consistent format
+  const imageParts = message.parts
+    .filter(
+      (p) =>
+        (p.type === "file" &&
+          (Boolean((p as FileUIPart).mediaType?.startsWith("image/")) ||
+            Boolean((p as any).url?.startsWith("data:image/")))) ||
+        (p as any).type === "image"
+    )
+    .map((p: any) => ({
+      type: "file",
+      url: p.type === "image" ? (p.image instanceof URL ? p.image.toString() : p.image) : p.url,
+      filename: p.filename || "image.png",
+      mediaType: p.mediaType || p.mimeType || "image/png",
+    })) as FileUIPart[];
 
   if (message.role === "user") {
     return (
@@ -563,15 +669,46 @@ function MessageBubble({
         <div className="max-w-[85%] sm:max-w-[75%] space-y-2">
           {/* Inline image previews */}
           {imageParts.length > 0 && (
-            <div className="flex flex-wrap gap-2 justify-end">
+            <div
+              className={cn(
+                "grid gap-2 justify-end",
+                imageParts.length === 1
+                  ? "grid-cols-1 max-w-sm"
+                  : imageParts.length === 2
+                    ? "grid-cols-2 max-w-md"
+                    : "grid-cols-2 sm:grid-cols-3 max-w-lg",
+              )}
+            >
               {imageParts.map((fp, i) => (
-                <img
+                <div
                   key={i}
-                  src={fp.url}
-                  alt={fp.filename ?? "ảnh đính kèm"}
-                  className="max-h-64 max-w-full rounded-2xl object-cover shadow-soft border border-border/30 cursor-zoom-in"
-                  onClick={() => window.open(fp.url, "_blank")}
-                />
+                  className="group relative rounded-2xl overflow-hidden border border-border/50 bg-card/60 shadow-soft cursor-pointer transition-all duration-200 hover:shadow-lg hover:border-primary/50 hover:-translate-y-0.5 select-none"
+                  onClick={() =>
+                    onViewImage(
+                      imageParts.map((p) => ({ url: p.url, filename: p.filename })),
+                      i,
+                    )
+                  }
+                >
+                  <img
+                    src={fp.url}
+                    alt={fp.filename ?? "ảnh đính kèm"}
+                    className="max-h-60 sm:max-h-72 w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                    loading="lazy"
+                  />
+                  {/* Subtle hover overlay badge */}
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col justify-between p-2.5 pointer-events-none">
+                    <div className="self-end px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-[11px] font-medium text-white border border-white/20 flex items-center gap-1 shadow-sm">
+                      <span>🔍</span>
+                      <span>Phóng to</span>
+                    </div>
+                    {fp.filename && (
+                      <p className="truncate text-[11px] text-white/90 bg-black/60 backdrop-blur-md px-2 py-0.5 rounded-md self-start max-w-full">
+                        {fp.filename}
+                      </p>
+                    )}
+                  </div>
+                </div>
               ))}
             </div>
           )}
@@ -597,7 +734,35 @@ function MessageBubble({
       <div className="flex-1 min-w-0">
         {/* Main answer content */}
         <div className="prose-chat text-foreground">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{mainContent || "​"}</ReactMarkdown>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={{
+              img: ({ src, alt }) => {
+                if (!src) return null;
+                return (
+                  <span
+                    className="group relative inline-block my-2.5 rounded-2xl overflow-hidden border border-border/50 bg-card shadow-soft cursor-pointer transition-all hover:border-primary/50 hover:shadow-md hover:-translate-y-0.5 select-none"
+                    onClick={() =>
+                      onViewImage([{ url: src, filename: alt || "Ảnh từ câu trả lời" }], 0)
+                    }
+                  >
+                    <img
+                      src={src}
+                      alt={alt || "Ảnh minh họa"}
+                      className="max-h-72 sm:max-h-80 w-auto object-contain rounded-2xl transition-transform duration-300 group-hover:scale-[1.02]"
+                      loading="lazy"
+                    />
+                    <span className="absolute bottom-2 right-2 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md text-[11px] font-medium text-white border border-white/20 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shadow-sm">
+                      <span>🔍</span>
+                      <span>Phóng to</span>
+                    </span>
+                  </span>
+                );
+              },
+            }}
+          >
+            {mainContent || "​"}
+          </ReactMarkdown>
         </div>
 
         {/* 💡 Clickable suggestion buttons */}
