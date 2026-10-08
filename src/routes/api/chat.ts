@@ -115,12 +115,34 @@ export const Route = createFileRoute("/api/chat")({
           }
         }
 
+        // ── QUERY REWRITING (EXPANSION) ───────────────────────────
+        // Use LLM to rewrite slang or abbreviations into formal terms for better DB search
+        let searchKeyword = userText;
+        // Only rewrite if it's a short text (likely a query, not a big document)
+        if (searchKeyword && searchKeyword.length < 150) {
+          try {
+            console.log(`[API/Chat] 🔄 Rewriting query: "${searchKeyword}"`);
+            const rewriteResult = await generateText({
+              model: primaryModel,
+              system: "Bạn là trợ lý giúp tối ưu hóa từ khóa tìm kiếm. Hãy chuẩn hóa câu hỏi của sinh viên thành một câu truy vấn rõ ràng, đầy đủ từ ngữ chuyên môn hành chính. \nVí dụ:\n- 'giấy hoãn đi lính' -> 'thủ tục xin giấy xác nhận tạm hoãn nghĩa vụ quân sự'\n- 'nvqs' -> 'nghĩa vụ quân sự'\n- 'rút hs' -> 'rút hồ sơ sinh viên'\n\nCHỈ trả về đúng 1 câu truy vấn đã chuẩn hoá. KHÔNG giải thích. KHÔNG trả lời câu hỏi.",
+              prompt: searchKeyword,
+            });
+            if (rewriteResult.text) {
+              // We append the rewritten query so the DB can match either original or rewritten keywords
+              searchKeyword = `${searchKeyword} ${rewriteResult.text.trim()}`;
+              console.log(`[API/Chat] 📝 Rewritten search keyword: "${searchKeyword}"`);
+            }
+          } catch (e) {
+            console.error("[API/Chat] Query rewriting failed:", e);
+          }
+        }
+
         // Knowledge retrieval
         let systemPrompt = SYSTEM_PROMPT;
 
         try {
-          if (userText) {
-            const enhanced = await aiService.getEnhancedPrompt(userText);
+          if (searchKeyword) {
+            const enhanced = await aiService.getEnhancedPrompt(searchKeyword);
             systemPrompt = enhanced.systemPrompt;
 
             if (enhanced.hasKnowledge) {
@@ -129,11 +151,11 @@ export const Route = createFileRoute("/api/chat")({
                   ? `L1 FAQ: ${enhanced.knowledgeResults.length} matches (top confidence: ${enhanced.knowledgeResults[0]?.confidence ?? 0}%)`
                   : `L2 Chunk: ${enhanced.l2Results?.chunks.length ?? 0} chunks (${enhanced.l2Results?.matchedCategory ?? ""})`;
               console.log(
-                `[API/Chat] ✅ [${enhanced.layer}] ${detail} for "${userText.slice(0, 50)}"`,
+                `[API/Chat] ✅ [${enhanced.layer}] ${detail} for "${searchKeyword.slice(0, 50)}"`,
               );
             } else {
               console.log(
-                `[API/Chat] ⚠️  Fallback for "${userText.slice(0, 50)}"`,
+                `[API/Chat] ⚠️  Fallback for "${searchKeyword.slice(0, 50)}"`,
               );
             }
           }
