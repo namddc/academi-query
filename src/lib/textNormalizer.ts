@@ -1,10 +1,24 @@
 /**
  * Academic Text Normalizer for iBot Text-to-Speech (TTS)
- * Chuẩn hóa văn bản học vụ, dịch từ viết tắt, số tiền, ngày tháng sang ngữ âm tiếng Việt tự nhiên.
+ * Chuẩn hóa văn bản học vụ, loại bỏ icon/emoji gây nhiễu, dịch số văn bản pháp quy,
+ * từ viết tắt, số tiền, ngày tháng sang ngữ âm tiếng Việt tự nhiên và êm tai.
  */
 
 // 1. BẢNG TỪ ĐIỂN TỪ VIẾT TẮT HỌC ĐƯỜNG & HÀNH CHÍNH
 export const ACADEMIC_DICTIONARY: Record<string, string> = {
+  // Tên Trường & Đại học
+  "ĐHCNTT&TT": "Đại học Công nghệ Thông tin và Truyền thông",
+  "ĐHCNTT-TT": "Đại học Công nghệ Thông tin và Truyền thông",
+  "ICTU": "I C T U",
+  "ĐHTN": "Đại học Thái Nguyên",
+  "ĐHQG": "Đại học Quốc gia",
+  "ĐHBK": "Đại học Bách khoa",
+  "ĐHSP": "Đại học Sư phạm",
+  "ĐHKT": "Đại học Kinh tế",
+  "ĐHYD": "Đại học Y Dược",
+  "ĐH": "đại học",
+  "CĐ": "cao đẳng",
+
   // Sinh viên & Đào tạo
   "SV": "sinh viên",
   "MSSV": "mã số sinh viên",
@@ -29,24 +43,39 @@ export const ACADEMIC_DICTIONARY: Record<string, string> = {
   "TLTN": "tiểu luận tốt nghiệp",
   "TTTN": "thực tập tốt nghiệp",
 
+  // Văn bản & Pháp quy
+  "QĐ": "quyết định",
+  "NĐ": "nghị định",
+  "NQ": "nghị quyết",
+  "TB": "thông báo",
+  "KH": "kế hoạch",
+  "HD": "hướng dẫn",
+  "CT": "chỉ thị",
+  "TTg": "Thủ tướng",
+  "CP": "Chính phủ",
+
   // Phòng ban & Đơn vị
   "P.CTSV": "phòng công tác sinh viên",
   "PCTSV": "phòng công tác sinh viên",
   "CTSV": "công tác sinh viên",
+  "P.CTHSSV": "phòng công tác học sinh sinh viên",
+  "PCTHSSV": "phòng công tác học sinh sinh viên",
+  "CTHSSV": "công tác học sinh sinh viên",
   "P.ĐT": "phòng đào tạo",
   "PĐT": "phòng đào tạo",
   "P.KHTC": "phòng kế hoạch tài chính",
   "KHTC": "kế hoạch tài chính",
   "P.QLCL": "phòng quản lý chất lượng",
   "QLCL": "quản lý chất lượng",
-  "ĐH": "đại học",
-  "CĐ": "cao đẳng",
+  "P.HC": "phòng hành chính",
   "BGH": "ban giám hiệu",
   "ĐTN": "đoàn thanh niên",
   "HSV": "hội sinh viên",
   "UBND": "ủy ban nhân dân",
+  "HĐND": "hội đồng nhân dân",
   "GD&ĐT": "giáo dục và đào tạo",
   "BGD&ĐT": "bộ giáo dục và đào tạo",
+  "BGDĐT": "bộ giáo dục và đào tạo",
 
   // Chuyên ngành
   "CNTT": "công nghệ thông tin",
@@ -89,7 +118,82 @@ export const ACADEMIC_DICTIONARY: Record<string, string> = {
 };
 
 /**
- * Chuyển số tiền dạng chuỗi sang đọc tiếng Việt tự nhiên
+ * 2. LỌC BỎ TOÀN BỘ EMOJI VÀ ICON GÂY NHIỄU
+ * Trình duyệt thường đọc tên mã emoji (ví dụ "chồng sách", "đinh ghim", "bóng đèn").
+ * Hàm này loại bỏ 100% emoji và biểu tượng đồ họa.
+ */
+export function stripEmojisAndIcons(text: string): string {
+  return text
+    // Các dải Unicode Emoji & Pictographs chính
+    .replace(/[\u{1F300}-\u{1F9FF}\u{1FA00}-\u{1FAFF}\u{2600}-\u{27BF}\u{2300}-\u{23FF}\u{2B50}\u{FE0F}\u{200D}]/gu, "")
+    // Các biểu tượng cụ thể hay dùng trong chatbot
+    .replace(/[📚📌💡⭐🎯⚖️🏛️📋🔍🚀👨‍🎓👩‍🎓🗓️⏰💰🎓⚠️✅❌🔔📞🌐🙏😊👍👎🔄]/gu, "")
+    .replace(/[•●▪️▫️▶️◀️ℹ️]/g, "");
+}
+
+/**
+ * 3. CHUẨN HÓA VĂN BẢN PHÁP QUY & TRÍCH DẪN ĐIỀU KHOẢN
+ * Ví dụ: 429/QĐ-ĐHCNTT&TT — Điều 8, Khoản 3
+ * -> Quyết định số 429 của Trường Đại học Công nghệ Thông tin và Truyền thông, Điều 8, Khoản 3
+ */
+export function normalizeLegalCitations(text: string): string {
+  // Chuẩn hóa tiêu đề Nguồn: và Gợi ý câu hỏi:
+  text = text.replace(/(?:^|\n)\s*(?:\*\*)?Nguồn(?:\s*:\s*|\s*:\s*:\s*|\s*)/gi, "\nNguồn trích dẫn: ");
+  text = text.replace(/(?:^|\n)\s*(?:\*\*)?Bạn có thể hỏi thêm(?:\s*:\s*|\s*)/gi, "\nGợi ý câu hỏi thêm:\n");
+
+  // Xóa các chuỗi dấu hai chấm liên tiếp ": :" hoặc ":  :"
+  text = text.replace(/:\s*:/g, ":");
+
+  // 1. Quyết định của trường ĐHCNTT&TT / ICTU
+  // Ví dụ: 429/QĐ-ĐHCNTT&TT hoặc 429/QĐ-ICTU hoặc Số 429/QĐ-ĐHCNTT&TT
+  text = text.replace(
+    /(?:Số\s*:?\s*)?(\d+)\/QĐ-(?:ĐHCNTT&TT|ĐHCNTT-TT|ICTU)\b/gi,
+    "Quyết định số $1 của Trường Đại học Công nghệ Thông tin và Truyền thông",
+  );
+
+  // 2. Quyết định của Đại học Thái Nguyên
+  text = text.replace(
+    /(?:Số\s*:?\s*)?(\d+)\/QĐ-(?:ĐHTN)\b/gi,
+    "Quyết định số $1 của Đại học Thái Nguyên",
+  );
+
+  // 3. Nghị định Chính phủ: 123/NĐ-CP
+  text = text.replace(
+    /(?:Số\s*:?\s*)?(\d+)\/NĐ-CP\b/gi,
+    "Nghị định số $1 của Chính phủ",
+  );
+
+  // 4. Thông tư Bộ GD&ĐT: 08/2021/TT-BGDĐT
+  text = text.replace(
+    /(?:Số\s*:?\s*)?(\d+)(?:\/(\d{4}))?\/TT-(?:BGDĐT|BGD&ĐT)\b/gi,
+    (_m, num, year) => year ? `Thông tư số ${num} năm ${year} của Bộ Giáo dục và Đào tạo` : `Thông tư số ${num} của Bộ Giáo dục và Đào tạo`,
+  );
+
+  // 5. Thông báo của trường: 12/TB-ĐHCNTT&TT
+  text = text.replace(
+    /(?:Số\s*:?\s*)?(\d+)\/TB-(?:ĐHCNTT&TT|ĐHCNTT-TT|ICTU)\b/gi,
+    "Thông báo số $1 của Trường Đại học Công nghệ Thông tin và Truyền thông",
+  );
+
+  // 6. Các quyết định tổng quát khác: (\d+)/QĐ-XYZ
+  text = text.replace(
+    /(?:Số\s*:?\s*)?(\d+)\/QĐ-([A-ZÀ-Ỹ0-9&_-]+)\b/gi,
+    "Quyết định số $1",
+  );
+
+  // 7. Xử lý dấu gạch nối dài (em-dash, en-dash) trong trích dẫn
+  // Ví dụ: "Trường Đại học Công nghệ Thông tin và Truyền thông — Điều 8, Khoản 3"
+  text = text.replace(/\s*[—–]\s*(?=Điều|Khoản|Điểm|Mục|Chương)/gi, ", ");
+
+  // 8. Chuẩn hóa "Điều X, Khoản Y, Điểm Z"
+  text = text.replace(/\bĐiều\s+(\d+)\s*,\s*Khoản\s+(\d+)\b/gi, "Điều $1, Khoản $2");
+  text = text.replace(/\bKhoản\s+(\d+)\s*,\s*Điểm\s+([a-zđA-ZĐ])\b/gi, "Khoản $1, Điểm $2");
+
+  return text;
+}
+
+/**
+ * 4. CHUYỂN ĐỔI TIỀN TỆ HỌC PHÍ SANG TIẾNG VIỆT TỰ NHIÊN
  * Ví dụ: 50.000 VNĐ -> 50 nghìn đồng
  * 1.500.000 VNĐ -> 1 triệu 500 nghìn đồng
  */
@@ -121,7 +225,7 @@ export function normalizeCurrency(text: string): string {
 }
 
 /**
- * Chuẩn hóa định dạng Ngày tháng và Giờ học vụ
+ * 5. CHUẨN HÓA NGÀY THÁNG VÀ GIỜ HỌC VỤ
  * 28/02/2025 -> ngày 28 tháng 2 năm 2025
  * 17h30 -> 17 giờ 30 phút
  */
@@ -131,9 +235,9 @@ export function normalizeDateTime(text: string): string {
     /\b(\d{1,2})\/(\d{1,2})\/(\d{4})\b/g,
     "ngày $1 tháng $2 năm $3",
   );
-  // Ngày/Tháng
+  // Ngày/Tháng (tránh nhầm với số văn bản như 429/QĐ đã được normalize trước đó)
   text = text.replace(
-    /\b(\d{1,2})\/(\d{1,2})\b/g,
+    /(?<=\s|^)(\d{1,2})\/(\d{1,2})(?=\s|[.,;:!?]|$)/g,
     "ngày $1 tháng $2",
   );
   // Giờ có phút: 17h30 -> 17 giờ 30 phút
@@ -155,12 +259,11 @@ export function normalizeDateTime(text: string): string {
 }
 
 /**
- * Chuẩn hóa thang điểm và phân số
+ * 6. CHUẨN HÓA THANG ĐIỂM
  * 4.0/4.0 -> 4 chấm không trên 4 chấm không
  * 8.5/10 -> 8 phẩy 5 trên 10
  */
 export function normalizeGrading(text: string): string {
-  // Điểm trên thang: 3.5/4.0 hoặc 8.5/10
   text = text.replace(
     /(\d+)[.,](\d+)\/(\d+(?:[.,]\d+)?)/g,
     "$1 phẩy $2 trên $3",
@@ -173,10 +276,9 @@ export function normalizeGrading(text: string): string {
 }
 
 /**
- * Chuyển các ký hiệu danh sách đánh số hoặc gạch đầu dòng thành từ chuyển tiếp êm tai
+ * 7. TẠO ĐỘ NGHỈ TỰ NHIÊN CHO DANH SÁCH ĐẦU DÒNG
  * 1. -> Thứ nhất,
  * 2. -> Thứ hai,
- * 3. -> Thứ ba,
  */
 export function normalizeListBullets(text: string): string {
   const ordinalMap: Record<string, string> = {
@@ -204,22 +306,21 @@ export function normalizeListBullets(text: string): string {
 }
 
 /**
- * Thay thế từ điển viết tắt học vụ
- * Chú ý: dùng word boundary \b và bảo vệ trường hợp chữ hoa
+ * 8. THAY THẾ TỪ VIẾT TẮT HỌC VỤ
  */
 export function normalizeAbbreviations(text: string): string {
-  // Sắp xếp các từ theo độ dài giảm dần để ưu tiên từ dài trước (VD: ĐTBCHT trước ĐTB)
+  // Sắp xếp các từ theo độ dài giảm dần để ưu tiên từ dài trước (VD: ĐHCNTT&TT trước CNTT)
   const sortedKeys = Object.keys(ACADEMIC_DICTIONARY).sort(
     (a, b) => b.length - a.length,
   );
 
   for (const abbr of sortedKeys) {
     const full = ACADEMIC_DICTIONARY[abbr];
-    // Thoát các ký tự đặc biệt trong từ viết tắt như dấu chấm (P.CTSV, P.ĐT) hoặc dấu & (GD&ĐT)
+    // Thoát ký tự đặc biệt
     const escaped = abbr.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     
-    // Nếu từ có dấu chấm hoặc ký tự đặc biệt, không dùng \b ở đầu/cuối một cách tùy tiện
-    const regex = new RegExp(`(?<=^|\\s|[.,;:!?()])${escaped}(?=$|\\s|[.,;:!?()])`, "g");
+    // Khớp từ độc lập, không dính liền với từ khác
+    const regex = new RegExp(`(?<=^|[\\s.,;:!?()""''—–-])${escaped}(?=$|[\\s.,;:!?()""''—–-])`, "g");
     text = text.replace(regex, full);
   }
 
@@ -227,7 +328,7 @@ export function normalizeAbbreviations(text: string): string {
 }
 
 /**
- * Làm sạch văn bản Markdown, thẻ HTML, bảng biểu và ký tự kỹ thuật
+ * 9. LÀM SẠCH CÁC THẺ MARKDOWN VÀ KÝ TỰ KỸ THUẬT
  */
 export function cleanMarkdownForSpeech(text: string): string {
   return text
@@ -239,14 +340,14 @@ export function cleanMarkdownForSpeech(text: string): string {
     .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
     // Bỏ markdown images ![alt](url) -> ""
     .replace(/!\[([^\]]*)\]\([^)]+\)/g, "")
-    // Xử lý bảng biểu markdown: thay ký tự | bằng dấu phẩy để tạo ngắt nhịp
+    // Bảng biểu markdown: thay ký tự | bằng dấu phẩy
     .replace(/\|/g, ", ")
-    .replace(/[-:]{3,}/g, "") // Bỏ đường kẻ ngang bảng
+    .replace(/[-:]{3,}/g, "")
     // Bỏ các ký tự định dạng markdown #, *, _, ~, >, =
     .replace(/[#*_~>=]/g, "")
     // Bỏ thẻ HTML
     .replace(/<[^>]*>/g, "")
-    // Thay đổi nhiều dấu cách/xuống dòng thành 1 dấu cách
+    // Chuyển dòng mới thành dấu chấm tạo khoảng nghỉ
     .replace(/\r\n|\r|\n/g, ". ")
     .replace(/\s+/g, " ")
     .replace(/\.{2,}/g, ".")
@@ -254,35 +355,43 @@ export function cleanMarkdownForSpeech(text: string): string {
 }
 
 /**
- * HÀM CHÍNH: Chuẩn hóa toàn diện văn bản trước khi đưa vào Text-To-Speech
+ * HÀM CHÍNH TOÀN DIỆN: Chuẩn hóa toàn bộ văn bản cho Text-To-Speech
  */
 export function normalizeForSpeech(rawText: string): string {
   if (!rawText || typeof rawText !== "string") return "";
 
   let result = rawText;
 
-  // Bước 1: Làm sạch markdown và ký tự cấu trúc
+  // Bước 1: Xóa sạch toàn bộ emoji và biểu tượng đồ họa
+  result = stripEmojisAndIcons(result);
+
+  // Bước 2: Chuẩn hóa số văn bản pháp quy, số quyết định, thông tư trước
+  result = normalizeLegalCitations(result);
+
+  // Bước 3: Làm sạch định dạng markdown và code
   result = cleanMarkdownForSpeech(result);
 
-  // Bước 2: Chuẩn hóa danh sách đầu dòng để có nhịp nghỉ tự nhiên
+  // Bước 4: Chuẩn hóa danh sách đầu dòng để có nhịp nghỉ tự nhiên
   result = normalizeListBullets(result);
 
-  // Bước 3: Chuẩn hóa tiền tệ học phí
+  // Bước 5: Chuẩn hóa tiền tệ học phí
   result = normalizeCurrency(result);
 
-  // Bước 4: Chuẩn hóa ngày tháng và giờ
+  // Bước 6: Chuẩn hóa ngày tháng và giờ
   result = normalizeDateTime(result);
 
-  // Bước 5: Chuẩn hóa thang điểm
+  // Bước 7: Chuẩn hóa thang điểm
   result = normalizeGrading(result);
 
-  // Bước 6: Thay thế từ viết tắt học vụ
+  // Bước 8: Thay thế các từ viết tắt học vụ
   result = normalizeAbbreviations(result);
 
-  // Bước 7: Dọn dẹp khoảng trắng dư thừa và dấu câu liền nhau
+  // Bước 9: Dọn dẹp dấu câu liền nhau và khoảng trắng
   result = result
     .replace(/\s+([.,;:!?])/g, "$1")
     .replace(/([.,;:!?])\1+/g, "$1")
+    .replace(/,\s*\./g, ".")
+    .replace(/\.\s*,/g, ".")
     .replace(/\s+/g, " ")
     .trim();
 
@@ -296,12 +405,11 @@ export function normalizeForSpeech(rawText: string): string {
 export function splitIntoSpeechSentences(text: string): string[] {
   if (!text) return [];
 
-  // Tách theo dấu kết thúc câu: . ! ? hoặc dấu chấm lửng
   const rawSentences = text.split(/(?<=[.!?])\s+/);
   const chunks: string[] = [];
 
   let currentChunk = "";
-  const MAX_CHUNK_LENGTH = 160; // Số ký tự tối ưu cho 1 utterance (khoảng 10-15 từ)
+  const MAX_CHUNK_LENGTH = 160;
 
   for (const sentence of rawSentences) {
     const trimmed = sentence.trim();
@@ -313,7 +421,6 @@ export function splitIntoSpeechSentences(text: string): string[] {
       if (currentChunk) {
         chunks.push(currentChunk);
       }
-      // Nếu bản thân câu đó quá dài (>160 ký tự), tiếp tục tách theo dấu phẩy hoặc chấm phẩy
       if (trimmed.length > MAX_CHUNK_LENGTH) {
         const subParts = trimmed.split(/(?<=[,;])\s+/);
         let subChunk = "";
