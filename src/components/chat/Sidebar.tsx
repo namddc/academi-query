@@ -1,7 +1,11 @@
 import { Link, useNavigate, useParams } from "@tanstack/react-router";
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
 import { useThreads } from "@/hooks/useThreads";
 import { useAuth } from "@/hooks/useAuth";
+import { authService } from "@/services/authService";
+import { threadService, type Thread } from "@/services/threadService";
+import { bookmarkService } from "@/services/bookmarkService";
+import { BookmarksModal } from "@/components/chat/BookmarksModal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -17,6 +21,9 @@ import {
   Pencil,
   Check,
   X,
+  FileText,
+  Bookmark,
+  BarChart2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -34,8 +41,17 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: Prop
   const [search, setSearch] = useState("");
   const { user, signOut } = useAuth();
   const { threads, createThread, renameThread, deleteThread } = useThreads();
+  const [showBookmarks, setShowBookmarks] = useState(false);
+  const [bookmarkCount, setBookmarkCount] = useState(() => bookmarkService.getBookmarks().length);
+
+  useEffect(() => {
+    const updateCount = () => setBookmarkCount(bookmarkService.getBookmarks().length);
+    window.addEventListener("ibot_bookmarks_changed", updateCount);
+    return () => window.removeEventListener("ibot_bookmarks_changed", updateCount);
+  }, []);
 
   // ── Inline rename state ───────────────────────────────────
+
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editValue, setEditValue] = useState("");
   const editRef = useRef<HTMLInputElement>(null);
@@ -74,13 +90,120 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: Prop
     toast.success("Đã xóa cuộc trò chuyện");
   };
 
-  // ── Filter ────────────────────────────────────────────────
+  // ── Search & Grouping ──────────────────────────────────────
 
-  const filtered = threads.filter((t) =>
-    t.title.toLowerCase().includes(search.toLowerCase()),
-  );
+  const isSearching = Boolean(search.trim());
 
-  // ── Content ───────────────────────────────────────────────
+  // Search through title and message content
+  const searchResults = useMemo(() => {
+    if (!isSearching) return [];
+    return threadService.searchThreads(user?.id ?? "anonymous", search);
+  }, [search, isSearching, user?.id, threads]);
+
+  // Group threads by timeline when not searching
+  const groupedThreads = useMemo(() => {
+    if (isSearching) return {};
+    return threadService.groupThreadsByDate(threads);
+  }, [threads, isSearching]);
+
+  // ── Render individual thread item ─────────────────────────
+  const renderThreadItem = (t: Thread & { matchSnippet?: string }) => {
+    const active = params.threadId === t.id;
+    const isEditing = editingId === t.id;
+
+    return (
+      <li key={t.id} className="group relative">
+        {/* Rename mode */}
+        {isEditing && !collapsed ? (
+          <div className="flex items-center gap-1 px-2 py-1.5">
+            <Input
+              ref={editRef}
+              value={editValue}
+              onChange={(e) => setEditValue(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") commitEdit();
+                if (e.key === "Escape") cancelEdit();
+              }}
+              className="h-8 rounded-lg text-sm flex-1"
+            />
+            <button
+              onClick={commitEdit}
+              className="size-7 grid place-items-center rounded-lg hover:bg-primary/10 hover:text-primary transition-colors"
+              title="Lưu"
+            >
+              <Check className="size-3.5" />
+            </button>
+            <button
+              onClick={cancelEdit}
+              className="size-7 grid place-items-center rounded-lg hover:bg-destructive/10 hover:text-destructive transition-colors"
+              title="Hủy"
+            >
+              <X className="size-3.5" />
+            </button>
+          </div>
+        ) : (
+          /* Normal mode */
+          <>
+            <Link
+              to="/chat/$threadId"
+              params={{ threadId: t.id }}
+              onClick={onMobileClose}
+              className={cn(
+                "flex items-start gap-2.5 px-3 py-2 rounded-xl text-sm transition-colors",
+                active
+                  ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+                  : "hover:bg-sidebar-accent/60",
+                collapsed && "justify-center px-2 py-2.5 items-center",
+              )}
+              title={t.title}
+            >
+              <MessageSquare className="size-4 shrink-0 opacity-70 mt-0.5" />
+              {!collapsed && (
+                <div className="min-w-0 flex-1">
+                  <div className="truncate text-sm leading-snug">{t.title}</div>
+                  {t.matchSnippet && (
+                    <div className="text-[11px] text-muted-foreground/80 truncate mt-0.5 italic flex items-center gap-1">
+                      <FileText className="size-3 shrink-0 text-primary/70" />
+                      <span>{t.matchSnippet}</span>
+                    </div>
+                  )}
+                </div>
+              )}
+            </Link>
+
+            {/* Action buttons (only when not collapsed) */}
+            {!collapsed && (
+              <div className="absolute right-1.5 top-2.5 flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-all bg-sidebar/80 backdrop-blur-sm rounded-lg px-0.5">
+                {/* Rename */}
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    startEdit(t.id, t.title);
+                  }}
+                  className="size-7 rounded-lg grid place-items-center hover:bg-primary/10 hover:text-primary transition-all"
+                  aria-label="Đổi tên"
+                  title="Đổi tên"
+                >
+                  <Pencil className="size-3.5" />
+                </button>
+                {/* Delete */}
+                <button
+                  onClick={(e) => handleDelete(e, t.id)}
+                  className="size-7 rounded-lg grid place-items-center hover:bg-destructive/10 hover:text-destructive transition-all"
+                  aria-label="Xóa"
+                  title="Xóa"
+                >
+                  <Trash2 className="size-3.5" />
+                </button>
+              </div>
+            )}
+          </>
+        )}
+      </li>
+    );
+  };
+
 
   const content = (
     <div
@@ -115,19 +238,71 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: Prop
         </Button>
       </div>
 
-      {/* New chat */}
-      <div className="p-3">
+      {/* New chat & Bookmarks */}
+      <div className="p-3 space-y-1.5">
         <Button
           onClick={handleNewChat}
           className={cn(
-            "w-full rounded-xl h-11 bg-primary hover:bg-primary/90 text-primary-foreground gap-2 font-medium",
+            "w-full rounded-xl h-11 bg-primary hover:bg-primary/90 text-primary-foreground gap-2 font-medium shadow-soft",
             collapsed && "px-0",
           )}
         >
           <Plus className="size-4 shrink-0" />
           {!collapsed && <span>Cuộc trò chuyện mới</span>}
         </Button>
+
+        {/* Bookmarks Quick Button */}
+        <Button
+          variant="outline"
+          onClick={() => {
+            setShowBookmarks(true);
+            onMobileClose();
+          }}
+          className={cn(
+            "w-full rounded-xl h-9 border-sidebar-border bg-card/40 hover:bg-sidebar-accent text-sidebar-foreground gap-2 font-normal text-xs justify-start",
+            collapsed && "px-0 justify-center",
+          )}
+          title="Tin nhắn đã ghim"
+        >
+          <Bookmark className="size-3.5 shrink-0 text-amber-500 fill-amber-500" />
+          {!collapsed && (
+            <div className="flex items-center justify-between w-full">
+              <span>Tin nhắn đã ghim</span>
+              {bookmarkCount > 0 && (
+                <span className="px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-600 text-[10px] font-semibold">
+                  {bookmarkCount}
+                </span>
+              )}
+            </div>
+          )}
+        </Button>
+
+        {/* Admin Dashboard Quick Button - Chỉ hiển thị cho tài khoản namnam281205@gmail.com */}
+        {authService.isAdmin(user) && (
+          <Button
+            asChild
+            variant="outline"
+            className={cn(
+              "w-full rounded-xl h-9 border-sidebar-border bg-card/40 hover:bg-primary/10 hover:border-primary/40 hover:text-primary text-sidebar-foreground gap-2 font-normal text-xs justify-start",
+              collapsed && "px-0 justify-center",
+            )}
+            title="Bảng Quản trị & Analytics"
+          >
+            <Link to="/admin/dashboard" onClick={onMobileClose}>
+              <BarChart2 className="size-3.5 shrink-0 text-primary" />
+              {!collapsed && (
+                <div className="flex items-center justify-between w-full">
+                  <span>Quản trị & Báo cáo</span>
+                  <span className="px-1.5 py-0.2 rounded bg-primary/15 text-primary text-[10px] font-semibold">
+                    Admin
+                  </span>
+                </div>
+              )}
+            </Link>
+          </Button>
+        )}
       </div>
+
 
       {/* Search */}
       {!collapsed && (
@@ -146,105 +321,48 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: Prop
 
       {/* Thread list */}
       <div className="flex-1 overflow-y-auto scrollbar-thin px-2 pb-2">
-        {!collapsed && (
-          <div className="px-3 pt-3 pb-2 text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">
-            Lịch sử trò chuyện
+        {isSearching ? (
+          <div>
+            {!collapsed && (
+              <div className="px-3 pt-3 pb-1 text-[11px] uppercase tracking-wider text-muted-foreground font-semibold flex items-center justify-between">
+                <span>Kết quả tìm kiếm</span>
+                <span className="text-[10px] font-normal px-1.5 py-0.5 rounded-full bg-primary/10 text-primary">
+                  {searchResults.length}
+                </span>
+              </div>
+            )}
+            <ul className="space-y-0.5">
+              {searchResults.length === 0 && !collapsed && (
+                <li className="px-3 py-6 text-center text-xs text-muted-foreground">
+                  Không tìm thấy cuộc trò chuyện hoặc nội dung tin nhắn phù hợp.
+                </li>
+              )}
+              {searchResults.map((t) => renderThreadItem(t))}
+            </ul>
+          </div>
+        ) : (
+          <div>
+            {Object.keys(groupedThreads).length === 0 && !collapsed && (
+              <div className="px-3 py-6 text-center text-xs text-muted-foreground">
+                Chưa có cuộc trò chuyện nào.
+              </div>
+            )}
+            {Object.entries(groupedThreads).map(([groupLabel, items]) => (
+              <div key={groupLabel} className="mb-2">
+                {!collapsed && (
+                  <div className="px-3 pt-2.5 pb-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground/70">
+                    {groupLabel}
+                  </div>
+                )}
+                <ul className="space-y-0.5">
+                  {items.map((t) => renderThreadItem(t))}
+                </ul>
+              </div>
+            ))}
           </div>
         )}
-        <ul className="space-y-0.5">
-          {filtered.length === 0 && !collapsed && (
-            <li className="px-3 py-6 text-center text-xs text-muted-foreground">
-              {search ? "Không tìm thấy cuộc trò chuyện nào." : "Chưa có cuộc trò chuyện nào."}
-            </li>
-          )}
-          {filtered.map((t) => {
-            const active = params.threadId === t.id;
-            const isEditing = editingId === t.id;
-
-            return (
-              <li key={t.id} className="group relative">
-                {/* Rename mode */}
-                {isEditing && !collapsed ? (
-                  <div className="flex items-center gap-1 px-2 py-1.5">
-                    <Input
-                      ref={editRef}
-                      value={editValue}
-                      onChange={(e) => setEditValue(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") commitEdit();
-                        if (e.key === "Escape") cancelEdit();
-                      }}
-                      className="h-8 rounded-lg text-sm flex-1"
-                    />
-                    <button
-                      onClick={commitEdit}
-                      className="size-7 grid place-items-center rounded-lg hover:bg-primary/10 hover:text-primary transition-colors"
-                      title="Lưu"
-                    >
-                      <Check className="size-3.5" />
-                    </button>
-                    <button
-                      onClick={cancelEdit}
-                      className="size-7 grid place-items-center rounded-lg hover:bg-destructive/10 hover:text-destructive transition-colors"
-                      title="Hủy"
-                    >
-                      <X className="size-3.5" />
-                    </button>
-                  </div>
-                ) : (
-                  /* Normal mode */
-                  <>
-                    <Link
-                      to="/chat/$threadId"
-                      params={{ threadId: t.id }}
-                      onClick={onMobileClose}
-                      className={cn(
-                        "flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm transition-colors",
-                        active
-                          ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
-                          : "hover:bg-sidebar-accent/60",
-                        collapsed && "justify-center px-2",
-                      )}
-                      title={t.title}
-                    >
-                      <MessageSquare className="size-4 shrink-0 opacity-70" />
-                      {!collapsed && <span className="truncate flex-1">{t.title}</span>}
-                    </Link>
-
-                    {/* Action buttons (only when not collapsed) */}
-                    {!collapsed && (
-                      <div className="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-all">
-                        {/* Rename */}
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            startEdit(t.id, t.title);
-                          }}
-                          className="size-7 rounded-lg grid place-items-center hover:bg-primary/10 hover:text-primary transition-all"
-                          aria-label="Đổi tên"
-                          title="Đổi tên"
-                        >
-                          <Pencil className="size-3.5" />
-                        </button>
-                        {/* Delete */}
-                        <button
-                          onClick={(e) => handleDelete(e, t.id)}
-                          className="size-7 rounded-lg grid place-items-center hover:bg-destructive/10 hover:text-destructive transition-all"
-                          aria-label="Xóa"
-                          title="Xóa"
-                        >
-                          <Trash2 className="size-3.5" />
-                        </button>
-                      </div>
-                    )}
-                  </>
-                )}
-              </li>
-            );
-          })}
-        </ul>
       </div>
+
 
       {/* User footer */}
       <div className={cn("border-t border-sidebar-border p-3", collapsed && "px-2")}>
@@ -305,6 +423,8 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: Prop
           {content}
         </div>
       </div>
+      {/* Bookmarks Modal */}
+      <BookmarksModal isOpen={showBookmarks} onClose={() => setShowBookmarks(false)} />
     </>
   );
 }

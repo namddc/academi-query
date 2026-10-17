@@ -16,6 +16,56 @@ export const Route = createFileRoute("/api/chat")({
       POST: async ({ request }) => {
         const rawBody = await request.json();
 
+        // ── Fast path: Generate Thread Title using LLM ───────────
+        if (rawBody?.action === "generate-title") {
+          const userMessage = (rawBody?.message ?? "") as string;
+          if (!userMessage.trim()) {
+            return new Response(JSON.stringify({ title: "Cuộc trò chuyện mới" }), {
+              status: 200,
+              headers: { "Content-Type": "application/json" },
+            });
+          }
+
+          try {
+            const prompt = `Bạn là trợ lý đặt tên ngắn gọn cho cuộc trò chuyện sinh viên. Hãy tóm tắt câu hỏi sau thành một tiêu đề ngắn gọn từ 3 đến 6 từ.
+Quy tắc:
+- Chỉ trả lời duy nhất tiêu đề tiếng Việt.
+- Không dấu ngoặc kép, không dấu chấm, không từ chào hỏi.
+- Thể hiện rõ chủ đề (ví dụ: "Học bổng khuyến khích HK2", "Quy trình xin bảo lưu", "Hạn nộp học phí").
+
+Câu hỏi: "${userMessage.slice(0, 250)}"`;
+
+            const primaryModel = getPrimaryModel();
+            const titleRes = await generateText({
+              model: primaryModel,
+              prompt,
+            });
+
+            let cleanedTitle = titleRes.text
+              .replace(/["'“”«»]/g, "")
+              .replace(/^Tiêu đề[:\s]*/i, "")
+              .replace(/[.\n\r]+$/, "")
+              .trim();
+
+            if (!cleanedTitle || cleanedTitle.length > 50) {
+              const words = userMessage.trim().split(/\s+/).slice(0, 7).join(" ");
+              cleanedTitle = words + (userMessage.split(/\s+/).length > 7 ? "..." : "");
+            }
+
+            return new Response(JSON.stringify({ title: cleanedTitle }), {
+              status: 200,
+              headers: { "Content-Type": "application/json" },
+            });
+          } catch (e) {
+            console.warn("[API/Chat] generate-title fallback:", e);
+            const words = userMessage.trim().split(/\s+/).slice(0, 7).join(" ");
+            return new Response(JSON.stringify({ title: words }), {
+              status: 200,
+              headers: { "Content-Type": "application/json" },
+            });
+          }
+        }
+
         const messages = rawBody?.messages as UIMessage[] | undefined;
         const threadId = (rawBody?.threadId ?? rawBody?.id) as
           | string
@@ -39,6 +89,7 @@ export const Route = createFileRoute("/api/chat")({
 
         // ── Helper: extract plain text from any message format ──
         function extractText(m: any): string {
+
           // AI SDK often sets content="" when using parts
           let text = "";
           if (m.parts && Array.isArray(m.parts)) {
@@ -115,30 +166,67 @@ export const Route = createFileRoute("/api/chat")({
           }
         }
 
-        // ── QUERY REWRITING (EXPANSION) ───────────────────────────
-        // Use LLM to rewrite slang or abbreviations into formal terms for better DB search
+        // ── Helper: build conversation context for query rewriting ──
+        function buildConversationContext(allMessages: UIMessage[], limit = 4): string {
+          const history = allMessages.slice(0, -1).slice(-limit);
+          if (history.length === 0) return "";
+          return history
+            .map((m) => {
+              const roleName = m.role === "user" ? "Sinh viên" : "iBot";
+              const text = extractText(m);
+              const truncated = text.length > 300 ? text.slice(0, 300) + "..." : text;
+              return `${roleName}: ${truncated}`;
+            })
+            .filter((line) => line.split(": ")[1]?.trim())
+            .join("\n");
+        }
+
+        // ── CONTEXT-AWARE QUERY REWRITING (EXPANSION) ─────────────
+        // If there's conversation history or slang, rewrite the question into a standalone, complete query
+        // so that RAG (FAQ & Document Chunks) can search accurately with context.
         let searchKeyword = userText;
-        // Only rewrite if it's a short text (likely a query, not a big document)
-        if (searchKeyword && searchKeyword.length < 150) {
+        const conversationContext = buildConversationContext(messages);
+
+        if (searchKeyword && searchKeyword.length < 300) {
           try {
-            console.log(`[API/Chat] 🔄 Rewriting query: "${searchKeyword}"`);
+            console.log(`[API/Chat] 🔄 Rewriting query with context. Original: "${searchKeyword}"`);
+
+            const systemPromptRewriter = conversationContext
+              ? `Bạn là trợ lý giúp tối ưu hóa từ khóa tìm kiếm cho hệ thống RAG trường đại học.
+Nhiệm vụ: Dựa vào lịch sử hội thoại gần đây và câu hỏi mới của sinh viên, hãy viết lại câu hỏi thành 1 câu truy vấn hoàn chỉnh, độc lập, rõ nghĩa, làm rõ các đại từ thay thế (như "nó", "đó", "thế còn...", "bao nhiêu", "ở đâu", "ai").
+Nếu câu hỏi đã đủ rõ ràng hoặc hỏi chủ đề mới không liên quan ngữ cảnh cũ, chỉ cần chuẩn hóa từ ngữ chuyên môn (ví dụ: 'nvqs' -> 'nghĩa vụ quân sự', 'rút hs' -> 'rút hồ sơ sinh viên').
+
+Quy tắc:
+- CHỈ trả về đúng 1 câu truy vấn độc lập hoàn chỉnh.
+- KHÔNG trả lời câu hỏi.
+- KHÔNG giải thích thêm.`
+              : `Bạn là trợ lý giúp tối ưu hóa từ khóa tìm kiếm cho hệ thống RAG trường đại học. Hãy chuẩn hóa câu hỏi của sinh viên thành một câu truy vấn rõ ràng, đầy đủ từ ngữ chuyên môn hành chính (ví dụ: 'giấy hoãn đi lính' -> 'thủ tục xin giấy xác nhận tạm hoãn nghĩa vụ quân sự', 'nvqs' -> 'nghĩa vụ quân sự', 'rút hs' -> 'rút hồ sơ sinh viên').
+CHỈ trả về đúng 1 câu truy vấn đã chuẩn hoá. KHÔNG giải thích. KHÔNG trả lời câu hỏi.`;
+
+            const userPromptRewriter = conversationContext
+              ? `[Lịch sử hội thoại gần đây]:\n${conversationContext}\n\n[Câu hỏi hiện tại của sinh viên]:\n${searchKeyword}`
+              : searchKeyword;
+
             const rewriteResult = await generateText({
               model: primaryModel,
-              system: "Bạn là trợ lý giúp tối ưu hóa từ khóa tìm kiếm. Hãy chuẩn hóa câu hỏi của sinh viên thành một câu truy vấn rõ ràng, đầy đủ từ ngữ chuyên môn hành chính. \nVí dụ:\n- 'giấy hoãn đi lính' -> 'thủ tục xin giấy xác nhận tạm hoãn nghĩa vụ quân sự'\n- 'nvqs' -> 'nghĩa vụ quân sự'\n- 'rút hs' -> 'rút hồ sơ sinh viên'\n\nCHỈ trả về đúng 1 câu truy vấn đã chuẩn hoá. KHÔNG giải thích. KHÔNG trả lời câu hỏi.",
-              prompt: searchKeyword,
+              system: systemPromptRewriter,
+              prompt: userPromptRewriter,
             });
+
             if (rewriteResult.text) {
-              // We append the rewritten query so the DB can match either original or rewritten keywords
-              searchKeyword = `${searchKeyword} ${rewriteResult.text.trim()}`;
+              const rewritten = rewriteResult.text.trim().replace(/^["']|["']$/g, "");
+              // Append rewritten query so DB can match both original keywords and contextual terms
+              searchKeyword = `${searchKeyword} ${rewritten}`;
               console.log(`[API/Chat] 📝 Rewritten search keyword: "${searchKeyword}"`);
             }
           } catch (e) {
-            console.error("[API/Chat] Query rewriting failed:", e);
+            console.error("[API/Chat] Context-aware query rewriting failed:", e);
           }
         }
 
         // Knowledge retrieval
         let systemPrompt = SYSTEM_PROMPT;
+        let detectedRagLayer = "none";
 
         try {
           if (searchKeyword) {
@@ -146,6 +234,7 @@ export const Route = createFileRoute("/api/chat")({
             systemPrompt = enhanced.systemPrompt;
 
             if (enhanced.hasKnowledge) {
+              detectedRagLayer = enhanced.layer;
               const detail =
                 enhanced.layer === "L1_FAQ"
                   ? `L1 FAQ: ${enhanced.knowledgeResults.length} matches (top confidence: ${enhanced.knowledgeResults[0]?.confidence ?? 0}%)`
@@ -162,8 +251,6 @@ export const Route = createFileRoute("/api/chat")({
         } catch (e) {
           console.error("[API/Chat] Knowledge retrieval failed:", e);
         }
-
-
 
         // Normalize messages to CoreMessage format — STRIP IMAGES because GemmaTranslate is text-only.
         const coreMessages: any[] = [];
@@ -197,8 +284,11 @@ export const Route = createFileRoute("/api/chat")({
           return result.toUIMessageStreamResponse({
             headers: {
               "x-thread-id": threadId,
+              "x-rag-layer": detectedRagLayer,
+              "Access-Control-Expose-Headers": "x-thread-id, x-rag-layer",
             },
           });
+
         } catch (e: any) {
           console.error("[API/Chat] Runtime error in streamText:", e);
           return new Response("Runtime Error: " + (e?.message || String(e)), {

@@ -1,0 +1,25 @@
+{
+  "short_name": "iBot ICTU",
+  "name": "iBot - Trợ lý Sinh viên AI ICTU",
+  "description": "Trợ lý ảo hỗ trợ học vụ, thủ tục và học bổng cho sinh viên Đại học Công nghệ Thông tin & Truyền thông",
+  "icons": [
+    {
+      "src": "/icon-192.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/chat",
+  "background_color": "#0F4C81",
+  "theme_color": "#0F4C81",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "scope": "/"
+}

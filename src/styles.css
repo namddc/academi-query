@@ -1,5 +1,4 @@
-@import "tailwindcss" source(none);
-@source "../src";
+@import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -215,3 +214,57 @@
 @utility animate-message-in {
   animation: fade-in-up 0.25s ease-out;
 }
+
+/* ============================================================
+   Print / Export PDF Styles (@media print)
+   ============================================================ */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #111827 !important;
+  }
+
+  /* Ẩn tất cả thành phần điều hướng và nút bấm */
+  aside,
+  nav,
+  header,
+  input,
+  textarea,
+  button,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Bỏ giới hạn cuộn để in toàn bộ nội dung */
+  html, body, #root, main, div {
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  /* Trình bày trang trọng cho báo cáo PDF */
+  .chat-print-container {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .chat-bubble-print {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin-bottom: 1.25rem !important;
+    box-shadow: none !important;
+    border: 1px solid #e2e8f0 !important;
+  }
+}
+
+@media screen {
+  .print-only {
+    display: none !important;
+  }
+}
+

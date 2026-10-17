@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { GraduationCap, Loader2 } from "lucide-react";
+import { GraduationCap, Loader2, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
 import { useGoogleLogin } from "@react-oauth/google";
 
@@ -27,6 +27,17 @@ function AuthPage() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [lockoutMessage, setLockoutMessage] = useState<string | null>(null);
+
+  // Đọc thông điệp tạm khóa nếu user vừa bị Admin force logout
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const msg = localStorage.getItem("ibot_lockout_message");
+      if (msg) {
+        setLockoutMessage(msg);
+      }
+    }
+  }, []);
 
   // Already logged in → go to chat
   useEffect(() => {
@@ -132,6 +143,22 @@ function AuthPage() {
                 : "Bắt đầu hành trình học tập cùng AI."}
             </p>
           </div>
+
+          {/* Banner Thông báo Tạm khóa Tài khoản */}
+          {lockoutMessage && (
+            <div className="p-4 rounded-2xl border border-rose-500/30 bg-rose-500/10 text-rose-800 dark:text-rose-200 text-xs flex items-start gap-3 shadow-soft animate-in fade-in">
+              <AlertTriangle className="size-5 shrink-0 text-rose-500 mt-0.5" />
+              <div className="space-y-1">
+                <div className="font-bold text-sm text-rose-600 dark:text-rose-400">
+                  Tài khoản của bạn đã bị Tạm khóa!
+                </div>
+                <p className="leading-relaxed opacity-90">{lockoutMessage}</p>
+                <div className="text-[11px] text-muted-foreground pt-1">
+                  Nếu bạn cho rằng đây là sự nhầm lẫn, vui lòng liên hệ Ban Quản trị hoặc Phòng Công tác Sinh viên để được mở lại.
+                </div>
+              </div>
+            </div>
+          )}
 
           <Button
             type="button"

@@ -27,6 +27,15 @@ import {
   ThumbsDown,
   Copy,
   Check,
+  Volume2,
+  VolumeX,
+  MessageSquare,
+  ExternalLink,
+  X,
+  Bookmark,
+  Download,
+  Printer,
+  FileDown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { AttachmentPreview } from "@/components/chat/AttachmentPreview";
@@ -38,9 +47,26 @@ import {
 } from "@/hooks/useAttachments";
 import { FileUIPart } from "ai";
 import { useVoiceInput } from "@/hooks/useVoiceInput";
+import { useTTS } from "@/hooks/useTTS";
 import { authService } from "@/services/authService";
 import { threadService, type StoredMessage } from "@/services/threadService";
+import { bookmarkService } from "@/services/bookmarkService";
+import {
+  feedbackService,
+  FEEDBACK_REASONS_MAP,
+  type FeedbackReason,
+} from "@/services/feedbackService";
+import { analyticsService, type RagLayer } from "@/services/analyticsService";
+
+import {
+  SCHOOL_NOTICES,
+  SCHOOL_DOCUMENTS,
+  QUICK_LINKS,
+  ACADEMIC_CALENDAR,
+} from "@/lib/school-info";
 import { ImageLightbox, type LightboxImage } from "@/components/chat/ImageLightbox";
+import { toast } from "sonner";
+
 
 // ── Suggestion chips ──────────────────────────────────────────
 
@@ -96,12 +122,26 @@ export function ChatWindow({ threadId, initialMessages, onAfterFirstSend }: Prop
   const { isRecording, isSupported: voiceSupported, toggleRecording } =
     useVoiceInput(handleTranscript);
 
-  // ── Chat (AI SDK) ─────────────────────────────────────────
+  // ── Analytics tracking refs ──────────────────────────────
+  const sendStartTimeRef = useRef<number>(0);
+  const ragLayerRef = useRef<RagLayer>("none");
+  const lastTrackedMsgCountRef = useRef<number>(0);
+
+  // ── Chat (AI SDK) — custom fetch để đọc x-rag-layer header ──
   const transport = token
     ? new DefaultChatTransport({
         api: "/api/chat",
         headers: { Authorization: `Bearer ${token}` },
         body: { threadId },
+        fetch: async (input, init) => {
+          sendStartTimeRef.current = Date.now();
+          ragLayerRef.current = "none";
+          const res = await fetch(input, init);
+          // Đọc header ngay khi nhận response (trước khi stream)
+          const layer = res.headers.get("x-rag-layer");
+          if (layer) ragLayerRef.current = layer as RagLayer;
+          return res;
+        },
       })
     : undefined;
 
@@ -110,6 +150,34 @@ export function ChatWindow({ threadId, initialMessages, onAfterFirstSend }: Prop
     messages: initialMessages,
     transport,
   });
+
+  // ── Ghi analytics khi bot trả lời xong ───────────────────
+  useEffect(() => {
+    // Chỉ ghi khi stream vừa hoàn thành (status: streaming → ready)
+    if (status !== "ready") return;
+    const assistantMsgs = messages.filter((m) => m.role === "assistant");
+    if (assistantMsgs.length === 0) return;
+    // Chỉ ghi khi có tin nhắn MỚI (so với lần trước)
+    if (assistantMsgs.length <= lastTrackedMsgCountRef.current) return;
+    lastTrackedMsgCountRef.current = assistantMsgs.length;
+
+    const lastUser = [...messages].reverse().find((m) => m.role === "user");
+    const query = lastUser
+      ? lastUser.parts.map((p: any) => p.text || "").join(" ").trim()
+      : "";
+    if (!query) return;
+
+    const latencyMs = sendStartTimeRef.current > 0
+      ? Date.now() - sendStartTimeRef.current
+      : 0;
+
+    analyticsService.recordEvent({
+      threadId,
+      query,
+      ragLayer: ragLayerRef.current,
+      latencyMs,
+    });
+  }, [status, messages, threadId]);
 
   // ── Image Lightbox State ───────────────────────────────────
   const [lightboxState, setLightboxState] = useState<{
@@ -133,30 +201,22 @@ export function ChatWindow({ threadId, initialMessages, onAfterFirstSend }: Prop
     [],
   );
 
-  // ── Sync to localStorage ───────────────────────────────────
-  useEffect(() => {
-    if (messages.length === 0) return;
 
+  const hasAutoTitledRef = useRef<Record<string, boolean>>({});
+
+  // ── Sync messages to threadService & LLM Auto-title ────────
+  useEffect(() => {
     const storedMessages: StoredMessage[] = messages.map((m) => {
       const parts = m.parts
-        .filter((p) => p.type === "text" || p.type === "file" || (p as any).type === "image")
+        .filter((p) => p.type === "text" || p.type === "file")
         .map((p) => {
           if (p.type === "file") {
             const fp = p as FileUIPart;
             return {
               type: "file" as const,
-              mediaType: fp.mediaType || "image/png",
+              mediaType: fp.mediaType,
               url: fp.url,
               filename: fp.filename,
-            };
-          }
-          if ((p as any).type === "image") {
-            const ip = p as any;
-            return {
-              type: "file" as const,
-              mediaType: ip.mimeType || "image/png",
-              url: ip.image instanceof URL ? ip.image.toString() : ip.image,
-              filename: "image.png",
             };
           }
           return {
@@ -187,7 +247,6 @@ export function ChatWindow({ threadId, initialMessages, onAfterFirstSend }: Prop
           .trim();
 
         if (!sourceText) {
-          // If no user text (e.g. only image), wait for assistant response to finish
           if (status !== "streaming" && status !== "submitted") {
             const firstAssistantMsg = messages.find((m) => m.role === "assistant");
             if (firstAssistantMsg) {
@@ -195,29 +254,57 @@ export function ChatWindow({ threadId, initialMessages, onAfterFirstSend }: Prop
                 .map((p) => (p.type === "text" ? p.text : ""))
                 .join(" ")
                 .trim();
-              
-              // Remove markdown syntax for cleaner title
               sourceText = rawText.replace(/[*#_`~]/g, "").trim();
             }
           }
         }
 
         if (sourceText) {
-          const words = sourceText.split(/\s+/).filter(Boolean);
-          let title = sourceText;
-          if (words.length > 20) {
-            title = words.slice(0, 10).join(" ") + "...";
+          // 1. Instant fallback title
+          const currentThread = threadService.getThread(threadId);
+          if (currentThread && currentThread.title === "Cuộc trò chuyện mới") {
+            const words = sourceText.split(/\s+/).filter(Boolean);
+            const instantTitle = words.slice(0, 7).join(" ") + (words.length > 7 ? "..." : "");
+            threadService.autoTitleFromMessage(threadId, instantTitle);
           }
-          threadService.autoTitleFromMessage(threadId, title);
+
+          // 2. LLM Smart Auto-Title when assistant response finishes
+          const assistantDone = status !== "streaming" && status !== "submitted";
+          const hasAssistantReply = messages.some((m) => m.role === "assistant");
+
+          if (assistantDone && hasAssistantReply && !hasAutoTitledRef.current[threadId]) {
+            hasAutoTitledRef.current[threadId] = true;
+            fetch("/api/chat", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                ...(token ? { Authorization: `Bearer ${token}` } : {}),
+              },
+              body: JSON.stringify({
+                action: "generate-title",
+                message: sourceText,
+              }),
+            })
+              .then((res) => (res.ok ? res.json() : null))
+              .then((data) => {
+                if (data?.title && data.title !== "Cuộc trò chuyện mới") {
+                  threadService.renameThread(threadId, data.title);
+                }
+              })
+              .catch((err) => {
+                console.warn("LLM auto-title failed:", err);
+              });
+          }
         }
       }
     }
-  }, [messages, threadId, status]);
+  }, [messages, threadId, status, token]);
 
   // ── Auto-scroll ───────────────────────────────────────────
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, status]);
+
 
   // ── Re-focus on thread change ─────────────────────────────
   useEffect(() => {
@@ -307,8 +394,71 @@ export function ChatWindow({ threadId, initialMessages, onAfterFirstSend }: Prop
     onAfterFirstSend?.();
   };
 
+  // ── Quick ask event listener from InfoPanel ───────────────
+  useEffect(() => {
+    const handler = (e: any) => {
+      const prompt = e.detail?.prompt;
+      if (prompt && typeof prompt === "string") {
+        handleSend(prompt);
+      }
+    };
+    window.addEventListener("ibot_quick_ask", handler);
+    return () => window.removeEventListener("ibot_quick_ask", handler);
+  }, [handleSend]);
+
+  // ── Thread title & Export actions ─────────────────────────
+  const [showExportMenu, setShowExportMenu] = useState(false);
+  const currentThread = threadService.getThread(threadId);
+  const threadTitle = currentThread?.title || "Cuộc trò chuyện mới";
+
+  const handleExportText = (format: "txt" | "md") => {
+    let content = "";
+    if (format === "md") {
+      content += `# Báo Cáo Trích Xuất Tư Vấn Học Vụ iBot - ICTU\n\n`;
+      content += `- **Chủ đề:** ${threadTitle}\n`;
+      content += `- **Thời gian xuất:** ${new Date().toLocaleString("vi-VN")}\n`;
+      content += `- **Hệ thống:** iBot - Trợ lý Sinh viên AI Trường Đại học CNTT & TT (ICTU)\n\n---\n\n`;
+      for (const m of messages) {
+        const role = m.role === "user" ? "### 👤 Sinh viên" : "### 🤖 Trợ lý iBot";
+        const txt = m.parts.map((p: any) => p.text || "").join("");
+        content += `${role}:\n${txt}\n\n`;
+      }
+    } else {
+      content += `TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN VÀ TRUYỀN THÔNG (ICTU)\n`;
+      content += `TÀI LIỆU TRÍCH XUẤT TƯ VẤN HỌC VỤ TỪ iBot\n`;
+      content += `-----------------------------------------------------------\n`;
+      content += `Chủ đề: ${threadTitle}\n`;
+      content += `Thời gian xuất: ${new Date().toLocaleString("vi-VN")}\n`;
+      content += `===========================================================\n\n`;
+      for (const m of messages) {
+        const role = m.role === "user" ? "[Sinh viên]" : "[Trợ lý iBot]";
+        const txt = m.parts.map((p: any) => p.text || "").join("");
+        content += `${role}:\n${txt}\n\n-----------------------------------------------------------\n\n`;
+      }
+    }
+    const blob = new Blob([content], {
+      type: format === "md" ? "text/markdown;charset=utf-8" : "text/plain;charset=utf-8",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    const safeTitle = threadTitle.slice(0, 30).replace(/[^a-zA-Z0-9_\u00C0-\u024F\u1EA0-\u1EF9]/g, "_");
+    a.download = `iBot_${safeTitle}_${Date.now()}.${format}`;
+    a.click();
+    URL.revokeObjectURL(url);
+    setShowExportMenu(false);
+    toast.success(`Đã tải xuống tệp .${format}`);
+  };
+
+  const handleExportPDF = () => {
+    setShowExportMenu(false);
+    setTimeout(() => {
+      window.print();
+    }, 150);
+  };
+
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full relative">
       {/* ── HIDDEN FILE INPUT – lives in the DOM so React controls it ── */}
       <input
         ref={fileInputRef}
@@ -320,20 +470,117 @@ export function ChatWindow({ threadId, initialMessages, onAfterFirstSend }: Prop
         aria-hidden="true"
       />
 
+      {/* ── Chat Header Bar with Title & Export (No-print) ── */}
+      {!isEmpty && (
+        <div className="sticky top-0 z-20 px-4 sm:px-6 py-2.5 bg-background/80 backdrop-blur-md border-b border-border/50 flex items-center justify-between no-print">
+          <div className="min-w-0 flex items-center gap-2">
+            <span className="font-semibold text-xs sm:text-sm text-foreground truncate max-w-xs sm:max-w-md">
+              {threadTitle}
+            </span>
+            <span className="text-[10px] text-muted-foreground/80 px-2 py-0.5 rounded-full bg-muted/60 shrink-0 font-medium">
+              {messages.length} tin nhắn
+            </span>
+          </div>
+
+          {/* Export Menu */}
+          <div className="relative">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowExportMenu((prev) => !prev)}
+              className="h-8 text-xs rounded-xl gap-1.5 hover:border-primary/40 hover:text-primary transition-all shadow-sm"
+            >
+              <Download className="size-3.5" />
+              <span className="hidden sm:inline font-medium">Xuất hội thoại</span>
+            </Button>
+
+            {showExportMenu && (
+              <>
+                <div
+                  className="fixed inset-0 z-40"
+                  onClick={() => setShowExportMenu(false)}
+                />
+                <div className="absolute right-0 top-full mt-1.5 w-48 rounded-2xl border border-border bg-card shadow-elevated p-1.5 z-50 animate-message-in text-xs space-y-0.5">
+                  <button
+                    onClick={handleExportPDF}
+                    className="w-full flex items-center gap-2 px-2.5 py-2 rounded-xl text-left hover:bg-muted font-medium transition-colors"
+                  >
+                    <Printer className="size-3.5 text-primary" />
+                    <span>In / Lưu PDF</span>
+                  </button>
+                  <button
+                    onClick={() => handleExportText("md")}
+                    className="w-full flex items-center gap-2 px-2.5 py-2 rounded-xl text-left hover:bg-muted font-medium transition-colors"
+                  >
+                    <FileDown className="size-3.5 text-emerald-600" />
+                    <span>Tải Markdown (.md)</span>
+                  </button>
+                  <button
+                    onClick={() => handleExportText("txt")}
+                    className="w-full flex items-center gap-2 px-2.5 py-2 rounded-xl text-left hover:bg-muted font-medium transition-colors"
+                  >
+                    <FileText className="size-3.5 text-blue-600" />
+                    <span>Tải Văn bản (.txt)</span>
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Message area */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto scrollbar-thin">
+        {/* ── Print-only Academic Document Header ── */}
+        <div className="print-only mb-6 border-b-2 border-primary pb-4 p-6">
+          <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
+            <span>ĐẠI HỌC THÁI NGUYÊN</span>
+            <span>HỆ THỐNG TRỢ LÝ ẢO iBot</span>
+          </div>
+          <h1 className="text-base font-bold text-gray-900 uppercase tracking-wide">
+            TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN VÀ TRUYỀN THÔNG (ICTU)
+          </h1>
+          <h2 className="text-sm font-semibold text-primary mt-1">
+            BẢN TRÍCH XUẤT NỘI DUNG TƯ VẤN HỌC VỤ & THỦ TỤC SINH VIÊN
+          </h2>
+          <div className="grid grid-cols-2 gap-2 text-xs text-gray-600 mt-3 pt-2 border-t border-gray-200">
+            <div><strong>Chủ đề:</strong> {threadTitle}</div>
+            <div><strong>Thời gian xuất:</strong> {new Date().toLocaleString("vi-VN")}</div>
+            <div><strong>Người dùng:</strong> {user?.name || user?.email || "Sinh viên ICTU"}</div>
+            <div><strong>Nguồn dữ liệu:</strong> Cổng thông tin đào tạo & CSDL Quy chế ICTU</div>
+          </div>
+        </div>
+
         {isEmpty ? (
           <WelcomeScreen onSelect={handleSend} />
         ) : (
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-6">
-            {messages.map((m) => (
-              <MessageBubble
-                key={m.id}
-                message={m}
-                onSend={handleSend}
-                onViewImage={handleViewImage}
-              />
-            ))}
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-6 chat-print-container">
+            {messages.map((m, idx) => {
+              // Tìm câu hỏi gần nhất trước câu trả lời của trợ lý
+              let userQuestion: string | undefined;
+              if (m.role === "assistant") {
+                for (let i = idx - 1; i >= 0; i--) {
+                  if (messages[i].role === "user") {
+                    userQuestion = messages[i].parts
+                      .map((p: any) => (p.type === "text" ? p.text : ""))
+                      .join("");
+                    break;
+                  }
+                }
+              }
+
+              return (
+                <MessageBubble
+                  key={m.id}
+                  message={m}
+                  onSend={handleSend}
+                  onViewImage={handleViewImage}
+                  threadId={threadId}
+                  threadTitle={threadTitle}
+                  userQuestion={userQuestion}
+                />
+              );
+            })}
             {status === "submitted" && <TypingIndicator />}
             {error && (
               <div className="rounded-2xl border border-destructive/30 bg-destructive/10 text-destructive p-4 text-sm">
@@ -343,6 +590,7 @@ export function ChatWindow({ threadId, initialMessages, onAfterFirstSend }: Prop
           </div>
         )}
       </div>
+
 
       {/* Composer area */}
       <div className="border-t bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -531,39 +779,35 @@ function parseSuggestedQuestions(markdown: string): {
   return { mainContent, suggestions };
 }
 
-// ── Message Feedback ─────────────────────────────────────────
-
-type FeedbackValue = "up" | "down" | null;
-
-function getFeedbackKey(messageId: string) {
-  return `ibot_feedback_${messageId}`;
-}
-
-function loadFeedback(messageId: string): FeedbackValue {
-  try {
-    const raw = localStorage.getItem(getFeedbackKey(messageId));
-    return (raw as FeedbackValue) ?? null;
-  } catch {
-    return null;
-  }
-}
-
-function saveFeedback(messageId: string, value: FeedbackValue) {
-  try {
-    if (value) localStorage.setItem(getFeedbackKey(messageId), value);
-    else localStorage.removeItem(getFeedbackKey(messageId));
-  } catch {}
-}
-
-function MessageFeedback({ messageId, text }: { messageId: string; text: string }) {
-  const [feedback, setFeedback] = useState<FeedbackValue>(() => loadFeedback(messageId));
+function MessageFeedback({
+  messageId,
+  text,
+  threadId,
+  threadTitle,
+  userQuestion,
+}: {
+  messageId: string;
+  text: string;
+  threadId?: string;
+  threadTitle?: string;
+  userQuestion?: string;
+}) {
+  const existingFb = feedbackService.getFeedback(messageId);
+  const [feedback, setFeedback] = useState<"up" | "down" | null>(() => existingFb?.value ?? null);
   const [copied, setCopied] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(() => bookmarkService.isBookmarked(messageId));
+  const [showModal, setShowModal] = useState(false);
+  const [selectedReason, setSelectedReason] = useState<FeedbackReason>("wrong_info");
+  const [customNote, setCustomNote] = useState("");
 
-  const handleFeedback = (value: "up" | "down") => {
-    const next = feedback === value ? null : value;
-    setFeedback(next);
-    saveFeedback(messageId, next);
-  };
+  const { speak, stop, isSpeaking, speakingId, isSupported: ttsSupported } = useTTS();
+  const isThisSpeaking = isSpeaking && speakingId === messageId;
+
+  useEffect(() => {
+    const handler = () => setIsBookmarked(bookmarkService.isBookmarked(messageId));
+    window.addEventListener("ibot_bookmarks_changed", handler);
+    return () => window.removeEventListener("ibot_bookmarks_changed", handler);
+  }, [messageId]);
 
   const handleCopy = async () => {
     try {
@@ -573,64 +817,230 @@ function MessageFeedback({ messageId, text }: { messageId: string; text: string 
     } catch {}
   };
 
+  const handleToggleBookmark = () => {
+    const nextState = bookmarkService.toggleBookmark({
+      messageId,
+      threadId: threadId || "default",
+      threadTitle: threadTitle || "Cuộc trò chuyện",
+      question: userQuestion,
+      answer: text,
+    });
+
+    setIsBookmarked(nextState);
+    if (nextState) {
+      toast.success("Đã ghim câu trả lời ⭐");
+    } else {
+      toast.info("Đã bỏ ghim câu trả lời");
+    }
+  };
+
+  const handleThumbsUp = () => {
+    if (feedback === "up") {
+      setFeedback(null);
+      feedbackService.removeFeedback(messageId);
+      toast.info("Đã hủy đánh giá");
+      return;
+    }
+
+    setFeedback("up");
+    feedbackService.saveFeedback({
+      messageId,
+      value: "up",
+      assistantSnippet: text.slice(0, 160),
+      createdAt: new Date().toISOString(),
+    });
+    toast.success("Cảm ơn phản hồi tích cực của bạn! 🙏");
+  };
+
+  const handleThumbsDownClick = () => {
+    if (feedback === "down") {
+      setFeedback(null);
+      feedbackService.removeFeedback(messageId);
+      toast.info("Đã hủy đánh giá");
+      return;
+    }
+    setShowModal(true);
+  };
+
+  const submitDownFeedback = () => {
+    setFeedback("down");
+    feedbackService.saveFeedback({
+      messageId,
+      value: "down",
+      reason: selectedReason,
+      note: customNote.trim() || undefined,
+      assistantSnippet: text.slice(0, 160),
+      createdAt: new Date().toISOString(),
+    });
+    setShowModal(false);
+    toast.success("Cảm ơn bạn! Ý kiến đóng góp sẽ giúp iBot hoàn thiện hơn.");
+  };
+
   return (
-    <div className="flex items-center gap-1 mt-3 pt-2.5 border-t border-border/40">
-      {/* Copy button */}
-      <button
-        onClick={handleCopy}
-        title={copied ? "Đã sao chép!" : "Sao chép câu trả lời"}
-        className={cn(
-          "flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all duration-200",
-          copied
-            ? "text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40"
-            : "text-muted-foreground hover:text-foreground hover:bg-muted",
-        )}
-      >
-        {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
-        <span>{copied ? "Đã chép" : "Sao chép"}</span>
-      </button>
+    <div className="relative mt-3 pt-2.5 border-t border-border/40 no-print">
+      <div className="flex items-center gap-1.5 flex-wrap">
+        {/* Copy button */}
+        <button
+          onClick={handleCopy}
+          title={copied ? "Đã sao chép!" : "Sao chép câu trả lời"}
+          className={cn(
+            "flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-medium transition-all duration-200",
+            copied
+              ? "text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40"
+              : "text-muted-foreground hover:text-foreground hover:bg-muted",
+          )}
+        >
+          {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
+          <span>{copied ? "Đã chép" : "Sao chép"}</span>
+        </button>
 
-      <div className="w-px h-3.5 bg-border/60 mx-0.5" />
-
-      {/* Feedback label */}
-      <span className="text-xs text-muted-foreground/70 px-1 select-none">
-        {feedback ? (
-          <span className="text-primary font-medium animate-message-in">Cảm ơn phản hồi! 🙏</span>
-        ) : (
-          "Câu trả lời có hữu ích không?"
+        {/* TTS Voice Button */}
+        {ttsSupported && (
+          <button
+            onClick={() => (isThisSpeaking ? stop() : speak(text, messageId))}
+            title={isThisSpeaking ? "Dừng đọc" : "Đọc to câu trả lời"}
+            className={cn(
+              "flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-medium transition-all duration-200",
+              isThisSpeaking
+                ? "text-primary bg-primary/15 animate-pulse font-semibold"
+                : "text-muted-foreground hover:text-foreground hover:bg-muted",
+            )}
+          >
+            {isThisSpeaking ? (
+              <VolumeX className="size-3.5 text-primary" />
+            ) : (
+              <Volume2 className="size-3.5" />
+            )}
+            <span>{isThisSpeaking ? "Dừng đọc" : "Đọc to"}</span>
+          </button>
         )}
-      </span>
 
-      {/* Thumbs up */}
-      <button
-        onClick={() => handleFeedback("up")}
-        title="Hữu ích"
-        className={cn(
-          "size-7 rounded-lg flex items-center justify-center transition-all duration-200",
-          feedback === "up"
-            ? "text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40 scale-110"
-            : "text-muted-foreground hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/30",
-        )}
-      >
-        <ThumbsUp className={cn("size-3.5 transition-transform", feedback === "up" && "fill-emerald-600")} />
-      </button>
+        {/* Bookmark Button */}
+        <button
+          onClick={handleToggleBookmark}
+          title={isBookmarked ? "Đã ghim (bấm để bỏ ghim)" : "Ghim câu trả lời quan trọng"}
+          className={cn(
+            "flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-medium transition-all duration-200",
+            isBookmarked
+              ? "text-amber-600 bg-amber-500/15 font-semibold"
+              : "text-muted-foreground hover:text-foreground hover:bg-muted",
+          )}
+        >
+          <Bookmark className={cn("size-3.5", isBookmarked && "fill-amber-500 text-amber-500")} />
+          <span>{isBookmarked ? "Đã ghim" : "Ghim"}</span>
+        </button>
 
-      {/* Thumbs down */}
-      <button
-        onClick={() => handleFeedback("down")}
-        title="Chưa hữu ích"
-        className={cn(
-          "size-7 rounded-lg flex items-center justify-center transition-all duration-200",
-          feedback === "down"
-            ? "text-rose-500 bg-rose-50 dark:bg-rose-950/40 scale-110"
-            : "text-muted-foreground hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30",
-        )}
-      >
-        <ThumbsDown className={cn("size-3.5 transition-transform", feedback === "down" && "fill-rose-500")} />
-      </button>
+        <div className="w-px h-3.5 bg-border/60 mx-0.5" />
+
+        {/* Feedback label */}
+        <span className="text-xs text-muted-foreground/70 px-1 select-none">
+          {feedback === "up" ? (
+            <span className="text-emerald-600 font-medium">Hữu ích 👍</span>
+          ) : feedback === "down" ? (
+            <span className="text-rose-500 font-medium">Đã ghi nhận góp ý 📝</span>
+          ) : (
+            "Hữu ích không?"
+          )}
+        </span>
+
+        {/* Thumbs up */}
+        <button
+          onClick={handleThumbsUp}
+          title="Hữu ích"
+          className={cn(
+            "size-7 rounded-lg flex items-center justify-center transition-all duration-200",
+            feedback === "up"
+              ? "text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40 scale-110"
+              : "text-muted-foreground hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/30",
+          )}
+        >
+          <ThumbsUp className={cn("size-3.5 transition-transform", feedback === "up" && "fill-emerald-600")} />
+        </button>
+
+        {/* Thumbs down */}
+        <button
+          onClick={handleThumbsDownClick}
+          title="Chưa hài lòng"
+          className={cn(
+            "size-7 rounded-lg flex items-center justify-center transition-all duration-200",
+            feedback === "down"
+              ? "text-rose-500 bg-rose-50 dark:bg-rose-950/40 scale-110"
+              : "text-muted-foreground hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30",
+          )}
+        >
+          <ThumbsDown className={cn("size-3.5 transition-transform", feedback === "down" && "fill-rose-500")} />
+        </button>
+      </div>
+
+
+      {/* ── Feedback Reason Popover Modal ── */}
+      {showModal && (
+        <div className="mt-3 p-3.5 rounded-2xl border border-border/80 bg-card shadow-lg animate-message-in text-xs space-y-3 max-w-sm">
+          <div className="flex items-center justify-between">
+            <span className="font-semibold text-foreground text-sm">Vì sao bạn chưa hài lòng?</span>
+            <button
+              onClick={() => setShowModal(false)}
+              className="size-6 grid place-items-center rounded-lg hover:bg-muted text-muted-foreground"
+            >
+              <X className="size-3.5" />
+            </button>
+          </div>
+
+          <div className="space-y-1.5">
+            {(Object.entries(FEEDBACK_REASONS_MAP) as [FeedbackReason, string][]).map(([key, label]) => (
+              <label
+                key={key}
+                className={cn(
+                  "flex items-center gap-2 p-2 rounded-xl cursor-pointer border transition-colors",
+                  selectedReason === key
+                    ? "bg-primary/10 border-primary/40 text-foreground font-medium"
+                    : "border-transparent hover:bg-muted/60 text-muted-foreground",
+                )}
+              >
+                <input
+                  type="radio"
+                  name={`reason_${messageId}`}
+                  value={key}
+                  checked={selectedReason === key}
+                  onChange={() => setSelectedReason(key)}
+                  className="size-3.5 text-primary accent-primary"
+                />
+                <span>{label}</span>
+              </label>
+            ))}
+          </div>
+
+          <input
+            type="text"
+            value={customNote}
+            onChange={(e) => setCustomNote(e.target.value)}
+            placeholder="Ghi chú thêm (tùy chọn)..."
+            className="w-full px-2.5 py-1.5 rounded-xl border bg-background text-xs focus:outline-none focus:ring-1 focus:ring-primary"
+          />
+
+          <div className="flex items-center justify-end gap-2 pt-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowModal(false)}
+              className="h-7 text-xs rounded-lg"
+            >
+              Hủy
+            </Button>
+            <Button
+              size="sm"
+              onClick={submitDownFeedback}
+              className="h-7 text-xs rounded-lg bg-primary text-primary-foreground font-medium"
+            >
+              Gửi phản hồi
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+
 
 // ── MessageBubble ─────────────────────────────────────────────
 
@@ -638,14 +1048,21 @@ function MessageBubble({
   message,
   onSend,
   onViewImage,
+  threadId,
+  threadTitle,
+  userQuestion,
 }: {
   message: UIMessage;
   onSend: (text: string) => void;
   onViewImage: (images: LightboxImage[], index: number) => void;
+  threadId?: string;
+  threadTitle?: string;
+  userQuestion?: string;
 }) {
   const text = message.parts
     .map((p) => (p.type === "text" ? p.text : ""))
     .join("");
+
 
   // Images sent via files or directly as images → mapped to a consistent format
   const imageParts = message.parts
@@ -789,10 +1206,19 @@ function MessageBubble({
         )}
 
         {/* ── Feedback bar ── */}
-        {text && <MessageFeedback messageId={message.id} text={text} />}
+        {text && (
+          <MessageFeedback
+            messageId={message.id}
+            text={text}
+            threadId={threadId}
+            threadTitle={threadTitle}
+            userQuestion={userQuestion}
+          />
+        )}
       </div>
     </div>
   );
+
 }
 
 
@@ -817,78 +1243,136 @@ function TypingIndicator() {
 // ── InfoPanel ─────────────────────────────────────────────────
 
 export function InfoPanel() {
+  const askQuestion = (query: string) => {
+    window.dispatchEvent(new CustomEvent("ibot_quick_ask", { detail: { prompt: query } }));
+  };
+
   return (
-    <aside className="hidden xl:flex flex-col w-80 shrink-0 border-l bg-card/30 p-6 gap-6 overflow-y-auto scrollbar-thin">
+    <aside className="hidden xl:flex flex-col w-80 shrink-0 border-l bg-card/30 p-5 gap-5 overflow-y-auto scrollbar-thin">
+      {/* ── Thông báo mới nhất ── */}
       <section>
-        <h3 className="flex items-center gap-2 text-sm font-semibold mb-3">
-          <Bell className="size-4 text-accent" /> Thông báo mới nhất
-        </h3>
-        <ul className="space-y-2.5">
-          {[
-            "Hạn đóng học phí kỳ 2: 15/01",
-            "Mở đăng ký học bổng KKHT đợt 1",
-            "Lịch thi cuối kỳ đã được công bố",
-          ].map((t) => (
-            <li
-              key={t}
-              className="text-sm rounded-xl bg-card border p-3 hover:shadow-soft transition-shadow cursor-pointer"
+        <div className="flex items-center justify-between mb-2.5">
+          <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+            <Bell className="size-3.5 text-amber-500" /> Thông báo học vụ
+          </h3>
+          <span className="text-[10px] text-muted-foreground/70">Mới nhất</span>
+        </div>
+        <div className="space-y-2">
+          {SCHOOL_NOTICES.map((n) => (
+            <div
+              key={n.id}
+              onClick={() => askQuestion(n.queryHint)}
+              className="group p-2.5 rounded-xl border border-border/60 bg-card hover:border-primary/40 hover:shadow-soft transition-all cursor-pointer space-y-1.5"
             >
-              {t}
-            </li>
+              <div className="flex items-center justify-between gap-1 text-[11px]">
+                <span className="px-1.5 py-0.5 rounded-md font-medium text-[10px] bg-primary/10 text-primary">
+                  {n.tag}
+                </span>
+                <span className="text-muted-foreground/70 text-[10px]">{n.date}</span>
+              </div>
+              <p className="text-xs font-medium text-foreground group-hover:text-primary transition-colors leading-snug line-clamp-2">
+                {n.title}
+              </p>
+              <div className="flex items-center gap-1 text-[10px] text-primary/80 opacity-0 group-hover:opacity-100 transition-opacity">
+                <MessageSquare className="size-2.5" />
+                <span>Hỏi iBot về mục này</span>
+              </div>
+            </div>
           ))}
-        </ul>
+        </div>
       </section>
 
+      {/* ── Tài liệu & Quy chế ── */}
       <section>
-        <h3 className="flex items-center gap-2 text-sm font-semibold mb-3">
-          <BookOpen className="size-4 text-primary" /> Tài liệu liên quan
+        <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2.5">
+          <BookOpen className="size-3.5 text-blue-500" /> Tài liệu & Quy chế
         </h3>
-        <ul className="space-y-2">
-          {["Quy chế đào tạo tín chỉ", "Sổ tay sinh viên 2025", "Quy định ký túc xá"].map((t) => (
-            <li key={t}>
-              <a className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors cursor-pointer">
-                <FileText className="size-3.5" /> {t}
-              </a>
-            </li>
+        <div className="space-y-2">
+          {SCHOOL_DOCUMENTS.map((doc) => (
+            <div
+              key={doc.id}
+              onClick={() => askQuestion(doc.queryHint)}
+              className="group flex items-start gap-2.5 p-2.5 rounded-xl border border-border/60 bg-card hover:border-primary/40 hover:bg-card/90 transition-all cursor-pointer"
+            >
+              <div className="size-7 rounded-lg bg-primary/10 text-primary grid place-items-center shrink-0 mt-0.5">
+                <FileText className="size-3.5" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-medium text-foreground group-hover:text-primary transition-colors leading-snug truncate">
+                  {doc.title}
+                </p>
+                <div className="flex items-center gap-2 text-[10px] text-muted-foreground mt-0.5">
+                  <span>{doc.category}</span>
+                  {doc.fileSize && <span>• {doc.fileSize}</span>}
+                </div>
+              </div>
+            </div>
           ))}
-        </ul>
+        </div>
       </section>
 
+      {/* ── Liên kết nhanh ── */}
       <section>
-        <h3 className="flex items-center gap-2 text-sm font-semibold mb-3">
-          <LinkIcon className="size-4 text-secondary" /> Liên kết nhanh
+        <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2.5">
+          <LinkIcon className="size-3.5 text-emerald-500" /> Cổng dịch vụ SV
         </h3>
         <div className="grid grid-cols-2 gap-2">
-          {["Cổng SV", "Đăng ký HP", "Tra cứu điểm", "Email SV"].map((t) => (
+          {QUICK_LINKS.map((link) => (
             <a
-              key={t}
-              className="text-xs text-center rounded-xl border bg-card py-2.5 hover:border-primary/40 hover:text-primary transition-colors cursor-pointer"
+              key={link.id}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 rounded-xl border border-border/60 bg-card hover:border-primary/50 hover:bg-primary/5 transition-all flex flex-col justify-between group"
             >
-              {t}
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold text-foreground group-hover:text-primary transition-colors">
+                  {link.title}
+                </span>
+                <ExternalLink className="size-3 text-muted-foreground/60 group-hover:text-primary transition-colors" />
+              </div>
+              <span className="text-[10px] text-muted-foreground/80 mt-1 truncate">
+                {link.shortDesc}
+              </span>
             </a>
           ))}
         </div>
       </section>
 
+      {/* ── Lịch học vụ quan trọng ── */}
       <section>
-        <h3 className="flex items-center gap-2 text-sm font-semibold mb-3">
-          <CalendarDays className="size-4 text-accent" /> Lịch học vụ
+        <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2.5">
+          <CalendarDays className="size-3.5 text-violet-500" /> Mốc tiến độ học vụ
         </h3>
-        <div className="rounded-xl border bg-card p-3 space-y-2 text-xs">
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">Bắt đầu HK2</span>
-            <span className="font-medium">06/01</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">Thi giữa kỳ</span>
-            <span className="font-medium">10/03</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">Thi cuối kỳ</span>
-            <span className="font-medium">20/05</span>
-          </div>
+        <div className="rounded-xl border border-border/60 bg-card p-3 space-y-2.5 text-xs">
+          {ACADEMIC_CALENDAR.map((item, idx) => (
+            <div key={idx} className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2 min-w-0">
+                <span
+                  className={cn(
+                    "size-2 rounded-full shrink-0",
+                    item.status === "current"
+                      ? "bg-emerald-500 ring-2 ring-emerald-500/20 animate-pulse"
+                      : item.status === "upcoming"
+                        ? "bg-amber-500"
+                        : "bg-muted-foreground/40",
+                  )}
+                />
+                <span className="text-muted-foreground truncate">{item.event}</span>
+              </div>
+              <span
+                className={cn(
+                  "font-medium shrink-0 text-[11px]",
+                  item.status === "current" ? "text-emerald-600 font-semibold" : "text-foreground",
+                )}
+              >
+                {item.date}
+              </span>
+            </div>
+          ))}
         </div>
       </section>
     </aside>
   );
 }
+
