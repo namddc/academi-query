@@ -29,6 +29,9 @@ import {
   Check,
   Volume2,
   VolumeX,
+  Play,
+  Pause,
+  SlidersHorizontal,
   MessageSquare,
   ExternalLink,
   X,
@@ -800,7 +803,21 @@ function MessageFeedback({
   const [selectedReason, setSelectedReason] = useState<FeedbackReason>("wrong_info");
   const [customNote, setCustomNote] = useState("");
 
-  const { speak, stop, isSpeaking, speakingId, isSupported: ttsSupported } = useTTS();
+  const {
+    speak,
+    stop,
+    togglePause,
+    isSpeaking,
+    isPaused,
+    speakingId,
+    isSupported: ttsSupported,
+    rate,
+    voiceGender,
+    currentVoiceName,
+    setRate,
+    setVoiceGender,
+  } = useTTS();
+  const [showTtsSettings, setShowTtsSettings] = useState(false);
   const isThisSpeaking = isSpeaking && speakingId === messageId;
 
   useEffect(() => {
@@ -894,25 +911,167 @@ function MessageFeedback({
           <span>{copied ? "Đã chép" : "Sao chép"}</span>
         </button>
 
-        {/* TTS Voice Button */}
+        {/* TTS Voice Player & Settings */}
         {ttsSupported && (
-          <button
-            onClick={() => (isThisSpeaking ? stop() : speak(text, messageId))}
-            title={isThisSpeaking ? "Dừng đọc" : "Đọc to câu trả lời"}
-            className={cn(
-              "flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-medium transition-all duration-200",
-              isThisSpeaking
-                ? "text-primary bg-primary/15 animate-pulse font-semibold"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted",
-            )}
-          >
-            {isThisSpeaking ? (
-              <VolumeX className="size-3.5 text-primary" />
-            ) : (
-              <Volume2 className="size-3.5" />
-            )}
-            <span>{isThisSpeaking ? "Dừng đọc" : "Đọc to"}</span>
-          </button>
+          isThisSpeaking ? (
+            <div className="flex items-center gap-1.5 p-1 px-2 rounded-xl bg-primary/10 border border-primary/25 text-xs text-primary shadow-xs animate-in fade-in zoom-in-95 duration-200">
+              {/* Animated wave bars */}
+              <div className="flex items-center gap-0.5 h-3.5 px-0.5" title={isPaused ? "Đang tạm dừng" : "Đang phát giọng đọc AI"}>
+                <span className={cn("w-0.5 rounded-full bg-primary", !isPaused ? "tts-wave-bar" : "h-1.5 opacity-50")} />
+                <span className={cn("w-0.5 rounded-full bg-primary", !isPaused ? "tts-wave-bar" : "h-2.5 opacity-50")} />
+                <span className={cn("w-0.5 rounded-full bg-primary", !isPaused ? "tts-wave-bar" : "h-3.5 opacity-50")} />
+                <span className={cn("w-0.5 rounded-full bg-primary", !isPaused ? "tts-wave-bar" : "h-1.5 opacity-50")} />
+              </div>
+
+              {/* Pause / Resume */}
+              <button
+                onClick={togglePause}
+                title={isPaused ? "Tiếp tục đọc" : "Tạm dừng"}
+                className="flex items-center gap-1 px-1.5 py-0.5 rounded-md hover:bg-primary/20 font-medium transition-colors"
+              >
+                {isPaused ? <Play className="size-3 fill-primary text-primary" /> : <Pause className="size-3 fill-primary text-primary" />}
+                <span>{isPaused ? "Tiếp tục" : "Tạm dừng"}</span>
+              </button>
+
+              {/* Stop */}
+              <button
+                onClick={stop}
+                title="Dừng đọc"
+                className="p-1 rounded-md hover:bg-destructive/20 text-muted-foreground hover:text-destructive transition-colors"
+              >
+                <VolumeX className="size-3.5" />
+              </button>
+
+              <div className="w-px h-3 bg-primary/30 mx-0.5" />
+
+              {/* Speed cycling */}
+              <button
+                onClick={() => {
+                  const nextRate = rate === 1.0 ? 1.2 : rate === 1.2 ? 0.9 : 1.0;
+                  setRate(nextRate);
+                }}
+                title="Bấm để đổi tốc độ đọc (0.9x / 1.0x / 1.2x)"
+                className="px-1.5 py-0.5 rounded-md bg-background/80 hover:bg-background text-[11px] font-semibold text-foreground/80 hover:text-foreground border border-border/50 transition-colors shadow-2xs"
+              >
+                {rate}x
+              </button>
+
+              {/* Gender toggle */}
+              <button
+                onClick={() => setVoiceGender(voiceGender === "female" ? "male" : "female")}
+                title={`Đang dùng giọng ${voiceGender === "female" ? "Nữ" : "Nam"}. Bấm để đổi`}
+                className="px-1.5 py-0.5 rounded-md bg-background/80 hover:bg-background text-[11px] font-semibold text-foreground/80 hover:text-foreground border border-border/50 transition-colors shadow-2xs"
+              >
+                {voiceGender === "female" ? "👩 Nữ" : "👨 Nam"}
+              </button>
+            </div>
+          ) : (
+            <div className="relative inline-flex items-center">
+              <button
+                onClick={() => speak(text, messageId)}
+                title="Đọc to câu trả lời với giọng chuẩn học vụ"
+                className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-all duration-200"
+              >
+                <Volume2 className="size-3.5" />
+                <span>Đọc to</span>
+              </button>
+
+              {/* Settings button */}
+              <button
+                onClick={() => setShowTtsSettings(!showTtsSettings)}
+                title="Cài đặt giọng đọc & tốc độ"
+                className={cn(
+                  "p-1 rounded-md text-muted-foreground/70 hover:text-foreground hover:bg-muted transition-colors ml-0.5",
+                  showTtsSettings && "text-primary bg-primary/10",
+                )}
+              >
+                <SlidersHorizontal className="size-3" />
+              </button>
+
+              {/* Floating Settings Popover */}
+              {showTtsSettings && (
+                <div className="absolute bottom-full left-0 mb-2 z-30 w-64 p-3 bg-popover/95 backdrop-blur-md border border-border rounded-xl shadow-card text-xs text-foreground animate-in fade-in zoom-in-95">
+                  <div className="flex items-center justify-between pb-2 mb-2 border-b border-border/50">
+                    <span className="font-semibold text-foreground flex items-center gap-1.5">
+                      <Volume2 className="size-3.5 text-primary" />
+                      Cài đặt Giọng đọc AI
+                    </span>
+                    <button
+                      onClick={() => setShowTtsSettings(false)}
+                      className="p-0.5 text-muted-foreground hover:text-foreground rounded"
+                    >
+                      <X className="size-3" />
+                    </button>
+                  </div>
+
+                  {/* Gender Choice */}
+                  <div className="mb-2.5">
+                    <span className="text-[11px] text-muted-foreground block mb-1">Chọn Giọng đọc:</span>
+                    <div className="grid grid-cols-2 gap-1.5">
+                      <button
+                        onClick={() => setVoiceGender("female")}
+                        className={cn(
+                          "px-2 py-1 rounded-lg text-xs font-medium border text-center transition-all",
+                          voiceGender === "female"
+                            ? "border-primary bg-primary/15 text-primary font-semibold"
+                            : "border-border/60 hover:bg-muted text-muted-foreground hover:text-foreground",
+                        )}
+                      >
+                        👩 Nữ (Hoài My)
+                      </button>
+                      <button
+                        onClick={() => setVoiceGender("male")}
+                        className={cn(
+                          "px-2 py-1 rounded-lg text-xs font-medium border text-center transition-all",
+                          voiceGender === "male"
+                            ? "border-primary bg-primary/15 text-primary font-semibold"
+                            : "border-border/60 hover:bg-muted text-muted-foreground hover:text-foreground",
+                        )}
+                      >
+                        👨 Nam (Nam Minh)
+                      </button>
+                    </div>
+                    {currentVoiceName && (
+                      <span className="text-[10px] text-muted-foreground/80 mt-1 block truncate">
+                        Engine: {currentVoiceName}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Speed Choice */}
+                  <div className="mb-2.5">
+                    <span className="text-[11px] text-muted-foreground block mb-1">Tốc độ phát:</span>
+                    <div className="grid grid-cols-3 gap-1">
+                      {[
+                        { val: 0.9, label: "0.9x Chậm" },
+                        { val: 1.0, label: "1.0x Chuẩn" },
+                        { val: 1.2, label: "1.2x Nhanh" },
+                      ].map((item) => (
+                        <button
+                          key={item.val}
+                          onClick={() => setRate(item.val)}
+                          className={cn(
+                            "py-1 rounded-lg text-[11px] font-medium border text-center transition-all",
+                            rate === item.val
+                              ? "border-primary bg-primary/15 text-primary font-semibold"
+                              : "border-border/60 hover:bg-muted text-muted-foreground hover:text-foreground",
+                          )}
+                        >
+                          {item.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Feature badge */}
+                  <div className="pt-2 border-t border-border/40 text-[10px] text-muted-foreground flex items-center gap-1">
+                    <Sparkles className="size-3 text-amber-500 shrink-0" />
+                    <span>Tự động phát âm chuẩn 40+ từ viết tắt (SV, MSSV, ĐTB, TOEIC...)</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          )
         )}
 
         {/* Bookmark Button */}
