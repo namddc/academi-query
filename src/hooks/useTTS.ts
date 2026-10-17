@@ -113,7 +113,13 @@ function updateVoiceDisplayName() {
   }
 }
 
+let chunkTimer: ReturnType<typeof setTimeout> | null = null;
+
 function stopGlobalSpeech() {
+  if (chunkTimer) {
+    clearTimeout(chunkTimer);
+    chunkTimer = null;
+  }
   shouldContinue = false;
   queue = [];
   currentChunkIndex = 0;
@@ -150,7 +156,16 @@ function playChunk() {
   utterance.onend = () => {
     if (shouldContinue) {
       currentChunkIndex += 1;
-      playChunk();
+      if (currentChunkIndex >= queue.length) {
+        stopGlobalSpeech();
+        return;
+      }
+      // Ngắt quãng 300ms tự nhiên giữa mỗi dòng / câu khi đọc
+      chunkTimer = setTimeout(() => {
+        if (shouldContinue && !sharedIsPaused) {
+          playChunk();
+        }
+      }, 300);
     }
   };
 
@@ -159,7 +174,15 @@ function playChunk() {
     console.warn("TTS chunk playback warning:", e);
     if (shouldContinue) {
       currentChunkIndex += 1;
-      playChunk();
+      if (currentChunkIndex >= queue.length) {
+        stopGlobalSpeech();
+        return;
+      }
+      chunkTimer = setTimeout(() => {
+        if (shouldContinue && !sharedIsPaused) {
+          playChunk();
+        }
+      }, 300);
     }
   };
 
@@ -214,6 +237,10 @@ export function useTTS(): TTSState {
   }, []);
 
   const pause = useCallback(() => {
+    if (chunkTimer) {
+      clearTimeout(chunkTimer);
+      chunkTimer = null;
+    }
     if (isSupported && sharedIsSpeaking && !sharedIsPaused) {
       window.speechSynthesis.pause();
       sharedIsPaused = true;
@@ -223,9 +250,13 @@ export function useTTS(): TTSState {
 
   const resume = useCallback(() => {
     if (isSupported && sharedIsSpeaking && sharedIsPaused) {
-      window.speechSynthesis.resume();
       sharedIsPaused = false;
       notifyListeners();
+      if (window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+      } else if (!window.speechSynthesis.speaking && currentChunkIndex < queue.length) {
+        playChunk();
+      }
     }
   }, [isSupported]);
 
