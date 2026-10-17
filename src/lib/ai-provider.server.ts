@@ -1,39 +1,112 @@
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { getExpSolutionConfig } from "@/lib/config.server";
 
+// Track which key is currently performing well (0 = primary, 1 = backup)
+let activeKeyIndex = 0;
+
 /**
- * Create a per-request ExpSolution provider.
- * Must be called inside a server handler (not at module scope)
- * so that process.env reads happen at request time.
+ * Create a per-request ExpSolution provider with High-Availability Auto-Failover.
+ * If the primary key fails (HTTP 401/403/429/5xx or network drop),
+ * it seamlessly and automatically retries with the backup key.
  */
 export function createExpSolutionProvider() {
-  const { apiKey, baseURL } = getExpSolutionConfig();
+  const { allKeys, baseURL } = getExpSolutionConfig();
 
-  if (!apiKey) {
+  if (allKeys.length === 0) {
     console.error(
       "[AIProvider] EXPSOLUTION_API_KEY is not set in environment variables. Please add it to Vercel Settings > Environment Variables.",
     );
     return null;
   }
 
+  // Ensure activeKeyIndex is within bounds
+  if (activeKeyIndex >= allKeys.length) {
+    activeKeyIndex = 0;
+  }
+
+  const primaryKey = allKeys[activeKeyIndex];
+
   return createOpenAICompatible({
     name: "expsolution",
     baseURL,
     headers: {
-      Authorization: `Bearer ${apiKey}`,
+      Authorization: `Bearer ${primaryKey}`,
     },
     fetch: async (input, init) => {
+      const keys = allKeys;
+      let keyIdx = activeKeyIndex;
+
+      // Helper to execute request with a specific API key
+      const tryFetchWithKey = async (idx: number) => {
+        const key = keys[idx];
+        const headers = new Headers(init?.headers);
+        headers.set("Authorization", `Bearer ${key}`);
+        return fetch(input, {
+          ...init,
+          headers,
+        });
+      };
+
       try {
-        const response = await fetch(input, init);
-        if (!response.ok) {
-          const errText = await response.clone().text();
-          console.error(
-            `[ExpSolution] HTTP ${response.status}: ${errText.slice(0, 200)}`,
+        let response = await tryFetchWithKey(keyIdx);
+
+        // Failover if HTTP error indicates key exhaustion, invalid auth, or rate limit
+        if (
+          !response.ok &&
+          (response.status === 401 ||
+            response.status === 403 ||
+            response.status === 429 ||
+            response.status >= 500)
+        ) {
+          const errText = await response.clone().text().catch(() => "");
+          const maskedCurrent = keys[keyIdx].slice(0, 15) + "...";
+          console.warn(
+            `[ExpSolution] Key #${keyIdx + 1} (${maskedCurrent}) failed with HTTP ${response.status}: ${errText.slice(0, 150)}`,
           );
+
+          // If we have a backup key available, failover immediately!
+          if (keys.length > 1) {
+            const nextIdx = (keyIdx + 1) % keys.length;
+            const maskedBackup = keys[nextIdx].slice(0, 15) + "...";
+            console.log(
+              `[ExpSolution] 🔄 Automatically failing over to Backup Key #${nextIdx + 1} (${maskedBackup})...`,
+            );
+
+            const fallbackResponse = await tryFetchWithKey(nextIdx);
+
+            if (fallbackResponse.ok) {
+              console.log(
+                `[ExpSolution] ✅ Backup Key #${nextIdx + 1} succeeded! Switched active key for future queries.`,
+              );
+              activeKeyIndex = nextIdx; // Remember working key
+              return fallbackResponse;
+            } else {
+              const fallbackErr = await fallbackResponse.clone().text().catch(() => "");
+              console.error(
+                `[ExpSolution] ❌ Backup Key #${nextIdx + 1} also failed with HTTP ${fallbackResponse.status}: ${fallbackErr.slice(0, 150)}`,
+              );
+              return fallbackResponse;
+            }
+          }
         }
+
         return response;
       } catch (err) {
-        console.error("[ExpSolution] Network error:", err);
+        console.error(`[ExpSolution] Network error with key #${keyIdx + 1}:`, err);
+        // Failover on network error if multiple keys exist
+        if (keys.length > 1) {
+          const nextIdx = (keyIdx + 1) % keys.length;
+          console.log(`[ExpSolution] 🔄 Retrying with Backup Key #${nextIdx + 1}...`);
+          try {
+            const retryRes = await tryFetchWithKey(nextIdx);
+            if (retryRes.ok) {
+              activeKeyIndex = nextIdx;
+              return retryRes;
+            }
+          } catch (e2) {
+            console.error("[ExpSolution] Backup key also threw error:", e2);
+          }
+        }
         throw err;
       }
     },
@@ -78,4 +151,3 @@ export const nvidiaModelSettings = {
   temperature: 1,
   topP: 1,
 } as const;
-
