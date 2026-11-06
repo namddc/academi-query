@@ -7,6 +7,7 @@
 import Database from "better-sqlite3";
 import path from "path";
 import fs from "fs";
+import { getSeedData } from "../Database/seedData.server";
 
 let _db: Database.Database | null = null;
 
@@ -63,10 +64,11 @@ export function getDb(): Database.Database {
     try {
       _db = new Database(dbPath);
       _db.pragma("journal_mode = WAL");
-      _db.pragma("foreign_keys = ON");
+      _db.pragma("foreign_keys = OFF");
     } catch (err) {
       console.warn("[DB] Could not open database file, using in-memory database fallback:", err);
       _db = new Database(":memory:");
+      _db.pragma("foreign_keys = OFF");
     }
 
     // Initialize tables if they don't exist
@@ -163,6 +165,61 @@ export function getDb(): Database.Database {
       } catch {
         // Column already exists, safe to ignore
       }
+    }
+
+    // Auto-seed knowledge if database is empty (essential on Vercel Serverless /tmp/database.sqlite)
+    try {
+      const chunkCount = (_db.prepare("SELECT COUNT(*) as cnt FROM chunks").get() as any)?.cnt ?? 0;
+      if (chunkCount === 0) {
+        console.log("[DB] Empty database detected, auto-seeding knowledge base...");
+        const seed = getSeedData();
+
+        if (seed.chunks && seed.chunks.length > 0) {
+          const insertChunk = _db.prepare(`
+            INSERT OR REPLACE INTO chunks (
+              id, file_path, file_name, doc_id, department, category, date, source, content,
+              token_count, checksum, enriched_content, doc_title
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          `);
+          const txChunk = _db.transaction((items: any[]) => {
+            for (const item of items) {
+              insertChunk.run(
+                item.id,
+                item.file_path,
+                item.file_name,
+                item.doc_id ?? "",
+                item.department ?? "",
+                item.category ?? "",
+                item.date ?? "",
+                item.source ?? "",
+                item.content,
+                item.token_count ?? 0,
+                item.checksum ?? "",
+                item.enriched_content ?? "",
+                item.doc_title ?? ""
+              );
+            }
+          });
+          txChunk(seed.chunks);
+          console.log(`[DB] Auto-seeded ${seed.chunks.length} chunks successfully.`);
+        }
+
+        if (seed.faqs && seed.faqs.length > 0) {
+          const insertFaq = _db.prepare(`
+            INSERT OR REPLACE INTO faqs (id, question, answer, active)
+            VALUES (?, ?, ?, ?)
+          `);
+          const txFaq = _db.transaction((items: any[]) => {
+            for (const item of items) {
+              insertFaq.run(item.id, item.question, item.answer, item.active ?? 1);
+            }
+          });
+          txFaq(seed.faqs);
+          console.log(`[DB] Auto-seeded ${seed.faqs.length} FAQs successfully.`);
+        }
+      }
+    } catch (seedErr) {
+      console.warn("[DB] Auto-seeding check encountered non-fatal error:", seedErr);
     }
   }
   return _db;
@@ -388,6 +445,18 @@ export const dbService = {
 
   saveMessages(threadId: string, messages: DBMessage[]): void {
     const db = getDb();
+
+    // Ensure thread row exists before saving messages to satisfy referential integrity
+    const existingThread = db.prepare("SELECT id FROM threads WHERE id = ?").get(threadId);
+    if (!existingThread && messages.length > 0) {
+      const firstMsg = messages[0];
+      const now = new Date().toISOString();
+      db.prepare(`
+        INSERT OR IGNORE INTO threads (id, user_id, title, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?)
+      `).run(threadId, firstMsg.user_id || "guest", "Cuộc trò chuyện mới", now, now);
+    }
+
     const insert = db.prepare(`
       INSERT OR REPLACE INTO messages (id, thread_id, user_id, role, parts, created_at)
       VALUES (?, ?, ?, ?, ?, ?)
