@@ -8,22 +8,66 @@ import Database from "better-sqlite3";
 import path from "path";
 import fs from "fs";
 
-// Resolve database path
-const dbPath = path.resolve(process.cwd(), "src", "Database", "database.sqlite");
-
-// Ensure directory exists
-const dbDir = path.dirname(dbPath);
-if (!fs.existsSync(dbDir)) {
-  fs.mkdirSync(dbDir, { recursive: true });
-}
-
 let _db: Database.Database | null = null;
+
+function resolveDbPath(): string {
+  const isVercel = Boolean(process.env.VERCEL) || process.platform === "linux" || process.cwd().startsWith("/var/task");
+
+  if (isVercel) {
+    const tmpPath = path.join("/tmp", "database.sqlite");
+
+    if (!fs.existsSync(tmpPath)) {
+      const candidates = [
+        path.resolve(process.cwd(), "src", "Database", "database.sqlite"),
+        path.resolve(process.cwd(), "Database", "database.sqlite"),
+      ];
+
+      for (const cand of candidates) {
+        if (fs.existsSync(cand)) {
+          try {
+            fs.copyFileSync(cand, tmpPath);
+            break;
+          } catch {
+            // Ignore copy failure
+          }
+        }
+      }
+    }
+    return tmpPath;
+  }
+
+  const localPath = path.resolve(process.cwd(), "src", "Database", "database.sqlite");
+  const localDir = path.dirname(localPath);
+  if (!fs.existsSync(localDir)) {
+    try {
+      fs.mkdirSync(localDir, { recursive: true });
+    } catch {
+      // Ignore
+    }
+  }
+  return localPath;
+}
 
 export function getDb(): Database.Database {
   if (!_db) {
-    _db = new Database(dbPath);
-    _db.pragma("journal_mode = WAL");
-    _db.pragma("foreign_keys = ON");
+    const dbPath = resolveDbPath();
+    const dbDir = path.dirname(dbPath);
+    if (!fs.existsSync(dbDir)) {
+      try {
+        fs.mkdirSync(dbDir, { recursive: true });
+      } catch {
+        // Ignore
+      }
+    }
+
+    try {
+      _db = new Database(dbPath);
+      _db.pragma("journal_mode = WAL");
+      _db.pragma("foreign_keys = ON");
+    } catch (err) {
+      console.warn("[DB] Could not open database file, using in-memory database fallback:", err);
+      _db = new Database(":memory:");
+    }
 
     // Initialize tables if they don't exist
     _db.exec(`

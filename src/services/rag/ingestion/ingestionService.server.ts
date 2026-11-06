@@ -84,15 +84,16 @@ const DEPARTMENT_TEMPLATES: Array<{
  */
 export function ensureDepartmentTemplates(baseDir: string): number {
   let createdCount = 0;
-  for (const tpl of DEPARTMENT_TEMPLATES) {
-    const folderPath = path.join(baseDir, tpl.folder);
-    if (!fs.existsSync(folderPath)) {
-      fs.mkdirSync(folderPath, { recursive: true });
-    }
+  try {
+    for (const tpl of DEPARTMENT_TEMPLATES) {
+      const folderPath = path.join(baseDir, tpl.folder);
+      if (!fs.existsSync(folderPath)) {
+        fs.mkdirSync(folderPath, { recursive: true });
+      }
 
-    const filePath = path.join(folderPath, tpl.fileName);
-    if (!fs.existsSync(filePath)) {
-      const templateContent = `---
+      const filePath = path.join(folderPath, tpl.fileName);
+      if (!fs.existsSync(filePath)) {
+        const templateContent = `---
 doc_id: ${tpl.docId}
 doc_title: ${tpl.title}
 department: ${tpl.folder}
@@ -104,9 +105,12 @@ keywords: [chức năng, thủ tục, liên hệ, giải quyết]
 ## Nội dung
 ${tpl.content}
 `;
-      fs.writeFileSync(filePath, templateContent, 'utf-8');
-      createdCount++;
+        fs.writeFileSync(filePath, templateContent, 'utf-8');
+        createdCount++;
+      }
     }
+  } catch (err) {
+    console.warn("[Ingestion] Read-only filesystem, skipping template generation:", err);
   }
   return createdCount;
 }
