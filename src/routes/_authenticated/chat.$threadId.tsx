@@ -20,10 +20,36 @@ function ThreadPage() {
     setMessages(null);
   }
 
-  // Load stored history for logged-in user
+  // Load stored history for logged-in user (Local cache first, then sync from SQLite database)
   useEffect(() => {
     const stored = threadService.getMessages(threadId);
-    setMessages(stored);
+    if (stored && stored.length > 0) {
+      setMessages(stored);
+    }
+
+    // Fetch from SQLite Database
+    let isMounted = true;
+    fetch(`/api/threads?threadId=${encodeURIComponent(threadId)}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!isMounted) return;
+        if (data?.messages && Array.isArray(data.messages) && data.messages.length > 0) {
+          setMessages(data.messages);
+          threadService.setLocalMessagesOnly(threadId, data.messages);
+        } else if (!stored || stored.length === 0) {
+          setMessages([]);
+        }
+      })
+      .catch((err) => {
+        console.warn("[ThreadPage] Could not fetch from SQLite API, using local cache:", err);
+        if (isMounted && (!stored || stored.length === 0)) {
+          setMessages([]);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, [threadId]);
 
   if (messages === null) {

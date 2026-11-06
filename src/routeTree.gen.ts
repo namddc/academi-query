@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedChatRouteImport } from './routes/_authenticated/chat'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as ApiThreadsRouteImport } from './routes/api/threads'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin.analytics'
 import { Route as AuthenticatedAdminDashboardRouteImport } from './routes/_authenticated/admin.dashboard'
@@ -52,6 +53,11 @@ const AuthenticatedChatRoute = AuthenticatedChatRouteImport.update({
 const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiThreadsRoute = ApiThreadsRouteImport.update({
+  id: '/api/threads',
+  path: '/api/threads',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
@@ -111,6 +117,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/chat': typeof AuthenticatedChatRouteWithChildren
   '/api/chat': typeof ApiChatRoute
+  '/api/threads': typeof ApiThreadsRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/dashboard': typeof AuthenticatedAdminDashboardRoute
   '/admin/faq': typeof AuthenticatedAdminFaqRoute
@@ -125,6 +132,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/threads': typeof ApiThreadsRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/dashboard': typeof AuthenticatedAdminDashboardRoute
   '/admin/faq': typeof AuthenticatedAdminFaqRoute
@@ -143,6 +151,7 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/chat': typeof AuthenticatedChatRouteWithChildren
   '/api/chat': typeof ApiChatRoute
+  '/api/threads': typeof ApiThreadsRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/_authenticated/admin/dashboard': typeof AuthenticatedAdminDashboardRoute
   '/_authenticated/admin/faq': typeof AuthenticatedAdminFaqRoute
@@ -161,6 +170,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/chat'
     | '/api/chat'
+    | '/api/threads'
     | '/admin/analytics'
     | '/admin/dashboard'
     | '/admin/faq'
@@ -175,6 +185,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/api/chat'
+    | '/api/threads'
     | '/admin/analytics'
     | '/admin/dashboard'
     | '/admin/faq'
@@ -192,6 +203,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/_authenticated/chat'
     | '/api/chat'
+    | '/api/threads'
     | '/_authenticated/admin/analytics'
     | '/_authenticated/admin/dashboard'
     | '/_authenticated/admin/faq'
@@ -208,6 +220,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   ApiChatRoute: typeof ApiChatRoute
+  ApiThreadsRoute: typeof ApiThreadsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -252,6 +265,13 @@ declare module '@tanstack/react-router' {
       path: '/api/chat'
       fullPath: '/api/chat'
       preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/threads': {
+      id: '/api/threads'
+      path: '/api/threads'
+      fullPath: '/api/threads'
+      preLoaderRoute: typeof ApiThreadsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin/': {
@@ -374,6 +394,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   ApiChatRoute: ApiChatRoute,
+  ApiThreadsRoute: ApiThreadsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

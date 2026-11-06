@@ -1,6 +1,9 @@
 // ============================================================
 //  aiService.server.ts
-//  Orchestrates: user question → L1 FAQ → L2 Chunk → fallback
+//  Central AI Knowledge Orchestrator
+//  Supports:
+//    - Modern Hybrid RAG (Query Routing -> Hybrid Sparse+Dense -> Rerank -> Grounded Generation)
+//    - Legacy L1/L2 Promise.all (Fallback toggle via RAG_MODE=legacy)
 // ============================================================
 
 import {
@@ -10,14 +13,14 @@ import {
 import { chunkService, type L2SearchResult } from "@/services/chunkService.server";
 import {
   SYSTEM_PROMPT,
-  buildSystemPromptWithContext,
-  buildSystemPromptWithL2Context,
   buildFallbackPrompt,
 } from "@/lib/system-prompt";
+import { executeHybridRAG, type HybridRAGExecutionResult } from "./rag/hybridEngine.server";
+import type { CitationInfo } from "./rag/contextBuilder.server";
 
 // ── Types ────────────────────────────────────────────────────
 
-export type RetrievalLayer = "L1_FAQ" | "L2_CHUNK" | "FALLBACK";
+export type RetrievalLayer = "L1_FAQ" | "L2_CHUNK" | "HYBRID" | "FALLBACK" | "CHITCHAT";
 
 export interface EnhancedPromptResult {
   systemPrompt: string;
@@ -25,22 +28,57 @@ export interface EnhancedPromptResult {
   l2Results: L2SearchResult | null;
   hasKnowledge: boolean;
   layer: RetrievalLayer;
+  citations?: CitationInfo[];
+  directAnswer?: string;
+  isDirectResponse?: boolean;
 }
-
 
 // ── Public API ───────────────────────────────────────────────
 
 export const aiService = {
   /**
-   * Given the latest user message, search knowledge layers in order:
-   *   1. L1 FAQ  (Google Sheets semantic match)
-   *   2. L2 Chunks (regulation document keyword + LLM re-rank)
-   *   3. Fallback (no knowledge found)
-   *
-   * Returns an enhanced system prompt with the found context injected.
+   * Main entrypoint for RAG search.
+   * If RAG_MODE is set to 'legacy', executes old keyword Promise.all L1/L2 flow.
+   * Otherwise executes modern Hybrid RAG Engine.
    */
   async getEnhancedPrompt(userMessage: string): Promise<EnhancedPromptResult> {
-    // ── LAYER 1 & 2: CONCURRENT SEARCH ──────────────────────
+    const isLegacy = process.env.RAG_MODE === "legacy";
+
+    if (!isLegacy) {
+      try {
+        console.log(`[AIService] ⚡ Executing HYBRID RAG Engine for: "${userMessage.slice(0, 50)}"...`);
+        const hybridResult: HybridRAGExecutionResult = await executeHybridRAG(userMessage);
+
+        const hasKnowledge = hybridResult.citations.length > 0;
+        let layer: RetrievalLayer = "FALLBACK";
+
+        if (hybridResult.intent === "chitchat") {
+          layer = "CHITCHAT";
+        } else if (hasKnowledge) {
+          layer = "HYBRID";
+        }
+
+        console.log(
+          `[AIService] 🎯 HYBRID RAG Result: [${layer}] | Citations: ${hybridResult.citations.length} | Latency: ${hybridResult.totalLatencyMs}ms`
+        );
+
+        return {
+          systemPrompt: hybridResult.systemPrompt,
+          knowledgeResults: [],
+          l2Results: null,
+          hasKnowledge,
+          layer,
+          citations: hybridResult.citations,
+          directAnswer: hybridResult.directAnswer,
+          isDirectResponse: hybridResult.isDirectResponse,
+        };
+      } catch (err) {
+        console.warn("[AIService] Hybrid RAG encountered an error, falling back to legacy pipeline:", err);
+      }
+    }
+
+    // ── LEGACY FALLBACK FLOW ────────────────────────────────────
+    console.log(`[AIService] ⏳ Running Legacy L1/L2 Promise.all for: "${userMessage.slice(0, 50)}"`);
     const [l1Results, l2Results] = await Promise.all([
       knowledgeService.searchKnowledge(userMessage),
       chunkService.searchL2(userMessage),
@@ -65,7 +103,7 @@ export const aiService = {
 ## 📋 CƠ SỞ DỮ LIỆU TỔNG HỢP
 
 > ⚠️ **Đây là nguồn dữ liệu DUY NHẤT bạn được phép dùng để trả lời.**
-> Nếu nội dung FAQ quá ngắn (ví dụ: "xem file quy định"), hãy DÙNG THÔNG TIN TỪ VĂN BẢN QUY ĐỊNH để trả lời chi tiết.
+> Nếu nội dung FAQ quá ngắn, hãy DÙNG THÔNG TIN TỪ VĂN BẢN QUY ĐỊNH để trả lời chi tiết.
 > Trích dẫn cả nguồn FAQ và văn bản nếu có.
 
 ${combinedContext}
@@ -74,24 +112,15 @@ ${combinedContext}
 
 **NHẮC LẠI:** Chỉ trả lời dựa trên dữ liệu bên trên. Không bịa đặt.`;
 
-      console.log(
-        `[AIService] ✅ HIT — L1: ${l1Results.length} FAQs | L2: ${l2Results.chunks.length} chunks`,
-      );
-
       return {
         systemPrompt,
         knowledgeResults: l1Results,
         l2Results,
         hasKnowledge: true,
-        layer: hasL1 && hasL2 ? "L1_FAQ" : (hasL1 ? "L1_FAQ" : "L2_CHUNK"),
+        layer: hasL1 && hasL2 ? "L1_FAQ" : hasL1 ? "L1_FAQ" : "L2_CHUNK",
       };
     }
 
-    console.log(
-      `[AIService] ❌ FALLBACK — no knowledge found for: "${userMessage.slice(0, 50)}"`,
-    );
-
-    // ── LAYER 3: FALLBACK ─────────────────────────────────────
     return {
       systemPrompt: buildFallbackPrompt(),
       knowledgeResults: [],

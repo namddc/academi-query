@@ -24,8 +24,28 @@ export function useThreads(): UseThreadsReturn {
 
   const load = useCallback(() => {
     if (!user) { setThreads([]); setIsLoading(false); return; }
-    setThreads(threadService.listThreads(user.id));
+    const localThreads = threadService.listThreads(user.id);
+    setThreads(localThreads);
     setIsLoading(false);
+
+    // Fetch from SQLite database
+    fetch(`/api/threads?userId=${encodeURIComponent(user.id)}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((remoteThreads) => {
+        if (Array.isArray(remoteThreads) && remoteThreads.length > 0) {
+          // Merge remote threads
+          const mergedMap = new Map<string, Thread>();
+          for (const t of remoteThreads) mergedMap.set(t.id, t);
+          for (const t of localThreads) {
+            if (!mergedMap.has(t.id)) mergedMap.set(t.id, t);
+          }
+          const merged = Array.from(mergedMap.values()).sort((a, b) =>
+            b.updatedAt.localeCompare(a.updatedAt)
+          );
+          setThreads(merged);
+        }
+      })
+      .catch((err) => console.warn("[useThreads] Failed fetching from SQLite API:", err));
   }, [user]);
 
   useEffect(() => {

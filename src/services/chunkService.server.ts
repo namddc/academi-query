@@ -7,7 +7,9 @@
 //  Called ONLY when L1 FAQ returns no results.
 // ============================================================
 
-const mdFilesRaw = import.meta.glob('../Database/chunk/**/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+const mdFilesRaw = (typeof (import.meta as any).glob === 'function'
+  ? (import.meta as any).glob('../Database/chunk/**/*.md', { query: '?raw', import: 'default', eager: true })
+  : {}) as Record<string, string>;
 import { generateText } from "ai";
 import { getPrimaryModel } from "@/lib/ai-provider.server";
 
@@ -246,7 +248,7 @@ function parseChunkString(raw: string, filePath: string, fileName: string): Chun
   return chunks;
 }
 
-// ── In-Memory Index ──────────────────────────────────────────
+import { dbService } from "@/lib/db.server";
 
 interface FolderIndex {
   folder: string;
@@ -257,12 +259,46 @@ let _index: Map<string, FolderIndex> | null = null; // folder → FolderIndex
 
 function buildIndex(): Map<string, FolderIndex> {
   const index = new Map<string, FolderIndex>();
+
+  try {
+    const dbChunks = dbService.getAllChunks();
+    if (dbChunks && dbChunks.length > 0) {
+      for (const c of dbChunks) {
+        const parts = c.file_path.split("/");
+        const fileName = parts.pop() || c.file_name;
+        const folder = parts.pop() || c.department || "Other";
+
+        const chunkObj: Chunk = {
+          id: c.id,
+          filePath: c.file_path,
+          fileName: c.file_name,
+          metadata: {
+            doc_id: c.doc_id || "",
+            department: c.department || "",
+            category: c.category || "",
+            date: c.date || "",
+            source: c.source || "",
+          },
+          content: c.content,
+        };
+
+        if (!index.has(folder)) {
+          index.set(folder, { folder, chunks: [] });
+        }
+        index.get(folder)!.chunks.push(chunkObj);
+      }
+
+      console.log(`[ChunkService] ✅ Loaded ${dbChunks.length} chunks from SQLite database.`);
+      return index;
+    }
+  } catch (err) {
+    console.warn("[ChunkService] SQLite read failed, falling back to files:", err);
+  }
+
   let totalChunks = 0;
-  
   const filesByFolder = new Map<string, number>();
 
   for (const [path, raw] of Object.entries(mdFilesRaw)) {
-    // path is something like "../Database/chunk/01_Phong_Dao_Tao/QĐ 1016...md"
     const parts = path.split('/');
     const fileName = parts.pop() || '';
     const folder = parts.pop() || '';
@@ -278,14 +314,7 @@ function buildIndex(): Map<string, FolderIndex> {
     totalChunks += chunks.length;
   }
 
-  for (const [folder, count] of filesByFolder.entries()) {
-    const chunkCount = index.get(folder)?.chunks.length || 0;
-    console.log(
-      `[ChunkService] Indexed folder "${folder}": ${count} files → ${chunkCount} chunks`,
-    );
-  }
-
-  console.log(`[ChunkService] Total chunks indexed: ${totalChunks}`);
+  console.log(`[ChunkService] Total chunks indexed from raw files: ${totalChunks}`);
   return index;
 }
 

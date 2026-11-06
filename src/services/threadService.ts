@@ -143,6 +143,16 @@ export const threadService = {
     };
     threads.push(thread);
     writeThreads(threads);
+
+    // Sync new thread to SQLite database
+    if (typeof window !== "undefined") {
+      fetch("/api/threads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "upsertThread", thread }),
+      }).catch((e) => console.warn("[ThreadService] SQLite upsert thread sync:", e));
+    }
+
     return thread;
   },
 
@@ -153,6 +163,16 @@ export const threadService = {
     if (idx === -1) return null;
     threads[idx] = { ...threads[idx], title: title.trim() || "Cuộc trò chuyện mới", updatedAt: now() };
     writeThreads(threads);
+
+    // Sync rename to SQLite database
+    if (typeof window !== "undefined") {
+      fetch("/api/threads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "rename", id, title: threads[idx].title }),
+      }).catch((e) => console.warn("[ThreadService] SQLite rename sync:", e));
+    }
+
     return threads[idx];
   },
 
@@ -161,6 +181,15 @@ export const threadService = {
     const threads = readThreads().filter((t) => t.id !== id);
     writeThreads(threads);
     localStorage.removeItem(messagesKey(id));
+
+    // Sync delete to SQLite database
+    if (typeof window !== "undefined") {
+      fetch("/api/threads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "delete", id }),
+      }).catch((e) => console.warn("[ThreadService] SQLite delete sync:", e));
+    }
   },
 
   /** Get a single thread by id. */
@@ -222,6 +251,24 @@ export const threadService = {
   setMessages(threadId: string, messages: StoredMessage[]): void {
     writeMessages(threadId, messages);
     this.touchThread(threadId);
+
+    // Sync messages to SQLite database
+    if (typeof window !== "undefined") {
+      fetch("/api/threads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "saveMessages",
+          threadId,
+          messages,
+        }),
+      }).catch((e) => console.warn("[ThreadService] SQLite saveMessages sync:", e));
+    }
+  },
+
+  /** Only update localStorage without re-triggering network sync (used when loading from SQLite) */
+  setLocalMessagesOnly(threadId: string, messages: StoredMessage[]): void {
+    writeMessages(threadId, messages);
   },
 
   // ── Search & Grouping ────────────────────────────────────

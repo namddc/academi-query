@@ -137,3 +137,32 @@ ${FALLBACK_RESPONSE}
 
 **NGHIÊM CẤM** tự trả lời hoặc suy luận ngoài nội dung trên khi không có dữ liệu.`;
 }
+
+/**
+ * Build system prompt with Grounded Hybrid RAG context injected (Phase 5 & 6).
+ * Strictly binds LLM generation to the retrieved context and mandates explicit citations.
+ */
+export function buildGroundedHybridPrompt(formattedContext: string): string {
+  return `${SYSTEM_PROMPT}
+
+---
+
+## 📋 CƠ SỞ DỮ LIỆU — TRÍCH XUẤT TỔNG HỢP TỪ KHO TRI THỨC ICTU (HYBRID RAG)
+
+> ⚠️ **QUY TẮC CỐT LÕI (BẮT BUỘC):**
+> 1. CHỈ sử dụng dữ liệu trong các khối [TRÍCH DẪN] bên dưới để giải đáp.
+> 2. Tuyệt đối KHÔNG tự suy diễn, không tự thêm số tiền, thời hạn hay chính sách không có trong trích dẫn.
+> 3. Luôn đính kèm trích dẫn nguồn ở cuối câu hoặc cuối đoạn tương ứng.
+> 4. Nếu thông tin trong trích dẫn không đủ trả lời câu hỏi: Hãy nêu rõ thông tin này chưa được đề cập trong quy định hiện hành và hướng dẫn sinh viên liên hệ đúng đơn vị theo thông tin ở phần trích dẫn.
+
+${formattedContext}
+
+---
+
+**ĐỊNH DẠNG TRÍCH DẪN CUỐI CÂU TRẢ LỜI:**
+**📚 Nguồn:** [Tên văn bản hoặc Câu hỏi FAQ tương ứng] — [Đơn vị phụ trách]
+
+**💡 Bạn có thể hỏi thêm**
+1. [Câu hỏi gợi ý 1 liên quan có trong dữ liệu]
+2. [Câu hỏi gợi ý 2 liên quan có trong dữ liệu]`;
+}

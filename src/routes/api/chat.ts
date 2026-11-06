@@ -8,6 +8,7 @@ import {
 } from "@/lib/ai-provider.server";
 import { SYSTEM_PROMPT } from "@/lib/system-prompt";
 import { aiService } from "@/services/aiService.server";
+import { dbService } from "@/lib/db.server";
 
 
 export const Route = createFileRoute("/api/chat")({
@@ -116,6 +117,36 @@ Câu hỏi: "${userMessage.slice(0, 250)}"`;
         // Extract latest user message text using the robust extractText helper
         const lastUser = [...messages].reverse().find((m) => m.role === "user") as any;
         let userText: string = lastUser ? extractText(lastUser) : "";
+
+        // Extract user id for SQLite persistence
+        const userId = authHeader.replace("Bearer ", "").replace("mock-token-", "") || "1";
+
+        // Persist user message to SQLite database immediately
+        if (lastUser && threadId) {
+          try {
+            dbService.upsertThread({
+              id: threadId,
+              user_id: userId,
+              title: "Cuộc trò chuyện mới",
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+            });
+
+            dbService.saveMessages(threadId, [
+              {
+                id: lastUser.id || `msg-${Date.now()}`,
+                thread_id: threadId,
+                user_id: userId,
+                role: "user",
+                parts: JSON.stringify(lastUser.parts ?? [{ type: "text", text: userText }]),
+                created_at: (lastUser as any).createdAt ? new Date((lastUser as any).createdAt).toISOString() : new Date().toISOString(),
+              },
+            ]);
+            console.log(`[API/Chat] 💾 User message saved to SQLite database for thread: ${threadId}`);
+          } catch (dbErr) {
+            console.error("[API/Chat] Failed to save user message to SQLite:", dbErr);
+          }
+        }
 
         // ── Primary: ExpSolution AI Gateway ─────────────────────
         let primaryModel;
@@ -232,19 +263,21 @@ CHỈ trả về đúng 1 câu truy vấn đã chuẩn hoá. KHÔNG giải thíc
           if (searchKeyword) {
             const enhanced = await aiService.getEnhancedPrompt(searchKeyword);
             systemPrompt = enhanced.systemPrompt;
+            detectedRagLayer = enhanced.layer;
 
             if (enhanced.hasKnowledge) {
-              detectedRagLayer = enhanced.layer;
               const detail =
-                enhanced.layer === "L1_FAQ"
-                  ? `L1 FAQ: ${enhanced.knowledgeResults.length} matches (top confidence: ${enhanced.knowledgeResults[0]?.confidence ?? 0}%)`
-                  : `L2 Chunk: ${enhanced.l2Results?.chunks.length ?? 0} chunks (${enhanced.l2Results?.matchedCategory ?? ""})`;
+                enhanced.layer === "HYBRID"
+                  ? `HYBRID: ${enhanced.citations?.length ?? 0} citations`
+                  : enhanced.layer === "L1_FAQ"
+                  ? `L1 FAQ: ${enhanced.knowledgeResults?.length ?? 0} matches`
+                  : `L2 Chunk: ${enhanced.l2Results?.chunks.length ?? 0} chunks`;
               console.log(
                 `[API/Chat] ✅ [${enhanced.layer}] ${detail} for "${searchKeyword.slice(0, 50)}"`,
               );
             } else {
               console.log(
-                `[API/Chat] ⚠️  Fallback for "${searchKeyword.slice(0, 50)}"`,
+                `[API/Chat] ℹ️ [${enhanced.layer}] for "${searchKeyword.slice(0, 50)}"`,
               );
             }
           }
@@ -278,6 +311,23 @@ CHỈ trả về đúng 1 câu truy vấn đã chuẩn hoá. KHÔNG giải thíc
             model: primaryModel,
             system: systemPrompt,
             messages: coreMessages,
+            onFinish: async ({ text }) => {
+              try {
+                dbService.saveMessages(threadId, [
+                  {
+                    id: `asst-${Date.now()}`,
+                    thread_id: threadId,
+                    user_id: userId,
+                    role: "assistant",
+                    parts: JSON.stringify([{ type: "text", text }]),
+                    created_at: new Date().toISOString(),
+                  },
+                ]);
+                console.log(`[API/Chat] 💾 Assistant message persisted to SQLite for thread ${threadId}`);
+              } catch (saveErr) {
+                console.error("[API/Chat] Failed saving assistant message to SQLite:", saveErr);
+              }
+            },
             ...primaryModelSettings,
           });
 
