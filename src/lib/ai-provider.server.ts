@@ -114,7 +114,7 @@ export function createExpSolutionProvider() {
 }
 
 /**
- * The primary model: ExpSolution gemmatranslate-27b
+ * The primary model: ExpSolution model (defaults to qwen3.8-flash for high availability and zero rate-limiting)
  */
 export function getPrimaryModel() {
   const provider = createExpSolutionProvider();
@@ -123,7 +123,8 @@ export function getPrimaryModel() {
       "AI provider not configured. Please set EXPSOLUTION_API_KEY in Vercel environment variables.",
     );
   }
-  return provider("gemmatranslate-27b");
+  const modelName = process.env.EXPSOLUTION_MODEL || "qwen3.8-flash";
+  return provider(modelName);
 }
 
 // ── Model settings ────────────────────────────────────────────
