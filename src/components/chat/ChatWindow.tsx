@@ -20,6 +20,8 @@ import {
   Phone,
   Sparkles,
   BookOpen,
+  Search,
+  Bot,
   Bell,
   Link as LinkIcon,
   CalendarDays,
@@ -584,7 +586,7 @@ export function ChatWindow({ threadId, initialMessages, onAfterFirstSend }: Prop
                 />
               );
             })}
-            {status === "submitted" && <TypingIndicator />}
+            {status === "submitted" && <SmartThinkingIndicator />}
             {error && (
               <div className="rounded-2xl border border-destructive/30 bg-destructive/10 text-destructive p-4 text-sm">
                 Đã có lỗi xảy ra: {error.message}
@@ -1301,78 +1303,85 @@ function MessageBubble({
 
   // ── Assistant bubble ──────────────────────────────────────
   const { mainContent, suggestions } = parseSuggestedQuestions(text);
+  const isAwaitingFirstToken = !text.trim();
 
   return (
     <div className="flex gap-3 animate-message-in">
-      <div className="shrink-0 size-9 rounded-xl bg-primary text-primary-foreground grid place-items-center">
-        <Sparkles className="size-4" />
+      <div className="shrink-0 size-9 rounded-xl bg-primary text-primary-foreground grid place-items-center shadow-sm">
+        <Bot className="size-4 animate-pulse" />
       </div>
       <div className="flex-1 min-w-0">
-        {/* Main answer content */}
-        <div className="prose-chat text-foreground">
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            components={{
-              img: ({ src, alt }) => {
-                if (!src) return null;
-                return (
-                  <span
-                    className="group relative inline-block my-2.5 rounded-2xl overflow-hidden border border-border/50 bg-card shadow-soft cursor-pointer transition-all hover:border-primary/50 hover:shadow-md hover:-translate-y-0.5 select-none"
-                    onClick={() =>
-                      onViewImage([{ url: src, filename: alt || "Ảnh từ câu trả lời" }], 0)
-                    }
-                  >
-                    <img
-                      src={src}
-                      alt={alt || "Ảnh minh họa"}
-                      className="max-h-72 sm:max-h-80 w-auto object-contain rounded-2xl transition-transform duration-300 group-hover:scale-[1.02]"
-                      loading="lazy"
-                    />
-                    <span className="absolute bottom-2 right-2 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md text-[11px] font-medium text-white border border-white/20 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shadow-sm">
-                      <span>🔍</span>
-                      <span>Phóng to</span>
-                    </span>
-                  </span>
-                );
-              },
-            }}
-          >
-            {mainContent || "​"}
-          </ReactMarkdown>
-        </div>
-
-        {/* 💡 Clickable suggestion buttons */}
-        {suggestions.length > 0 && (
-          <div className="mt-4 space-y-2">
-            <p className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5 mb-2">
-              <span>💡</span> Bạn có thể hỏi thêm
-            </p>
-            <div className="flex flex-col gap-2">
-              {suggestions.map((q, i) => (
-                <button
-                  key={i}
-                  onClick={() => onSend(q)}
-                  className="group text-left text-sm px-4 py-2.5 rounded-xl border border-border/60 bg-background/60 hover:border-primary/50 hover:bg-primary/5 hover:text-primary transition-all duration-150 flex items-start gap-2.5 shadow-sm"
-                >
-                  <span className="shrink-0 size-5 rounded-full bg-primary/10 text-primary text-[11px] font-bold grid place-items-center mt-0.5 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                    {i + 1}
-                  </span>
-                  <span className="leading-snug">{q}</span>
-                </button>
-              ))}
+        {isAwaitingFirstToken ? (
+          <SmartThinkingIndicator isInsideBubble />
+        ) : (
+          <>
+            {/* Main answer content */}
+            <div className="prose-chat text-foreground">
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  img: ({ src, alt }) => {
+                    if (!src) return null;
+                    return (
+                      <span
+                        className="group relative inline-block my-2.5 rounded-2xl overflow-hidden border border-border/50 bg-card shadow-soft cursor-pointer transition-all hover:border-primary/50 hover:shadow-md hover:-translate-y-0.5 select-none"
+                        onClick={() =>
+                          onViewImage([{ url: src, filename: alt || "Ảnh từ câu trả lời" }], 0)
+                        }
+                      >
+                        <img
+                          src={src}
+                          alt={alt || "Ảnh minh họa"}
+                          className="max-h-72 sm:max-h-80 w-auto object-contain rounded-2xl transition-transform duration-300 group-hover:scale-[1.02]"
+                          loading="lazy"
+                        />
+                        <span className="absolute bottom-2 right-2 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md text-[11px] font-medium text-white border border-white/20 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shadow-sm">
+                          <span>🔍</span>
+                          <span>Phóng to</span>
+                        </span>
+                      </span>
+                    );
+                  },
+                }}
+              >
+                {mainContent || "​"}
+              </ReactMarkdown>
             </div>
-          </div>
-        )}
 
-        {/* ── Feedback bar ── */}
-        {text && (
-          <MessageFeedback
-            messageId={message.id}
-            text={text}
-            threadId={threadId}
-            threadTitle={threadTitle}
-            userQuestion={userQuestion}
-          />
+            {/* 💡 Clickable suggestion buttons */}
+            {suggestions.length > 0 && (
+              <div className="mt-4 space-y-2">
+                <p className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5 mb-2">
+                  <span>💡</span> Bạn có thể hỏi thêm
+                </p>
+                <div className="flex flex-col gap-2">
+                  {suggestions.map((q, i) => (
+                    <button
+                      key={i}
+                      onClick={() => onSend(q)}
+                      className="group text-left text-sm px-4 py-2.5 rounded-xl border border-border/60 bg-background/60 hover:border-primary/50 hover:bg-primary/5 hover:text-primary transition-all duration-150 flex items-start gap-2.5 shadow-sm"
+                    >
+                      <span className="shrink-0 size-5 rounded-full bg-primary/10 text-primary text-[11px] font-bold grid place-items-center mt-0.5 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                        {i + 1}
+                      </span>
+                      <span className="leading-snug">{q}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* ── Feedback bar ── */}
+            {text && (
+              <MessageFeedback
+                messageId={message.id}
+                text={text}
+                threadId={threadId}
+                threadTitle={threadTitle}
+                userQuestion={userQuestion}
+              />
+            )}
+          </>
         )}
       </div>
     </div>
@@ -1382,18 +1391,71 @@ function MessageBubble({
 
 
 
-// ── TypingIndicator ───────────────────────────────────────────
+// ── SmartThinkingIndicator ───────────────────────────────────
+// Hiển thị trạng thái suy nghĩ thông minh theo từng giai đoạn thực tế:
+// 1. Phân tích câu hỏi
+// 2. Tra cứu cơ sở dữ liệu quy chế & FAQ ICTU
+// 3. Tổng hợp câu trả lời
+// Giúp người dùng biết iBot đang tích cực xử lý.
 
-function TypingIndicator() {
-  return (
-    <div className="flex gap-3">
-      <div className="shrink-0 size-9 rounded-xl bg-primary text-primary-foreground grid place-items-center">
-        <Sparkles className="size-4" />
+function SmartThinkingIndicator({ isInsideBubble = false }: { isInsideBubble?: boolean }) {
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setElapsedSeconds((prev) => prev + 1);
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  let stageText = "Đang phân tích câu hỏi...";
+  let stageIcon = <Search className="size-3.5 text-primary animate-pulse" />;
+  let stageColor = "text-primary";
+
+  if (elapsedSeconds >= 4) {
+    stageText = "Đang tổng hợp câu trả lời theo quy chế...";
+    stageIcon = <Sparkles className="size-3.5 text-emerald-600 dark:text-emerald-400 animate-pulse" />;
+    stageColor = "text-emerald-600 dark:text-emerald-400";
+  } else if (elapsedSeconds >= 1.5) {
+    stageText = "Đang tra cứu cơ sở dữ liệu & FAQ trường ICTU...";
+    stageIcon = <BookOpen className="size-3.5 text-amber-600 dark:text-amber-400 animate-pulse" />;
+    stageColor = "text-amber-600 dark:text-amber-400";
+  }
+
+  const content = (
+    <div className="flex flex-col gap-1.5 animate-message-in">
+      <div className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-muted/80 backdrop-blur-md border border-border/70 text-sm shadow-sm select-none transition-all duration-300">
+        <div className="flex items-center justify-center shrink-0">
+          {stageIcon}
+        </div>
+        <span className={cn("text-xs sm:text-sm font-medium transition-colors duration-300", stageColor)}>
+          {stageText}
+        </span>
+        <div className="flex items-center gap-1 ml-1 text-muted-foreground/80">
+          <span className="typing-dot" style={{ animationDelay: "0s" }} />
+          <span className="typing-dot" style={{ animationDelay: "0.2s" }} />
+          <span className="typing-dot" style={{ animationDelay: "0.4s" }} />
+        </div>
       </div>
-      <div className="flex items-center gap-1.5 px-4 py-3 rounded-2xl bg-muted text-muted-foreground">
-        <span className="typing-dot" style={{ animationDelay: "0s" }} />
-        <span className="typing-dot" style={{ animationDelay: "0.2s" }} />
-        <span className="typing-dot" style={{ animationDelay: "0.4s" }} />
+      {elapsedSeconds >= 6 && (
+        <span className="text-[11px] text-muted-foreground/75 italic pl-2 animate-message-in">
+          💡 Hệ thống đang đối chiếu nhiều văn bản quy định, bạn đợi một lát nhé...
+        </span>
+      )}
+    </div>
+  );
+
+  if (isInsideBubble) {
+    return content;
+  }
+
+  return (
+    <div className="flex gap-3 animate-message-in">
+      <div className="shrink-0 size-9 rounded-xl bg-primary text-primary-foreground grid place-items-center shadow-sm">
+        <Bot className="size-4 animate-pulse" />
+      </div>
+      <div className="flex-1 min-w-0 flex items-center">
+        {content}
       </div>
     </div>
   );
