@@ -1,6 +1,6 @@
 import { generateText } from 'ai';
 import { getPrimaryModel } from '@/lib/ai-provider.server';
-import type { RetrievalResult, ChunkItem, FAQItem } from '../types';
+import type { RetrievalResult, ChunkItem, FAQItem } from './types';
 
 export interface RerankOptions {
   topN?: number;
